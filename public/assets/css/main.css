@@ -1,0 +1,151 @@
+/* css custom */
+.bg-softblue{
+    background-color: #f4f4ff;
+}
+
+.nav-tabs .nav-link {
+    color: inherit;
+}
+
+.nav-tabs .nav-link.active{
+    color:#114da6
+}
+
+#layoutSidenav_content footer{
+    font-size:14px;
+    padding-top:13px !important;
+    padding-bottom:13px !important
+}
+
+#hideMe {
+    -moz-animation: cssAnimation 0s ease-in 3s forwards;
+    /* Firefox */
+    -webkit-animation: cssAnimation 0s ease-in 3s forwards;
+    /* Safari and Chrome */
+    -o-animation: cssAnimation 0s ease-in 3s forwards;
+    /* Opera */
+    animation: cssAnimation 0s ease-in 3s forwards;
+    -webkit-animation-fill-mode: forwards;
+    animation-fill-mode: forwards;
+}
+
+@keyframes cssAnimation {
+    to {
+        width: 0;
+        height: 0;
+        opacity: 0;
+        padding: 0px;
+        margin: 0px;
+        overflow: hidden;
+    }
+}
+
+@-webkit-keyframes cssAnimation {
+    to {
+        width: 0;
+        height: 0;
+        opacity: 0;
+        padding: 0px;
+        margin: 0px;
+        visibility: hidden;
+    }
+}
+
+.asterisk{
+    position: relative;
+}
+
+.asterisk:after {
+    content: "*";
+    color: #ca173f;
+    font-size: 15px;
+    position: absolute;
+    top: -3px;
+}
+
+.bootstrap-select .btn.dropdown-toggle {
+    border: 1px solid #ced4da;
+    background: #fff;
+}
+
+.bootstrap-select .bs-actionsbox .btn-group{
+    width:100%
+}
+
+.color-red{
+    color:#ca173f
+}
+
+.f-14px{
+    font-size: 14px
+}
+
+.loader{
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    width: 100%;
+    background: rgba(255, 255, 255, 0.2)
+}
+
+.loader img{
+    width:70px
+}
+
+.btn-warning{
+    color:#fff;
+    background: #e49d0d;
+    border-color: #e49d0d;
+}
+
+.order-link{
+    position: relative;
+    cursor:pointer
+}
+
+.order-link:before,
+.order-link:after{
+    position: absolute;
+    display: block;
+    opacity: .125;
+    right: 10px;
+    line-height: 9px;
+    font-size: .8em;
+}
+
+.order-link:before{
+    bottom: 50%;
+    content: "▲";
+    content: "▲"/"";
+}
+
+.order-link:after{
+    top: 50%;
+    content: "▼";
+    content: "▼"/"";
+}
+
+.order-link.sort-asc:before,
+.order-link.sort-desc:after{
+    opacity: .6;
+}
+
+.order-link a{
+    display:block;
+    width:100%;
+    text-decoration: none;
+    color:inherit !important
+}
+
+table thead tr th{
+    vertical-align: middle;
+}
+
+.btn.btn-purple{
+    background-color: #ab23ab;
+    color:#fff
+}
