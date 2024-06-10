@@ -215,12 +215,6 @@ class RESTful extends Controller
         if ($validation->passes()) {
             $data = $this->model->create($input);
 
-            $user_id = \Auth::user()->id ?? null;
-            $table_name = $this->model->getTable() ?? null;
-            $data_id = $data->id ?? null;
-            $activity_after = json_encode($data);
-            $this->lib_activity->addActivity($user_id, $table_name, $data_id, 'store', date('Y-m-d H:i:s'), $activity_after);
-
             return Redirect::route(strtolower($this->controller_name) . '.index');
         }
         return Redirect::route(strtolower($this->controller_name) . '.create')
@@ -279,12 +273,6 @@ class RESTful extends Controller
 
             $data->update($input);
 
-            $user_id = \Auth::user()->id ?? null;
-            $table_name = $this->model->getTable() ?? null;
-            $data_id = $data->id ?? null;
-            $activity_after = json_encode($data);
-            $this->lib_activity->addActivity($user_id, $table_name, $data_id, 'update', date('Y-m-d H:i:s'), $activity_after, $activity_before);
-
             return Redirect::route(strtolower($this->controller_name) . '.index');
         }
         return Redirect::route(strtolower($this->controller_name) . '.edit', $id)
@@ -300,12 +288,6 @@ class RESTful extends Controller
             if($data){
                 $data->delete();
             }
-
-            $user_id = \Auth::user()->id ?? null;
-            $table_name = $this->model->getTable() ?? null;
-            $data_id = $data->id ?? null;
-            $activity_before = json_encode($data);
-            $this->lib_activity->addActivity($user_id, $table_name, $id, 'delete', date('Y-m-d H:i:s'), null, $activity_before);
         }
         if (!request()->ajax()) {
             return Redirect::route(strtolower($this->controller_name) . '.index');

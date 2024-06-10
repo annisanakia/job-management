@@ -3,6 +3,7 @@
 return [
     'modules' => [
         'Home',
-        'Users'
+        'Users',
+        'Account_setting'
     ]
 ];

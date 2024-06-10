@@ -4,7 +4,7 @@
 <div class="sb-nav-fixed">
     <nav class="sb-topnav navbar navbar-expand navbar bg-body shadow-sm">
         <!-- Navbar Brand-->
-        <a class="navbar-brand ps-3 color-orange" href="{{ url('/') }}"><b>Job Management</b></a>
+        <a class="navbar-brand ps-3" href="{{ url('/') }}"><b>Job Management</b></a>
         <!-- Sidebar Toggle-->
         <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i class="fas fa-bars fs-4 color-theme"></i></button>
         <!-- Navbar Search-->
@@ -34,8 +34,19 @@
     </nav>
     <div id="layoutSidenav" class="bg-light-subtle">
         <div id="layoutSidenav_nav">
-            <nav class="sb-sidenav accordion bg-body shadow-sm" id="sidenavAccordion">
+            <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
                 <div class="sb-sidenav-menu">
+                    <div class="nav p-4 pb-0 text-center text-white">
+                        @if(Auth::user()->url_photo != '')
+                            <img src="{{ Auth::user()->url_photo }}" class="object-fit-cover rounded-circle mb-2 bg-white mx-auto" style="width:100px;height:100px">
+                        @else
+                            <div class="rounded-circle p-2 mb-2 bg-white d-flex justify-content-center align-items-center mx-auto" style="width:100px;height:100px">
+                                <i class="fas fa-user text-body-tertiary fs-1"></i>
+                            </div>
+                        @endif
+                        <b>{{ Auth::user()->name ?? null }}</b>
+                        {{ Auth::user()->group->name ?? null }}
+                    </div>
                     <div class="nav pt-2">
                         <?php
                             $prefix = request()->route()->getPrefix() != ''? request()->route()->getPrefix() : 'home';
@@ -62,10 +73,6 @@
                             @endif
                         @endforeach
                     </div>
-                </div>
-                <div class="sb-sidenav-footer">
-                    <div class="small">Logged in as:</div>
-                    {{ Auth::user()->name }}
                 </div>
             </nav>
         </div>

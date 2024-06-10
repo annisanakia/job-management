@@ -7,10 +7,13 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rules\File;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable;
+    use HasApiTokens, HasFactory, Notifiable, SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
@@ -47,6 +50,39 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    public static $customMessages = array(
+        'required' => 'Kolom ini wajib diisi.',
+        'username.unique' => 'Nama pengguna telah tersedia.',
+        'email' => 'Format alamat email salah.',
+        'phone_no.numeric' => 'Nomor telepon harus berupa angka.',
+        'phone_no.min_digits' => 'Masukkan nomor telepon minimal 10 angka.',
+        'password.min' => 'Masukkan password minimal 6 karakter.',
+        'registration_code.unique' => 'Kode registrasi telah tersedia.',
+        'employee_code.unique' => 'Kode pegawai telah tersedia.'
+    );
+
+    public function validate($data)
+    {
+        $rules = array(
+            'username' => 'required|unique:users,username,' . ($data['id'] ?? null) . ',id,deleted_at,NULL',
+            'groups_id' => 'required',
+            'name' => 'required',
+            'password' => 'nullable|min:6',
+            'email' => 'email|nullable',
+            'phone_no' => 'numeric|nullable|min_digits:10',
+            'url_photo' => [
+                File::image()
+                    ->max(10240)
+            ],
+            'status' => 'required'
+        );
+        if(!array_key_exists('id',$data)){
+            $rules['password'] = 'required|min:6';
+        }
+        $v = Validator::make($data, $rules, user::$customMessages);
+        return $v;
+    }
 
     public function group()
     {

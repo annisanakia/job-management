@@ -16,9 +16,8 @@
         <div class="table-responsive">
         <table class="table table-striped mt-3">
             <thead>
-                <tr>
+                <tr class="bg-blue">
                     <th width="5%" class="text-center">No</th>
-                    <th>Kode</th>
                     <th>Detail Pengguna</th>
                     <th width="28%">Grup pengguna</th>
                     <th width="24%">Status</th>
@@ -26,8 +25,7 @@
                 </tr>
                 <tr>
                     <th><button type="submit" class="btn"><i class="fas fa-search"></i></span></button></th>
-                    <th><input type="text" name="filter[code]" value="{{ $param['filter']['code'] ?? null }}" class="form-control"></th>
-                    <th><input type="text" name="filter[name]" value="{{ $param['filter']['name'] ?? null }}" class="form-control"></th>
+                    <th><input type="text" name="filter[detail_user]" value="{{ $param['filter']['detail_user'] ?? null }}" class="form-control"></th>
                     <th>
                         <select name="filter[groups_id]" class="form-select">
                             <option value="" selected>-- Pilih --</option>
@@ -49,15 +47,32 @@
             <tbody>
                 @if(count($datas) <= 0)
                     <tr>
-                        <td colspan="6" class="text-center">Data Tidak Ditemukan</td>
+                        <td colspan="5" class="text-center">Data Tidak Ditemukan</td>
                     </tr>
                 @else
                     @php $i=0 @endphp
                     @foreach($datas as $data)
                     <tr>
                         <td class="text-center">{{ (($datas->currentPage() - 1 ) * $datas->perPage() ) + ++$i }}</td>
-                        <td>{{ $data->code }}</td>
-                        <td>{{ $data->name }}</td>
+                        <td>
+                            <table>
+                                <tr>
+                                    <td>
+                                        @if($data->url_photo != '')
+                                            <img src="{{ asset($data->url_photo) }}" class="object-fit-cover me-2 rounded" style="width: 70px; height: 90px;">
+                                        @else
+                                            <div class="color-dark-blue border bg-body-secondary position-relative me-2 rounded fs-4" style="width: 70px; height: 90px;">
+                                                <i class="fa-regular fa-user position-absolute top-50 start-50 translate-middle"></i>
+                                            </div>
+                                        @endif
+                                    </td>
+                                    <td class="align-top">
+                                        <b>{{ $data->username }}</b><br>
+                                        {{ $data->name }}
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
                         <td>{{ $data->group->name ?? null }}</td>
                         <td>{{ $data->status == 1? 'Aktif' : 'Tidak Aktif' }}</td>
                         <td class="action text-center" nowrap>

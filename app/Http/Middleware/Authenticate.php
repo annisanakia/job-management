@@ -18,7 +18,8 @@ class Authenticate extends Middleware
     }
 
     public function handle($request, Closure $next, ...$guards){
-        if (!Auth::guard($guards)->check()) {
+        $guard = $guards[0] ?? null;
+        if (!Auth::guard($guard)->check()) {
             if ($request->ajax()) {
                 return '<script>window.location.href = "'.url('login').'";</script>';
             }
@@ -27,6 +28,7 @@ class Authenticate extends Middleware
         }else{
             $prefix = request()->route()->getPrefix() != ''? request()->route()->getPrefix() : 'home';
             $prefix = in_array($prefix,['users'])? 'setting' : $prefix;
+            
             if (!array_key_exists($prefix,menuSideBar()) && $prefix != 'account_setting') {
                 return response()->view('errors.unauthorized');
             }

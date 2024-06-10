@@ -2,10 +2,7 @@
 
 @section('content')
 <div class="container-fluid px-4">
-    <h1 class="mt-4">Daftar Pengguna</h1>
-    <ol class="breadcrumb mb-4">
-        <li class="breadcrumb-item active">Daftar Pengguna</li>
-    </ol>
+    <h2 class="my-4">Daftar Pengguna</h2>
     <section class="section">
         @include(ucwords($controller_name).'::list')
     </section>
