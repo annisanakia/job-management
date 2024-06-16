@@ -4,6 +4,6 @@ return [
     'modules' => [
         'Home',
         'Users',
-        'Account_setting'
+        'Account_setting',
     ]
 ];
