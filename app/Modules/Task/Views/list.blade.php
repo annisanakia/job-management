@@ -32,9 +32,15 @@
                         <th class="order-link {{ ($sort_field == 'task_status_id'? 'sort-'.(orders()[$sort_type] ?? null) : null) }}" href="{{ url($controller_name.'?sort_field=task_status_id&sort_type='.($sort_field == 'task_status_id'? $sort_type : 0)+1) }}">
                             Last Status
                         </th>
-                        <th class="order-link {{ ($sort_field == 'pic'? 'sort-'.(orders()[$sort_type] ?? null) : null) }}" href="{{ url($controller_name.'?sort_field=pic&sort_type='.($sort_field == 'pic'? $sort_type : 0)+1) }}">
-                            PIC
-                        </th>
+                        @if($position_code == 'SPV')
+                            <th class="order-link {{ ($sort_field == 'owner'? 'sort-'.(orders()[$sort_type] ?? null) : null) }}" href="{{ url($controller_name.'?sort_field=owner&sort_type='.($sort_field == 'owner'? $sort_type : 0)+1) }}">
+                                Owner
+                            </th>
+                        @else
+                            <th class="order-link {{ ($sort_field == 'pic'? 'sort-'.(orders()[$sort_type] ?? null) : null) }}" href="{{ url($controller_name.'?sort_field=pic&sort_type='.($sort_field == 'pic'? $sort_type : 0)+1) }}">
+                                PIC
+                            </th>
+                        @endif
                         <th width="150px" class="text-center">Action</th>
                     </tr>
                     <tr>
@@ -77,7 +83,11 @@
                                 <td>{{$data->task_category->name ?? null}}</td>
                                 <td>{{$data->detail}}</td>
                                 <td>{{$data->task_status->name ?? null}}</td>
-                                <td>{{$data->user_pic->name ?? null}}</td>
+                                @if($position_code == 'SPV')
+                                    <td>{{$data->user_owner->name ?? null}}</td>
+                                @else
+                                    <td>{{$data->user_pic->name ?? null}}</td>
+                                @endif
                                 <td class="text-center" nowrap>
                                     <!-- edit -->
                                     <a href="{{ url(strtolower($controller_name).'/edit/'.$data->id) }}" class="btn btn-primary py-1 px-2 me-1"><i class="fas fa-pen"></i></a>

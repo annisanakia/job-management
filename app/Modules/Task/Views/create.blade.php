@@ -19,6 +19,15 @@
             <div class="row">
                 <div class="col-md-6">
                     <div class="form-group">
+                        <label>Date</label>
+                        <input type="date" name="date" class="form-control @error('date') is-invalid @enderror" value="{{ old('date') ?? ($data->date ?? date('Y-m-d')) }}">
+                        @error('date') <span class="text-danger">{{ $message }}</span> @enderror
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
                         <label>Segment</label>
                         <select class="form-control form-select selectpicker @error('group_id') is-invalid @enderror" name="task_segment_id" data-live-search="true" title="-- Select --">
                             @foreach(Models\task_segment::select('name','id')->get() as $row)
@@ -44,7 +53,7 @@
                 <div class="col-md-6">
                     <div class="form-group">
                         <label class="asterisk">Detail</label>
-                        <textarea name="detail" class="form-control @error('detail') is-invalid @enderror" rows="4">{{ old('detail') ?? ($data->detail) }}</textarea>
+                        <textarea name="detail" class="form-control @error('detail') is-invalid @enderror" rows="4">{{ old('detail') ?? ($data->detail ?? null) }}</textarea>
                         @error('detail') <span class="text-danger">{{ $message }}</span> @enderror
                     </div>
                 </div>

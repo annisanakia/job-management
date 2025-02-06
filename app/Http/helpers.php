@@ -27,6 +27,14 @@ function menuSidebar()
             'home' => [
                 'name' => 'Home',
                 'icon' => 'fas fa-home'
+            ],
+            'task' => [
+                'name' => 'List Job',
+                'icon' => 'fas fa-briefcase'
+            ],
+            'report' => [
+                'name' => 'Report Job',
+                'icon' => 'fas fa-chart-bar'
             ]
         ],
         'EMP' => [
@@ -74,6 +82,14 @@ function allMenuSidebar()
                 'name' => 'Home',
                 'icon' => 'fas fa-home'
             ],
+            'task' => [
+                'name' => 'List Job',
+                'icon' => 'fas fa-briefcase'
+            ],
+            'report' => [
+                'name' => 'Report Job',
+                'icon' => 'fas fa-briefcase'
+            ]
         ],
         'EMP' => [
             'home' => [
