@@ -6,53 +6,71 @@ function menuSidebar()
         'ADM' => [
             'home' => [
                 'name' => 'Home',
-                'icon' => 'fa-solid fa-house'
+                'icon' => 'fas fa-home'
             ],
             'setting' => [
                 'name' => 'Pengaturan',
-                'icon' => 'fa-solid fa-gear',
+                'icon' => 'fas fa-cog',
                 'childs' => [
                     'users' => [
-                        'name' => 'Daftar Pengguna',
-                        'icon' => 'fa-solid fa-users'
+                        'name' => 'Users',
+                        'icon' => 'fas fa-users'
                     ]
                 ]
             ],
-            'report_data' => [
-                'name' => 'Laporan Pendataan',
-                'icon' => 'fa-solid fa-chart-simple'
+            'employee' => [
+                'name' => 'Employee',
+                'icon' => 'fas fa-users'
             ]
         ],
         'SPV' => [
             'home' => [
                 'name' => 'Home',
-                'icon' => 'fa-solid fa-house'
+                'icon' => 'fas fa-home'
             ],
-            'collection_data' => [
-                'name' => 'Data Pendataan',
-                'icon' => 'fa-solid fa-file-pen'
-            ],
-            'election_results' => [
-                'name' => 'Data Hasil Pemilu',
-                'icon' => 'fa-solid fa-clipboard-list'
-            ],
-            'report_data' => [
-                'name' => 'Laporan Pendataan',
-                'icon' => 'fa-solid fa-chart-simple'
-            ],
-            'report_result' => [
-                'name' => 'Laporan Hasil Pemilu',
-                'icon' => 'fa-solid fa-chart-simple'
-            ]
         ],
         'EMP' => [
             'home' => [
                 'name' => 'Home',
-                'icon' => 'fa-solid fa-house'
+                'icon' => 'fas fa-house'
+            ]
+        ]
+    ];
+    return ($menus[$group_code] ?? []);
+}
+
+function allMenuSidebar()
+{
+    $group_code = Auth::user()->group->code ?? null;
+    $menus = [
+        'ADM' => [
+            'home' => [
+                'name' => 'Home',
+                'icon' => 'fas fa-home'
             ],
-            'election_results' => [
-                'name' => 'Data Hasil Pemilu',
-                'icon' => 'fa-solid fa-clipboard-list'
+            'setting' => [
+                'name' => 'Pengaturan',
+                'icon' => 'fas fa-cog',
+            ],
+            'employee' => [
+                'name' => 'Employee',
+                'icon' => 'fas fa-users'
+            ],
+            'users' => [
+                'name' => 'Users',
+                'icon' => 'fas fa-users'
+            ]
+        ],
+        'SPV' => [
+            'home' => [
+                'name' => 'Home',
+                'icon' => 'fas fa-home'
+            ],
+        ],
+        'EMP' => [
+            'home' => [
+                'name' => 'Home',
+                'icon' => 'fas fa-house'
             ]
         ]
     ];
@@ -221,4 +239,50 @@ function getFirstChar($word) {
     $words = explode(" ", $word);
                     
     return $words[0] ?? null;
+}
+
+function timeOfDay($date = null){
+    $strtotime = strtotime($date ?? date('Y-m-d H:i:s'));
+
+    $time = date("H", $strtotime);
+    $timezone = date("e", $strtotime);
+
+    if ($time < "12") {
+        $day = "Good Morning";
+    } elseif ($time >= "12" && $time < "17") {
+        $day = "Good Afternoon";
+    } elseif ($time >= "17" && $time < "19") {
+        $day = "Good Evening";
+    } else {
+        $day = "Good Night";
+    }
+
+    return $day;
+}
+
+function getInitials($name) {
+    $words = explode(" ", $name);
+    $initials = "";
+    foreach ($words as $word) {
+        $initials .= $word[0];
+    }
+    
+    $initials = substr($initials, 0, 2);
+    return $initials;
+}
+
+function getFirstName($name){
+    $name = explode(' ', $name);
+
+    $firstName = $name[0] ?? null;
+    return $firstName;
+}
+
+function statusBg() {
+    $status = [
+        1 => 'success',
+        0 => 'danger'
+    ];
+
+    return $status;
 }

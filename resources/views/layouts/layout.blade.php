@@ -7,8 +7,8 @@
         <div class="sidebar-logo">
             <!-- Logo Header -->
             <div class="logo-header" data-background-color="dark">
-                <a href="{{ url('/') }}" class="logo">
-                <img src="{{ asset('assets/img/admin/logo_light.svg') }}" alt="navbar brand" class="navbar-brand" height="40"/>
+                <a href="{{ url('/') }}" class="logo text-white">
+                    Job Management
                 </a>
                 <div class="nav-toggle">
                     <button class="btn btn-toggle d-lg-flex justify-content-center align-items-center toggle-sidebar" style="width:40px;height:40px">
@@ -82,12 +82,12 @@
                 <div class="container-fluid">
                 <ul class="navbar-nav topbar-nav ms-md-auto align-items-center">
                     <li class="nav-item topbar-icon dropdown hidden-caret submenu">
-                        <a class="nav-link dropdown-toggle" href="#" id="notifDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        {{-- <a class="nav-link dropdown-toggle" href="#" id="notifDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <i class="fa fa-bell"></i>
                             @if((session()->get('total_notifications') ?? 0) > 0)
                                 <span class="notification">{{ session()->get('total_notifications') }}</span>
                             @endif
-                        </a>
+                        </a> --}}
                         <ul class="dropdown-menu notif-box animated fadeIn" aria-labelledby="notifDropdown">
                             <li class="dropdown-title">
                                 <div class="d-flex justify-content-between align-items-center">

@@ -16,7 +16,6 @@ class RESTful extends Controller
     protected $model;
     protected $controller_name;
     protected $max_row = 50;
-    protected $priv;
     protected $enable_pdf;
     protected $enable_xls;
     protected $enable_import;
@@ -34,10 +33,8 @@ class RESTful extends Controller
         $this->coreLib = new \Lib\core\Core($controller_name);
         $module = $this->coreLib->getModule();
 
-        $this->priv = $this->coreLib->accessFeatures();
         $this->module_name = $module->name ?? null;
 
-        view::share('priv', $this->priv);
         view::share('module_name', $module->name ?? null);
         view::share('module_detail', $module->name_detail ?? null);
         view::share('controller_name', strtolower($controller_name));
@@ -76,14 +73,12 @@ class RESTful extends Controller
             $this->actions[] = array('name' => '', 'url' => $url_xls, 'class' => 'btn btn-outline-success float-end me-2', 'attr'=>'target=_blank', 'icon' => 'fas fa-file-excel');
         }
 
-        if ($this->enable_import && ($this->priv['add_priv'] ?? null)){
+        if ($this->enable_import){
             $this->actions[] = array('name' => '', 'url' => strtolower($this->controller_name) . '/import', 'class' => 'btn btn-outline-primary float-end me-2', 'icon' => 'fas fa-upload');
         }
 
-        if ($this->priv['add_priv'] ?? null){
-            $this->actions[] = array('name' => 'Add New', 'url' => strtolower($this->controller_name) . '/create', 'class' => 'btn btn-primary btn-round float-end me-2', 'icon' => 'fas fa-plus');
-        }
-
+        $this->actions[] = array('name' => 'Add New', 'url' => strtolower($this->controller_name) . '/create', 'class' => 'btn btn-primary btn-round float-end me-2', 'icon' => 'fas fa-plus');
+        
         $this->beforeIndex($datas);
 
         $datas = $datas->paginate($this->max_row);
@@ -168,11 +163,7 @@ class RESTful extends Controller
     }
 
     public function create()
-    {   
-        if (!$this->priv['add_priv']) {
-            return Redirect::route(strtolower($this->controller_name) . '.index');
-        }
-
+    {
         $action[] = array('name' => 'Cancel', 'url' => strtolower($this->controller_name), 'class' => 'btn btn-secondary px-3 ms-md-1');
         $action[] = array('name' => 'Save', 'type' => 'submit', 'url' => '#', 'class' => 'btn btn-success px-3 ms-md-1 btn-loading');
 
@@ -184,32 +175,29 @@ class RESTful extends Controller
 
     public function store()
     {
-        if ($this->priv['add_priv']) {
-            $input = request()->all();
-            $validation = $this->model->validate($input);
+        $input = request()->all();
+        $validation = $this->model->validate($input);
 
-            if ($validation->passes()) {
-                $this->model->create($input);
-                return Redirect::route(strtolower($this->controller_name) . '.index');
-            }
-            return Redirect::route(strtolower($this->controller_name) . '.create')
-                ->withInput()
-                ->withErrors($validation)
-                ->with('message', 'There were validation errors.');
+        if ($validation->passes()) {
+            $this->model->create($input);
+            return Redirect::route(strtolower($this->controller_name) . '.index');
         }
+        return Redirect::route(strtolower($this->controller_name) . '.create')
+            ->withInput()
+            ->withErrors($validation)
+            ->with('message', 'There were validation errors.');
     }
 
     public function edit($id)
     {
         $data = $this->model->find($id);
 
-        if (is_null($data) || !$this->priv['edit_priv']) {
+        if (is_null($data)) {
             return Redirect::route(strtolower($this->controller_name) . '.index');
         }
 
         $action[] = array('name' => 'Cancel', 'url' => strtolower($this->controller_name), 'class' => 'btn btn-secondary px-3 ms-md-1');
-        if ($this->priv['delete_priv'])
-            $action[] = array('name' => 'Delete', 'url' => strtolower($this->controller_name) . '/delete/' . $id, 'class' => 'btn btn-danger px-3 ms-md-1 delete', 'attr' => 'ng-click=confirm($event) data-name='.($data->name ?? $data->code));
+        $action[] = array('name' => 'Delete', 'url' => strtolower($this->controller_name) . '/delete/' . $id, 'class' => 'btn btn-danger px-3 ms-md-1 delete', 'attr' => 'ng-click=confirm($event) data-name='.($data->name ?? $data->code));
         $action[] = array('name' => 'Save', 'type' => 'submit', 'url' => '#', 'class' => 'btn btn-success px-3 ms-md-1 btn-loading');
 
         $content['data'] = $data;
@@ -219,23 +207,21 @@ class RESTful extends Controller
 
     public function update($id)
     {
-        if($this->priv['edit_priv']){
-            $input = request()->all();
-            $input['id'] = $id;
-            
-            $validation = $this->model->validate($input);
-    
-            if ($validation->passes()) {
-                $data = $this->model->find($id);
-                $data->update($input);
-                return Redirect::route(strtolower($this->controller_name) . '.index');
-            }
+        $input = request()->all();
+        $input['id'] = $id;
+        
+        $validation = $this->model->validate($input);
 
-            return Redirect::route(strtolower($this->controller_name) . '.edit', $id)
-                ->withInput()
-                ->withErrors($validation)
-                ->with('message', 'There were validation errors.');
+        if ($validation->passes()) {
+            $data = $this->model->find($id);
+            $data->update($input);
+            return Redirect::route(strtolower($this->controller_name) . '.index');
         }
+
+        return Redirect::route(strtolower($this->controller_name) . '.edit', $id)
+            ->withInput()
+            ->withErrors($validation)
+            ->with('message', 'There were validation errors.');
     }
 
     public function detail($id)
@@ -247,8 +233,7 @@ class RESTful extends Controller
         }
 
         $action[] = array('name' => 'Cancel', 'url' => strtolower($this->controller_name), 'class' => 'btn btn-secondary px-3 ms-md-1');
-        if ($this->priv['delete_priv'])
-            $action[] = array('name' => 'Delete', 'url' => strtolower($this->controller_name) . '/delete/' . $id, 'class' => 'btn btn-danger px-3 ms-md-1 delete', 'attr' => 'ng-click=confirm($event) data-name='.$data->name);
+        $action[] = array('name' => 'Delete', 'url' => strtolower($this->controller_name) . '/delete/' . $id, 'class' => 'btn btn-danger px-3 ms-md-1 delete', 'attr' => 'ng-click=confirm($event) data-name='.$data->name);
         
         $content['data'] = $data;
         $content['actions'] = $action;
@@ -258,10 +243,6 @@ class RESTful extends Controller
 
     public function import()
     {
-        if (!($this->priv['add_priv'] ?? null)) {
-            return Redirect::route(strtolower($this->controller_name) . '.index');
-        }
-
         return View($this->controller_name . '::import');
     }
 
@@ -272,11 +253,9 @@ class RESTful extends Controller
 
     public function delete($id)
     {
-        if ($this->priv['delete_priv']) {
-            $data = $this->model->find($id);
-            if($data){
-                $data->delete();
-            }
+        $data = $this->model->find($id);
+        if($data){
+            $data->delete();
         }
         if (!request()->ajax()) {
             return Redirect::route(strtolower($this->controller_name) . '.index');

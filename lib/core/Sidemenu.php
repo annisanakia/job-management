@@ -22,9 +22,9 @@ class Sidemenu extends Controller
         $menus = menuSidebar() ?? [];
         $html_sidemenu = '<ul class="nav nav-secondary">';
         foreach(menuSidebar() as $code => $module){
-            $icon = $module->icon != ''? $module->icon : 'fas fa-list';
-            $name = $module->name;
-            if(count($module->childs) <= 0){
+            $icon = $module['icon'] ?? 'fas fa-list';
+            $name = $module['name'] ?? null;
+            if(count(($module['childs'] ?? [])) <= 0){
                 $active = $code == $this->menu_active? 'active' : '';
                 $html_sidemenu .= '
                     <li class="nav-item '.$active.'">
@@ -35,7 +35,7 @@ class Sidemenu extends Controller
                     </li>
                 ';
             }else{
-                $child_codes = $module->childs->pluck('code')->all();
+                $child_codes = array_keys($module['childs'] ?? []);
                 $active = in_array($this->menu_active,$child_codes)? 'active' : '';
 
                 $html_sidemenu .= '<li class="nav-item '.$active.'">';
@@ -48,9 +48,8 @@ class Sidemenu extends Controller
                     <div class="collapse '.($active != ''? 'show' : '').'" id="'.$code.'">
                             <ul class="nav nav-collapse">
                 ';
-                foreach($module->childs as $child){
-                    $code_child = $child->code;
-                    $name_child = $child->name;
+                foreach($module['childs'] as $code_child => $child){
+                    $name_child = $child['name'] ?? null;
                     $active = $code_child == $this->menu_active? 'active' : '';
 
                     $html_sidemenu .= '
@@ -69,33 +68,5 @@ class Sidemenu extends Controller
         }
         $html_sidemenu .= '</ul>';
         return $html_sidemenu;
-    }
-
-    public function getParentModules(){
-        $modules = \Models\module::select([
-                'id','code','name','icon'
-            ])
-            ->whereHas('module_access', function($builder){
-                $builder->where('group_id',$this->group_id);
-            })
-            ->where(function($query){
-                $query->whereNull('parent_id')->orWhere('parent_id',0);
-            })
-            ->where('status', 1) // status publish
-            ->with('childs')
-            ->orderBy('sequence')->orderBy('id')->get();
-        return $modules;
-    }
-
-    public function getAllModules(){
-        $modules = \Models\module::select([
-                'id','code','name','icon'
-            ])
-            ->whereHas('module_access', function($builder){
-                $builder->where('group_id',$this->group_id);
-            })
-            ->with('parent')
-            ->orderBy('sequence')->orderBy('id')->get();
-        return $modules;
     }
 }

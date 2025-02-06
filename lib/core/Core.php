@@ -17,12 +17,6 @@ class Core extends Controller
     {
         $this->group_id = Auth::user()->group_id;
         $this->controller_name = $controller_name;
-
-        $this->module_access = \Models\module_access::select('add_priv','edit_priv','delete_priv', 'module_id')
-            ->whereHas('module',function($builder){
-                $builder->where('code',$this->controller_name);
-            })->with('module')
-            ->where('group_id',$this->group_id)->first();
     }
 
     public function accessfeatures(){
