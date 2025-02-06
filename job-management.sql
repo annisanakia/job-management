@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Nov 30, 2024 at 09:42 PM
+-- Generation Time: Feb 06, 2025 at 12:04 AM
 -- Server version: 8.0.30
 -- PHP Version: 8.2.21
 
@@ -38,8 +38,8 @@ CREATE TABLE `cache` (
 --
 
 INSERT INTO `cache` (`key`, `value`, `expiration`) VALUES
-('1c31ecdcf43a4c45335e125fdd661c66', 'i:1;', 1733002952),
-('1c31ecdcf43a4c45335e125fdd661c66:timer', 'i:1733002952;', 1733002952),
+('1c31ecdcf43a4c45335e125fdd661c66', 'i:1;', 1738767925),
+('1c31ecdcf43a4c45335e125fdd661c66:timer', 'i:1738767925;', 1738767925),
 ('c6be2cf7c13d9a527ee2fe401bbae3c7', 'i:1;', 1733002856),
 ('c6be2cf7c13d9a527ee2fe401bbae3c7:timer', 'i:1733002856;', 1733002856);
 
@@ -78,10 +78,10 @@ CREATE TABLE `daily_logbook` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `groups`
+-- Table structure for table `group`
 --
 
-CREATE TABLE `groups` (
+CREATE TABLE `group` (
   `id` int NOT NULL,
   `code` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
   `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
@@ -90,10 +90,10 @@ CREATE TABLE `groups` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
--- Dumping data for table `groups`
+-- Dumping data for table `group`
 --
 
-INSERT INTO `groups` (`id`, `code`, `name`, `created_at`, `updated_at`) VALUES
+INSERT INTO `group` (`id`, `code`, `name`, `created_at`, `updated_at`) VALUES
 (1, 'ADM', 'Admin', '2024-06-02 02:43:18', NULL),
 (2, 'SPV', 'Supervisor', '2024-06-02 02:43:18', NULL),
 (3, 'EMP', 'Karyawan', '2024-06-02 02:43:18', NULL);
@@ -188,7 +188,9 @@ CREATE TABLE `sessions` (
 --
 
 INSERT INTO `sessions` (`id`, `user_id`, `ip_address`, `user_agent`, `payload`, `last_activity`) VALUES
-('6M6yrcNeHoXmIv6ismPkcXBpR0Go8YKh7iJioxoJ', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36', 'YTo0OntzOjY6Il90b2tlbiI7czo0MDoiNjdWazVOeXVteVhrVUNWTEpaY08yRzR4SmpIaXlJRTlNNDNoWVBsQSI7czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czozOiJ1cmwiO2E6MTp7czo4OiJpbnRlbmRlZCI7czoyMToiaHR0cDovLzEyNy4wLjAuMTo4MDAwIjt9czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6Mjc6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9sb2dpbiI7fX0=', 1733002929);
+('6M6yrcNeHoXmIv6ismPkcXBpR0Go8YKh7iJioxoJ', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36', 'YTo0OntzOjY6Il90b2tlbiI7czo0MDoiNjdWazVOeXVteVhrVUNWTEpaY08yRzR4SmpIaXlJRTlNNDNoWVBsQSI7czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czozOiJ1cmwiO2E6MTp7czo4OiJpbnRlbmRlZCI7czoyMToiaHR0cDovLzEyNy4wLjAuMTo4MDAwIjt9czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6Mjc6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9sb2dpbiI7fX0=', 1733002929),
+('N25viFFTmZ438fFiQanrV1GS0N63dzCVA93zvABY', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', 'YTo0OntzOjY6Il90b2tlbiI7czo0MDoiWUI5VTZTMjhSeHlqSFNoZmhtdU9udnFQMmFZYkEwcGlTQXBoUFlDWCI7czozOiJ1cmwiO2E6MTp7czo4OiJpbnRlbmRlZCI7czoyMToiaHR0cDovLzEyNy4wLjAuMTo4MDAwIjt9czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MjE6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMCI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fX0=', 1738767791),
+('xNoyKrPrGPpNVsm1DOn7DkxagyQpzsQGkKiu3Umb', 1, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', 'YTo1OntzOjY6Il90b2tlbiI7czo0MDoiOUZ3MEJXOUwxdFVVaHdDTjVPeUFGQWRqZXI1alVKN1RpcXZ5eHF0ViI7czozOiJ1cmwiO2E6MDp7fXM6OToiX3ByZXZpb3VzIjthOjE6e3M6MzoidXJsIjtzOjIxOiJodHRwOi8vMTI3LjAuMC4xOjgwMDAiO31zOjY6Il9mbGFzaCI7YToyOntzOjM6Im9sZCI7YTowOnt9czozOiJuZXciO2E6MDp7fX1zOjUwOiJsb2dpbl93ZWJfNTliYTM2YWRkYzJiMmY5NDAxNTgwZjAxNGM3ZjU4ZWE0ZTMwOTg5ZCI7aToxO30=', 1738771426);
 
 -- --------------------------------------------------------
 
@@ -198,7 +200,7 @@ INSERT INTO `sessions` (`id`, `user_id`, `ip_address`, `user_agent`, `payload`, 
 
 CREATE TABLE `users` (
   `id` int NOT NULL,
-  `groups_id` int NOT NULL,
+  `group_id` int NOT NULL,
   `username` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `email` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
@@ -215,7 +217,7 @@ CREATE TABLE `users` (
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`id`, `groups_id`, `username`, `name`, `email`, `phone_no`, `password`, `url_photo`, `status`, `created_at`, `updated_at`, `deleted_at`) VALUES
+INSERT INTO `users` (`id`, `group_id`, `username`, `name`, `email`, `phone_no`, `password`, `url_photo`, `status`, `created_at`, `updated_at`, `deleted_at`) VALUES
 (1, 1, 'admin', 'Nona Admina', 'nonaadmin@gmail.com', '081748575757', '$2y$12$SvUO.sdFBwdeixrz7ya37O55vwpdXX3KozXogTQENd9.fVTjFW9kO', 'http://127.0.0.1:8000/assets/file/users/2406091717926949.png', 1, '2024-06-01 19:46:11', '2024-06-09 06:16:46', NULL),
 (2, 2, 'supervisor', 'Supervisor', NULL, NULL, '$2y$12$SvUO.sdFBwdeixrz7ya37O55vwpdXX3KozXogTQENd9.fVTjFW9kO', NULL, 1, '2024-06-01 19:46:11', '2024-06-01 19:46:11', NULL),
 (3, 3, 'emp', 'Karyawan', NULL, NULL, '$2y$12$SvUO.sdFBwdeixrz7ya37O55vwpdXX3KozXogTQENd9.fVTjFW9kO', NULL, 1, '2024-06-01 19:46:11', '2024-06-01 19:46:11', NULL),
@@ -245,9 +247,9 @@ ALTER TABLE `daily_logbook`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `groups`
+-- Indexes for table `group`
 --
-ALTER TABLE `groups`
+ALTER TABLE `group`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -287,7 +289,7 @@ ALTER TABLE `sessions`
 --
 ALTER TABLE `users`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `groups_id` (`groups_id`) USING BTREE;
+  ADD KEY `groups_id` (`group_id`) USING BTREE;
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -300,9 +302,9 @@ ALTER TABLE `daily_logbook`
   MODIFY `id` int NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `groups`
+-- AUTO_INCREMENT for table `group`
 --
-ALTER TABLE `groups`
+ALTER TABLE `group`
   MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --

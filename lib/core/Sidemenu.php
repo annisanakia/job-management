@@ -15,11 +15,11 @@ class Sidemenu extends Controller
     {
         $this->menu_active = request()->route()->getPrefix() != ''? request()->route()->getPrefix() : 'home';
         $this->group_id = Auth::user()->group_id;
-        $this->group->id = Auth::user()->group->code;
+        $this->group_code = Auth::user()->group->code ?? null;
     }
 
     public function listMenu(){
-        $menus = menuSidebar()[] ?? [];
+        $menus = menuSidebar() ?? [];
         $html_sidemenu = '<ul class="nav nav-secondary">';
         foreach(menuSidebar() as $code => $module){
             $icon = $module->icon != ''? $module->icon : 'fas fa-list';

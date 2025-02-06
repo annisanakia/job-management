@@ -61,18 +61,6 @@
 
     <!-- Admin JS -->
     <script src="{{ asset('assets/js/admin.min.js') }}"></script>
-    <script type="text/javascript">
-        var url = "{{ url('notification/notificationNewList') }}",
-            target = '#notification';
-        @if(Auth::user())
-            getData(url, target, {}, true, '#non');
-        @endif
-        $("#notifDropdown").click(function (e) {
-            if($(this).hasClass("show")){
-                getData(url, target, {}, true, '#non');
-            }
-        });
-    </script>
     @yield('scripts')
 </body>
 </html>

@@ -16,18 +16,17 @@ class AccessUser
      */
     public function handle(Request $request, Closure $next, ...$guards): Response
     {
-        $menus = new \Lib\core\Sidemenu();
-        $menus = $menus->getAllModules();
-        $menu_codes = $menus->pluck('code')->all();
-
         if (!Auth::guard($guards)->check()) {
             Auth::logout();
             return redirect()->guest('login');
         }else{
-            $user_id = \Auth::user()->id ?? null;
+            $auth = Auth::user();
+            $user_id = Auth::user()->id ?? null;
+            $menu_codes = menuSidebar() ?? [];
+
 
             $prefix = request()->route()->getPrefix() != ''? request()->route()->getPrefix() : 'home';
-            if (!in_array($prefix,$menu_codes)) {
+            if (!array_key_exists($prefix,$menu_codes)) {
                 return response()->view('errors.unauthorized');
             }
             $job_role_ids = collect(Auth::user()->employee->employee_roles ?? [])->pluck('job_role_id')->all();

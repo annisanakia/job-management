@@ -45,4 +45,14 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    public function group()
+    {
+        return $this->belongsTo('Models\group');
+    }
+
+    public function employee()
+    {
+        return $this->hasOne('Models\employee');
+    }
 }
