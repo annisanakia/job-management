@@ -5,16 +5,16 @@ namespace Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Validator;
 
-class group extends Model
+class job_position extends Model
 {
     protected $connection = 'mysql';
-    protected $table = 'group';
+    protected $table = 'job_position';
     protected $guarded = ['id'];
     
     public function validate($data)
     {
         $rules = array(
-            'code' => 'required|unique:group,code,' . ($data['id'] ?? null) . ',id,deleted_at,NULL',
+            'code' => 'required|unique:job_position,code,' . ($data['id'] ?? null) . ',id,deleted_at,NULL',
             'name' => 'required'
         );
 

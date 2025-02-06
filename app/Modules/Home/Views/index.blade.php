@@ -37,12 +37,12 @@
                                     </div>
                                     <div class="col col-stats ms-3 ms-sm-0">
                                         <div class="numbers">
-                                            <div class="fw-bold text-secondary"><a href="{{ url('report_breaching?date='.$date) }}">Total Job</a></div>
+                                            <div class="fw-bold text-secondary"><a href="{{ url('task') }}">Total Job</a></div>
                                             <h4 class="card-title">0</h4>
                                         </div>
                                     </div>
                                 </div>
-                                <a href="{{ url('report_breaching?date='.$date) }}" class="btn btn-theme float-end">Detail</a>
+                                <a href="{{ url('task') }}" class="btn btn-theme float-end">Detail</a>
                             </div>
                         </div>
                     </div>
@@ -59,12 +59,12 @@
                                     </div>
                                     <div class="col col-stats ms-3 ms-sm-0">
                                         <div class="numbers">
-                                            <div class="fw-bold text-secondary"><a href="{{ url('workflow_task') }}">Total Completed Job</a></div>
+                                            <div class="fw-bold text-secondary"><a href="{{ url('task') }}">Total Completed Job</a></div>
                                             <h4 class="card-title">2</h4>
                                         </div>
                                     </div>
                                 </div>
-                                <a href="{{ url('workflow_task') }}" class="btn btn-theme float-end">Detail</a>
+                                <a href="{{ url('task') }}" class="btn btn-theme float-end">Detail</a>
                             </div>
                         </div>
                     </div>
@@ -81,12 +81,12 @@
                                     </div>
                                     <div class="col col-stats ms-3 ms-sm-0">
                                         <div class="numbers">
-                                            <div class="fw-bold text-secondary"><a href="{{ url('workflow_task') }}">Total Uncompleted Job</a></div>
+                                            <div class="fw-bold text-secondary"><a href="{{ url('task') }}">Total Uncompleted Job</a></div>
                                             <h4 class="card-title">3</h4>
                                         </div>
                                     </div>
                                 </div>
-                                <a href="{{ url('workflow_task') }}" class="btn btn-theme float-end">Detail</a>
+                                <a href="{{ url('task') }}" class="btn btn-theme float-end">Detail</a>
                             </div>
                         </div>
                     </div>

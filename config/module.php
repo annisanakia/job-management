@@ -8,6 +8,7 @@ return [
         'Users',
         'Users',
         'Employee',
+        'Task',
         'Notification'
     ]
 ];

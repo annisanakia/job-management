@@ -27,12 +27,20 @@ function menuSidebar()
             'home' => [
                 'name' => 'Home',
                 'icon' => 'fas fa-home'
-            ],
+            ]
         ],
         'EMP' => [
             'home' => [
                 'name' => 'Home',
-                'icon' => 'fas fa-house'
+                'icon' => 'fas fa-home'
+            ],
+            'task' => [
+                'name' => 'List Job',
+                'icon' => 'fas fa-briefcase'
+            ],
+            'report' => [
+                'name' => 'Report Job',
+                'icon' => 'fas fa-chart-bar'
             ]
         ]
     ];
@@ -71,6 +79,14 @@ function allMenuSidebar()
             'home' => [
                 'name' => 'Home',
                 'icon' => 'fas fa-house'
+            ],
+            'task' => [
+                'name' => 'List Job',
+                'icon' => 'fas fa-briefcase'
+            ],
+            'report' => [
+                'name' => 'Report Job',
+                'icon' => 'fas fa-briefcase'
             ]
         ]
     ];
@@ -155,12 +171,8 @@ function weekOfYear($date) {
 
 function status() {
     $status = [
-        1 => 'Belum Fixed',
-        2 => 'Fixed',
-        // 1 => 'Belum diverifikasi',
-        // 2 => 'Sudah diverifikasi',
-        // 3 => 'Tidak Terdaftar DPT',
-        // 4 => 'Luar DPT'
+        1 => 'Active',
+        0 => 'Non Active'
     ];
 
     return $status;

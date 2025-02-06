@@ -31,11 +31,9 @@ class employee extends Model
         $rules = array(
             'nip' => 'nullable|unique:employee,nip,' . ($data['id'] ?? null) . ',id,deleted_at,NULL',
             'name' => 'required',
-            'email' => 'required|email|unique:employee,email,' . ($data['id'] ?? null) . ',id,deleted_at,NULL',
+            'email' => 'nullable|email|unique:employee,email,' . ($data['id'] ?? null) . ',id,deleted_at,NULL',
             'phone' => 'numeric|nullable|min_digits:10|max_digits:15',
             'status' => 'required',
-            'division_id' => 'required',
-            'department_id' => 'required',
             'job_position_id' => 'required',
             'url_photo' => [
                 File::image()
@@ -51,44 +49,22 @@ class employee extends Model
         $rules = array(
             'nip.*' => 'nullable|unique:employee,nip,' . ($data['id'] ?? null) . ',id,deleted_at,NULL',
             'name.*' => 'required',
-            'email.*' => 'required|email|unique:employee,email,' . ($data['id'] ?? null) . ',id,deleted_at,NULL',
+            'email.*' => 'nullable|email|unique:employee,email,' . ($data['id'] ?? null) . ',id,deleted_at,NULL',
             'phone.*' => 'numeric|nullable|min_digits:10|max_digits:15',
             'status.*' => 'required',
-            'division_id.*' => 'required',
-            'department_id.*' => 'required',
             'job_position_id.*' => 'required'
         );
         $v = Validator::make($data, $rules, employee::$customMessages);
         return $v;
     }
 
-    public function employee_departments()
+    public function job_position()
     {
-        return $this->hasMany('Models\employee_department');
-    }
-
-    public function employee_positions()
-    {
-        return $this->hasMany('Models\employee_position');
-    }
-
-    public function employee_roles()
-    {
-        return $this->hasMany('Models\employee_role');
+        return $this->belongsTo('Models\job_position');
     }
 
     public function user()
     {
         return $this->belongsTo('App\Models\User', 'user_id', 'id');
-    }
-
-    public function department_active()
-    {
-        return $this->hasOne('Models\employee_department')->where('status',1);
-    }
-
-    public function position_active()
-    {
-        return $this->hasOne('Models\employee_position')->where('status',1);
     }
 }
