@@ -109,7 +109,9 @@
     </div>
 </div>
 <div id="container" class="position-relative">
-
+    <div class="alert alert-info">
+        Pilih kriteria untuk menampilkan hasil laporan
+    </div>
 </div>
 
 @include('component.skeleton.skeleton')
