@@ -47,13 +47,13 @@ class task extends Model
         return $this->belongsTo('Models\periodic_type');
     }
 
-    public function user_pic()
+    public function employee_pic()
     {
-        return $this->belongsTo('App\Models\User', 'pic', 'id');
+        return $this->belongsTo('Models\employee', 'pic', 'id');
     }
 
-    public function user_owner()
+    public function employee_owner()
     {
-        return $this->belongsTo('App\Models\User', 'owner', 'id');
+        return $this->belongsTo('Models\employee', 'owner', 'id');
     }
 }

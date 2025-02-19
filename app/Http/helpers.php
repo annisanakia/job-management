@@ -314,3 +314,14 @@ function statusBg() {
 
     return $status;
 }
+
+function reportBy()
+{
+    $reportBy = [
+        1 => 'Based On Employee',
+        2 => 'Based On Segment',
+        3 => 'Based On Status'
+    ];
+
+    return $reportBy;
+}

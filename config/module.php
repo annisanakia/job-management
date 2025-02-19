@@ -9,6 +9,7 @@ return [
         'Users',
         'Employee',
         'Task',
-        'Notification'
+        'Notification',
+        'Report'
     ]
 ];

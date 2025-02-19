@@ -20,6 +20,7 @@ class RESTful extends Controller
     protected $enable_xls;
     protected $enable_import;
     protected $module_name = '';
+    protected $module_detail = '';
     protected $actions = array();
     protected $table_name = '';
     protected $filter_string = '';
@@ -33,10 +34,8 @@ class RESTful extends Controller
         $this->coreLib = new \Lib\core\Core($controller_name);
         $module = $this->coreLib->getModule();
 
-        $this->module_name = $module->name ?? null;
-
-        view::share('module_name', $module->name ?? null);
-        view::share('module_detail', $module->name_detail ?? null);
+        view::share('module_name', $this->module_name ?? null);
+        view::share('module_detail', $this->module_detail ?? null);
         view::share('controller_name', strtolower($controller_name));
     }
 

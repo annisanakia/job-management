@@ -38,7 +38,7 @@
                                     <div class="col col-stats ms-3 ms-sm-0">
                                         <div class="numbers">
                                             <div class="fw-bold text-secondary"><a href="{{ url('task') }}">Total Job</a></div>
-                                            <h4 class="card-title">0</h4>
+                                            <h4 class="card-title">{{ $all_job }}</h4>
                                         </div>
                                     </div>
                                 </div>
@@ -60,7 +60,7 @@
                                     <div class="col col-stats ms-3 ms-sm-0">
                                         <div class="numbers">
                                             <div class="fw-bold text-secondary"><a href="{{ url('task') }}">Total Completed Job</a></div>
-                                            <h4 class="card-title">2</h4>
+                                            <h4 class="card-title">{{ $complete_job }}</h4>
                                         </div>
                                     </div>
                                 </div>
@@ -82,7 +82,7 @@
                                     <div class="col col-stats ms-3 ms-sm-0">
                                         <div class="numbers">
                                             <div class="fw-bold text-secondary"><a href="{{ url('task') }}">Total Uncompleted Job</a></div>
-                                            <h4 class="card-title">3</h4>
+                                            <h4 class="card-title">{{ $notcomplete_job }}</h4>
                                         </div>
                                     </div>
                                 </div>

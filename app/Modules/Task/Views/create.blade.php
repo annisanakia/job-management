@@ -14,7 +14,6 @@
     </div>
     <div class="card-body">
         <form method="POST" action="{{ route($controller_name.'.store') }}" class="form-validation" enctype="multipart/form-data">
-            <input type="hidden" name="owner" value="{{ old('owner') ?? Auth::user()->id }}">
             @csrf
             <div class="row">
                 <div class="col-md-6">
@@ -92,13 +91,47 @@
             <div class="row">
                 <div class="col-md-6">
                     <div class="form-group">
+                        <label>Periodic Type</label>
+                        <select class="form-control form-select selectpicker @error('periodic_type_id') is-invalid @enderror" name="periodic_type_id" data-live-search="true" title="-- Select --">
+                            @foreach(Models\periodic_type::select('name','id')->get() as $row)
+                                <option value="{{ $row->id }}" {{ (old('periodic_type_id') ?? ($data->periodic_type_id ?? null)) == $row->id? 'selected' : '' }}>{{ $row->name }}</option>
+                            @endforeach
+                        </select>
+                        @error('periodic_type_id') <span class="text-danger">{{ $message }}</span> @enderror
+                    </div>
+                </div>
+            </div>
+            <?php
+                /* karyawan bisa liat total task berdasarkan supervisornya
+                supervisor bisa liat total task berdasarkan karayawannya */
+                $employee = \Models\employee::select('employee.id','employee.name','job_position.code')
+                        ->leftJoin('job_position', function ($join){
+                            $join->on('job_position.id', '=', 'employee.job_position_id')->whereNull('job_position.deleted_at');
+                        })->get();
+                $employees = $employee->where('code','EMP');
+                $supervisors = $employee->where('code','SPV');
+            ?>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
                         <label>PIC</label>
                         <select class="form-control form-select selectpicker @error('pic') is-invalid @enderror" name="pic" data-live-search="true" title="-- Select --">
-                            @foreach(\App\Models\User::select('name','id')->where('group_id',2)->get() as $row)
+                            @foreach($supervisors as $row)
                                 <option value="{{ $row->id }}" {{ (old('pic') ?? ($data->pic ?? null)) == $row->id? 'selected' : '' }}>{{ $row->name }}</option>
                             @endforeach
                         </select>
                         @error('pic') <span class="text-danger">{{ $message }}</span> @enderror
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>Owner</label>
+                        <select class="form-control form-select selectpicker @error('owner') is-invalid @enderror" name="owner" data-live-search="true" title="-- Select --">
+                            @foreach($employees as $row)
+                                <option value="{{ $row->id }}" {{ (old('owner') ?? ($data->owner ?? null)) == $row->id? 'selected' : '' }}>{{ $row->name }}</option>
+                            @endforeach
+                        </select>
+                        @error('owner') <span class="text-danger">{{ $message }}</span> @enderror
                     </div>
                 </div>
             </div>
