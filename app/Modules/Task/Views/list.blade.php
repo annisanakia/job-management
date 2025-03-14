@@ -23,14 +23,11 @@
                         <th class="order-link {{ ($sort_field == 'date'? 'sort-'.(orders()[$sort_type] ?? null) : null) }}" href="{{ url($controller_name.'?sort_field=date&sort_type='.($sort_field == 'date'? $sort_type : 0)+1) }}">
                             Date
                         </th>
-                        <th class="order-link {{ ($sort_field == 'task_segment_id'? 'sort-'.(orders()[$sort_type] ?? null) : null) }}" href="{{ url($controller_name.'?sort_field=task_segment_id&sort_type='.($sort_field == 'task_segment_id'? $sort_type : 0)+1) }}">
-                            Segment
-                        </th>
                         <th class="order-link {{ ($sort_field == 'task_category_id'? 'sort-'.(orders()[$sort_type] ?? null) : null) }}" href="{{ url($controller_name.'?sort_field=task_category_id&sort_type='.($sort_field == 'task_category_id'? $sort_type : 0)+1) }}">
                             Category
                         </th>
-                        <th class="order-link {{ ($sort_field == 'detail'? 'sort-'.(orders()[$sort_type] ?? null) : null) }}" href="{{ url($controller_name.'?sort_field=detail&sort_type='.($sort_field == 'detail'? $sort_type : 0)+1) }}">
-                            Detail
+                        <th class="order-link {{ ($sort_field == 'jobdesk'? 'sort-'.(orders()[$sort_type] ?? null) : null) }}" href="{{ url($controller_name.'?sort_field=jobdesk&sort_type='.($sort_field == 'jobdesk'? $sort_type : 0)+1) }}">
+                            Jobdesk
                         </th>
                         <th class="order-link {{ ($sort_field == 'task_status_id'? 'sort-'.(orders()[$sort_type] ?? null) : null) }}" href="{{ url($controller_name.'?sort_field=task_status_id&sort_type='.($sort_field == 'task_status_id'? $sort_type : 0)+1) }}">
                             Last Status
@@ -44,19 +41,23 @@
                                 PIC
                             </th>
                         @endif
+                        <th class="order-link {{ ($sort_field == 'sla_duration'? 'sort-'.(orders()[$sort_type] ?? null) : null) }}" href="{{ url($controller_name.'?sort_field=sla_duration&sort_type='.($sort_field == 'sla_duration'? $sort_type : 0)+1) }}">
+                            SLA Duration
+                        </th>
+                        <th class="order-link {{ ($sort_field == 'quantity'? 'sort-'.(orders()[$sort_type] ?? null) : null) }}" href="{{ url($controller_name.'?sort_field=quantity&sort_type='.($sort_field == 'quantity'? $sort_type : 0)+1) }}">
+                            Quantity
+                        </th>
+                        <th class="order-link {{ ($sort_field == 'start_date'? 'sort-'.(orders()[$sort_type] ?? null) : null) }}" href="{{ url($controller_name.'?sort_field=start_date&sort_type='.($sort_field == 'start_date'? $sort_type : 0)+1) }}">
+                            Start
+                        </th>
+                        <th class="order-link {{ ($sort_field == 'end_date'? 'sort-'.(orders()[$sort_type] ?? null) : null) }}" href="{{ url($controller_name.'?sort_field=end_date&sort_type='.($sort_field == 'end_date'? $sort_type : 0)+1) }}">
+                            End
+                        </th>
                         <th width="150px" class="text-center">Action</th>
                     </tr>
                     <tr>
                         <th class="text-center"><button type="submit" class="btn btn-light border"><i class="fas fa-search"></i></button></th>
                         <th><input type="date" name="filters[date]" class="form-control" value="{{ $filters['date'] ?? null }}"></th>
-                        <th>
-                            <select class="form-control form-select " name="filters[task_segment_id]"  title="-- Select --">
-                                <option value="">-- Select --</option>
-                                @foreach(Models\task_segment::select('name','id')->orderBy('name')->get() as $row)
-                                    <option value="{{ $row->id }}" {{ ($filters['task_segment_id'] ?? null) == $row->id? 'selected' : '' }}>{{ $row->name ?? null }}</option>
-                                @endforeach
-                            </select>
-                        </th>
                         <th>
                             <select class="form-control form-select " name="filters[task_category_id]"  title="-- Select --">
                                 <option value="">-- Select --</option>
@@ -65,7 +66,7 @@
                                 @endforeach
                             </select>
                         </th>
-                        <th><input type="text" name="filters[detail]" class="form-control" value="{{ $filters['detail'] ?? null }}"></th>
+                        <th><input type="text" name="filters[jobdesk]" class="form-control" value="{{ $filters['jobdesk'] ?? null }}"></th>
                         <th>
                             <select class="form-control form-select " name="filters[task_status_id]"  title="-- Select --">
                                 <option value="">-- Select --</option>
@@ -75,6 +76,10 @@
                             </select>
                         </th>
                         <th></th>
+                        <th><input type="text" name="filters[sla_duration]" class="form-control" value="{{ $filters['sla_duration'] ?? null }}"></th>
+                        <th><input type="text" name="filters[quantity]" class="form-control" value="{{ $filters['quantity'] ?? null }}"></th>
+                        <th><input type="date" name="filters[start_date]" class="form-control" value="{{ $filters['start_date'] ?? null }}"></th>
+                        <th><input type="date" name="filters[end_date]" class="form-control" value="{{ $filters['end_date'] ?? null }}"></th>
                         <th></th>
                     </tr>
                     </thead>
@@ -83,16 +88,34 @@
                         @forelse ($datas as $data)
                             <tr>
                                 <td class="text-center">{{ (($datas->currentPage() - 1 ) * $datas->perPage() ) + ++$i }}.</td>
-                                <td>{{dateToIndo($data->date ?? null)}}</td>
-                                <td>{{$data->task_segment->name ?? null}}</td>
+                                <td nowrap>
+                                    {{dateToIndo($data->date ?? null)}}
+                                    @if(($data->task_status->code ?? null) == 'ONPRO')
+                                        <a href="{{ url($controller_name.'/updateFlag/'.$data->id) }}" class="ms-2 {{ $data->flag == 1? 'bg-danger text-white' : 'bg-white' }} update-flag border py-1 px-2">
+                                            <i class="far fa-flag"></i>
+                                        </a>
+                                    @endif
+                                </td>
                                 <td>{{$data->task_category->name ?? null}}</td>
-                                <td>{{$data->detail}}</td>
-                                <td>{{$data->task_status->name ?? null}}</td>
+                                <td>{{$data->jobdesk}}</td>
+                                <td>
+                                    @if($data->task_status_id != 1)
+                                        <a href="{{ url($controller_name.'/updateCompleted/'.$data->id) }}" class="update-status">
+                                            <span class="ms-2 badge text-bg-{{ statusTask()[$data->task_status_id] ?? 'primary' }}">{{$data->task_status->name ?? null}}</span>
+                                        </a>
+                                    @else
+                                        <span class="ms-2 badge text-bg-{{ statusTask()[$data->task_status_id] ?? 'primary' }}">{{$data->task_status->name ?? null}}</span>
+                                    @endif
+                                </td>
                                 @if($position_code == 'SPV')
                                     <td>{{$data->employee_owner->name ?? null}}</td>
                                 @else
                                     <td>{{$data->employee_pic->name ?? null}}</td>
                                 @endif
+                                <td>{{$data->sla_duration}}</td>
+                                <td>{{$data->quantity}}</td>
+                                <td nowrap>{{date('H:i', strtotime($data->start_date))}}</td>
+                                <td nowrap>{{date('H:i', strtotime($data->end_date))}}</td>
                                 <td class="text-center" nowrap>
                                     <!-- edit -->
                                     <a href="{{ url(strtolower($controller_name).'/edit/'.$data->id) }}" class="btn btn-primary py-1 px-2 me-1"><i class="fas fa-pen"></i></a>
@@ -108,7 +131,7 @@
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="7" align="center">
+                                <td colspan="11" align="center">
                                     Data Not Found.
                                 </td>
                             </tr>
@@ -126,3 +149,59 @@
 </div>
 
 <script src="{{ asset('assets/js/app.js') }}"></script>
+
+<script type="text/javascript">
+    @if(Session::get('success') == 1)
+        swalSaveButtons.fire('Saved Successfully!', '', 'success')
+    @endif
+    $(".update-status").click(function (e) {
+        e.preventDefault();
+
+        e.stopPropagation();
+        e.stopImmediatePropagation();
+
+        var url = $(this).attr('href');
+
+        swalSaveButtons.fire({
+            title: 'Completed Job?',
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonText: 'Yes',
+            cancelButtonText: 'No',
+            reverseButtons: true
+            }).then((result) => {
+            if (result.isConfirmed) {
+                $(this).closest("form").submit();
+                window.location.href = url;
+            } else if (
+                /* Read more about handling dismissals below */
+                result.dismiss === Swal.DismissReason.cancel
+            ) {}
+        });
+    });
+    $(".update-flag").click(function (e) {
+        e.preventDefault();
+
+        e.stopPropagation();
+        e.stopImmediatePropagation();
+
+        var url = $(this).attr('href');
+
+        swalSaveButtons.fire({
+            title: 'Apakah task anda terdapat kendala?',
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonText: 'Yes',
+            cancelButtonText: 'No',
+            reverseButtons: true
+            }).then((result) => {
+            if (result.isConfirmed) {
+                $(this).closest("form").submit();
+                window.location.href = url;
+            } else if (
+                /* Read more about handling dismissals below */
+                result.dismiss === Swal.DismissReason.cancel
+            ) {}
+        });
+    });
+</script>

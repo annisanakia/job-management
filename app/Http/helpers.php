@@ -325,3 +325,16 @@ function reportBy()
 
     return $reportBy;
 }
+
+function statusTask()
+{
+    $statusTask = [
+        1 => 'success',
+        2 => 'primary',
+        3 => 'orange',
+        4 => 'sky',
+        5 => 'danger'
+    ];
+
+    return $statusTask;
+}

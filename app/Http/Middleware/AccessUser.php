@@ -29,7 +29,7 @@ class AccessUser
                 return response()->view('errors.unauthorized');
             }
 
-            // $request->session()->put('job_role_ids', $job_role_ids);
+            $request->session()->put('group_code', $auth->group->code ?? null);
         }
 
         return $next($request);
