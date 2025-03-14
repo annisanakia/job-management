@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Feb 19, 2025 at 01:22 PM
+-- Generation Time: Mar 14, 2025 at 06:18 AM
 -- Server version: 8.3.0
 -- PHP Version: 8.3.6
 
@@ -34,16 +34,6 @@ CREATE TABLE IF NOT EXISTS `cache` (
   `expiration` int NOT NULL,
   PRIMARY KEY (`key`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data for table `cache`
---
-
-INSERT INTO `cache` (`key`, `value`, `expiration`) VALUES
-('1969dc8ec4fecd1ef502a671082d3a6f', 'i:1;', 1739967666),
-('1969dc8ec4fecd1ef502a671082d3a6f:timer', 'i:1739967666;', 1739967666),
-('1c31ecdcf43a4c45335e125fdd661c66', 'i:1;', 1739967653),
-('1c31ecdcf43a4c45335e125fdd661c66:timer', 'i:1739967653;', 1739967653);
 
 -- --------------------------------------------------------
 
@@ -103,7 +93,7 @@ CREATE TABLE IF NOT EXISTS `employee` (
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `deleted_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `employee`
@@ -112,7 +102,8 @@ CREATE TABLE IF NOT EXISTS `employee` (
 INSERT INTO `employee` (`id`, `user_id`, `job_position_id`, `nip`, `name`, `nickname`, `email`, `phone`, `url_photo`, `status`, `created_at`, `updated_at`, `deleted_at`) VALUES
 (1, 3, 2, 'EMP01', 'Wira', 'Wira', NULL, NULL, NULL, 1, '2025-02-06 12:53:52', '2025-02-19 06:20:02', NULL),
 (2, 6, 1, 'tost', 'sds', NULL, NULL, NULL, NULL, 1, '2025-02-06 13:22:13', '2025-02-06 13:29:42', '2025-02-06 13:29:42'),
-(3, 7, 1, 'EMP02', 'Raza', NULL, NULL, NULL, NULL, 1, '2025-02-06 10:57:02', '2025-02-19 06:20:14', NULL);
+(3, 7, 1, 'EMP02', 'Raza', NULL, NULL, NULL, NULL, 1, '2025-02-06 10:57:02', '2025-02-19 06:20:14', NULL),
+(4, 8, 2, 'EMP03', 'Tiya Rachma Maharani', 'Tiya', 'admin@bahana.co.id', NULL, NULL, 1, '2025-03-14 04:22:57', '2025-03-14 04:23:05', NULL);
 
 -- --------------------------------------------------------
 
@@ -287,7 +278,7 @@ CREATE TABLE IF NOT EXISTS `sessions` (
 --
 
 INSERT INTO `sessions` (`id`, `user_id`, `ip_address`, `user_agent`, `payload`, `last_activity`) VALUES
-('glNKeWugrXTitejmyES3d98HhNgq0SHa4L4fSCRC', 3, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36 Edg/133.0.0.0', 'YTo1OntzOjY6Il90b2tlbiI7czo0MDoiWTUySWV6Z0RvNng5QVN6Nk1KWm0yNHZCdTU4bW0wM3ZQeXRtWk9HVyI7czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czozOiJ1cmwiO2E6MDp7fXM6OToiX3ByZXZpb3VzIjthOjE6e3M6MzoidXJsIjtzOjI4OiJodHRwOi8vMTI3LjAuMC4xOjgwMDAvcmVwb3J0Ijt9czo1MDoibG9naW5fd2ViXzU5YmEzNmFkZGMyYjJmOTQwMTU4MGYwMTRjN2Y1OGVhNGUzMDk4OWQiO2k6Mzt9', 1739971216);
+('5vpi7Q7rv7NJkhPz335pPYqJWJXtJV5toBCGX3Ov', 7, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36 Edg/134.0.0.0', 'YTo2OntzOjY6Il90b2tlbiI7czo0MDoiY253QVZsa2czOGJFdEhXcGxrUzU0ZVFmdkpxMjRxZFRSME9Ob0RxSiI7czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czozOiJ1cmwiO2E6MDp7fXM6OToiX3ByZXZpb3VzIjthOjE6e3M6MzoidXJsIjtzOjI2OiJodHRwOi8vMTI3LjAuMC4xOjgwMDAvdGFzayI7fXM6NTA6ImxvZ2luX3dlYl81OWJhMzZhZGRjMmIyZjk0MDE1ODBmMDE0YzdmNThlYTRlMzA5ODlkIjtpOjc7czoxMDoiZ3JvdXBfY29kZSI7czozOiJFTVAiO30=', 1741933050);
 
 -- --------------------------------------------------------
 
@@ -300,7 +291,7 @@ CREATE TABLE IF NOT EXISTS `task` (
   `id` int NOT NULL AUTO_INCREMENT,
   `task_segment_id` int DEFAULT NULL,
   `task_category_id` int DEFAULT NULL,
-  `task_status_id` int DEFAULT NULL,
+  `task_status_id` int DEFAULT '2',
   `job_type_id` int DEFAULT NULL,
   `periodic_type_id` int DEFAULT NULL,
   `date` date NOT NULL,
@@ -308,18 +299,28 @@ CREATE TABLE IF NOT EXISTS `task` (
   `owner` int DEFAULT NULL COMMENT 'relation to employee (owner task)',
   `quantity` int DEFAULT NULL,
   `detail` text COLLATE utf8mb4_general_ci,
+  `flag` int DEFAULT '0' COMMENT '0 => No,\r\n1 => Yes',
+  `sla_duration` int DEFAULT NULL COMMENT 'in minute',
+  `task_duration` int DEFAULT NULL,
+  `overdue` int DEFAULT '0' COMMENT '0 => No, 1 => Yes',
+  `start_date` datetime DEFAULT NULL,
+  `end_date` datetime DEFAULT NULL,
+  `duedate` datetime DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `deleted_at` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `task`
 --
 
-INSERT INTO `task` (`id`, `task_segment_id`, `task_category_id`, `task_status_id`, `job_type_id`, `periodic_type_id`, `date`, `pic`, `owner`, `quantity`, `detail`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(2, 2, 3, 2, 1, 1, '2025-02-05', 1, 3, 2, 'blablala', '2025-02-06 11:11:46', '2025-02-19 12:51:36', NULL);
+INSERT INTO `task` (`id`, `task_segment_id`, `task_category_id`, `task_status_id`, `job_type_id`, `periodic_type_id`, `date`, `pic`, `owner`, `quantity`, `detail`, `flag`, `sla_duration`, `task_duration`, `overdue`, `start_date`, `end_date`, `duedate`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(2, 2, 10, 2, 2, 1, '2025-02-05', 1, 3, 2, 'blablala', 1, 60, NULL, 0, '2025-03-14 12:57:26', NULL, '2025-03-14 14:57:26', '2025-02-06 11:11:46', '2025-03-14 06:00:56', NULL),
+(3, 1, 1, 2, 1, 1, '2025-03-14', 1, 3, 2, 'Test', 1, 60, NULL, 0, '2025-03-14 12:57:28', '2025-03-14 12:39:32', '2025-03-14 14:57:28', '2025-03-14 05:32:33', '2025-03-14 05:57:28', NULL),
+(4, 2, 14, 1, 1, 1, '2025-03-14', 4, 3, 3, NULL, 0, 5, 34, 1, '2025-03-14 12:30:31', '2025-03-14 13:05:20', '2025-03-14 12:45:31', '2025-03-14 05:36:02', '2025-03-14 06:05:20', NULL),
+(5, 1, 1, 1, 1, 1, '2025-03-14', 4, 3, 1, 'Test', 1, 60, 0, 0, '2025-03-14 13:16:35', '2025-03-14 13:17:30', '2025-03-14 14:16:35', '2025-03-14 06:16:35', '2025-03-14 06:17:30', NULL);
 
 -- --------------------------------------------------------
 
@@ -386,6 +387,37 @@ INSERT INTO `task_category` (`id`, `code`, `name`, `created_at`, `updated_at`, `
 (41, 'REUAT', 'Report UAT On Hold', '2025-02-06 10:32:51', '2025-02-06 10:32:51', NULL),
 (42, 'REVAD', 'Revshare Admin', '2025-02-06 10:32:51', '2025-02-06 10:32:51', NULL),
 (43, 'REVBA', 'Revshare Bars', '2025-02-06 10:32:51', '2025-02-06 10:32:51', NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `task_reference`
+--
+
+DROP TABLE IF EXISTS `task_reference`;
+CREATE TABLE IF NOT EXISTS `task_reference` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `staff_id` int DEFAULT NULL COMMENT 'supervisor',
+  `msco_id` int DEFAULT NULL COMMENT 'employee',
+  `jobdesk` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `performance` int DEFAULT NULL,
+  `task_category_id` int DEFAULT NULL,
+  `job_type_id` int DEFAULT NULL,
+  `sla_duration` int DEFAULT NULL COMMENT 'in minute',
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `deleted_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `task_reference`
+--
+
+INSERT INTO `task_reference` (`id`, `staff_id`, `msco_id`, `jobdesk`, `performance`, `task_category_id`, `job_type_id`, `sla_duration`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(1, 8, 7, 'Support B2B Audit (if any)', 100, 10, 2, 60, '2025-03-14 04:24:45', '2025-03-14 04:24:45', NULL),
+(2, 8, 7, 'Support Audit Support Audit ISR Balmon', 100, 1, 1, 60, '2025-03-14 04:27:14', '2025-03-14 04:27:14', NULL),
+(3, 8, 7, 'Process Permitt TLP/Customer', 100, 14, 1, 5, '2025-03-14 04:27:14', '2025-03-14 04:27:14', NULL);
 
 -- --------------------------------------------------------
 
@@ -471,7 +503,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   `deleted_at` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `groups_id` (`group_id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `users`
@@ -484,7 +516,8 @@ INSERT INTO `users` (`id`, `group_id`, `username`, `name`, `email`, `phone_no`, 
 (4, 3, 'emp02', 'Karyawan Test 02', 'karyawan@gmail.com', '08229323434334343', '$2y$12$A8n9.Y/Xu4Dld3bVL1mpruwMm26h0BjjWT5iRzuVEuhwa77Fw8ljO', NULL, 1, '2024-06-08 22:22:04', '2024-06-09 05:51:42', '2024-06-09 12:51:42'),
 (5, 1, 'admindfd', 'dfdf', NULL, NULL, '$2y$12$CpH1Ps0TTQnL4Jz8pf4ql.5OG71jHCPfXJJAqvgqTyq62T73E4zjy', NULL, 1, '2024-06-09 05:54:30', '2024-06-09 05:54:34', '2024-06-09 12:54:34'),
 (6, 2, 'tost', 'sds', NULL, NULL, '$2y$06$gXK8/.2y20HEmLkKijpc9u/V3S0KBjPlzuIHSkrPMplrAIc7tg.NG', NULL, 1, '2025-02-06 13:22:13', '2025-02-06 13:29:42', '2025-02-06 20:29:42'),
-(7, 3, 'emp02', 'Raza', NULL, NULL, '$2y$06$50v/7VoWgk1YuS5q61ERMuZ4.NNUR5yTzE4FxJKGR1IcuZHTbVCzu', NULL, 1, '2025-02-06 10:57:02', '2025-02-19 06:20:14', NULL);
+(7, 3, 'emp02', 'Raza', NULL, NULL, '$2y$06$50v/7VoWgk1YuS5q61ERMuZ4.NNUR5yTzE4FxJKGR1IcuZHTbVCzu', NULL, 1, '2025-02-06 10:57:02', '2025-02-19 06:20:14', NULL),
+(8, 2, 'EMP03', 'Tiya Rachma Maharani', 'admin@bahana.co.id', NULL, '$2y$06$yD9y5ZX9cwla8Ql3GVPaRuRniL/nzuSmH8yRquQb.MK5I24IqUbvC', NULL, 1, '2025-03-14 04:22:57', '2025-03-14 04:23:05', NULL);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
