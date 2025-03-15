@@ -42,16 +42,19 @@
                             </th>
                         @endif
                         <th class="order-link {{ ($sort_field == 'sla_duration'? 'sort-'.(orders()[$sort_type] ?? null) : null) }}" href="{{ url($controller_name.'?sort_field=sla_duration&sort_type='.($sort_field == 'sla_duration'? $sort_type : 0)+1) }}">
-                            SLA Duration
+                            SLA<br> Duration
                         </th>
                         <th class="order-link {{ ($sort_field == 'quantity'? 'sort-'.(orders()[$sort_type] ?? null) : null) }}" href="{{ url($controller_name.'?sort_field=quantity&sort_type='.($sort_field == 'quantity'? $sort_type : 0)+1) }}">
-                            Quantity
+                            QTY
                         </th>
                         <th class="order-link {{ ($sort_field == 'start_date'? 'sort-'.(orders()[$sort_type] ?? null) : null) }}" href="{{ url($controller_name.'?sort_field=start_date&sort_type='.($sort_field == 'start_date'? $sort_type : 0)+1) }}">
                             Start
                         </th>
                         <th class="order-link {{ ($sort_field == 'end_date'? 'sort-'.(orders()[$sort_type] ?? null) : null) }}" href="{{ url($controller_name.'?sort_field=end_date&sort_type='.($sort_field == 'end_date'? $sort_type : 0)+1) }}">
                             End
+                        </th>
+                        <th class="order-link {{ ($sort_field == 'duedate'? 'sort-'.(orders()[$sort_type] ?? null) : null) }}" href="{{ url($controller_name.'?sort_field=duedate&sort_type='.($sort_field == 'duedate'? $sort_type : 0)+1) }}">
+                            Duedate
                         </th>
                         <th width="150px" class="text-center">Action</th>
                     </tr>
@@ -78,8 +81,9 @@
                         <th></th>
                         <th><input type="text" name="filters[sla_duration]" class="form-control" value="{{ $filters['sla_duration'] ?? null }}"></th>
                         <th><input type="text" name="filters[quantity]" class="form-control" value="{{ $filters['quantity'] ?? null }}"></th>
-                        <th><input type="date" name="filters[start_date]" class="form-control" value="{{ $filters['start_date'] ?? null }}"></th>
-                        <th><input type="date" name="filters[end_date]" class="form-control" value="{{ $filters['end_date'] ?? null }}"></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
                         <th></th>
                     </tr>
                     </thead>
@@ -115,7 +119,8 @@
                                 <td>{{$data->sla_duration}}</td>
                                 <td>{{$data->quantity}}</td>
                                 <td nowrap>{{date('H:i', strtotime($data->start_date))}}</td>
-                                <td nowrap>{{date('H:i', strtotime($data->end_date))}}</td>
+                                <td nowrap>{{$data->end_date != ''? date('H:i', strtotime($data->end_date)) : ''}}</td>
+                                <td nowrap>{{date('H:i', strtotime($data->duedate))}}</td>
                                 <td class="text-center" nowrap>
                                     <!-- edit -->
                                     <a href="{{ url(strtolower($controller_name).'/edit/'.$data->id) }}" class="btn btn-primary py-1 px-2 me-1"><i class="fas fa-pen"></i></a>

@@ -144,7 +144,7 @@
                 @else
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label>PIC</label>
+                            <label class="asterisk">PIC</label>
                             <select class="form-control form-select selectpicker @error('pic') is-invalid @enderror" name="pic" data-live-search="true" title="-- Select --">
                                 @foreach($supervisors as $row)
                                     <option value="{{ $row->id }}" {{ (old('pic') ?? ($data->pic ?? $employee_id)) == $row->id? 'selected' : '' }}>{{ $row->name }}</option>

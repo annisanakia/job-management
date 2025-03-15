@@ -17,7 +17,8 @@ class task extends Model
             // 'code' => 'required|unique:task,code,' . ($data['id'] ?? null) . ',id,deleted_at,NULL',
             'date' => 'required',
             'sla_duration' => 'required',
-            'quantity' => 'required'
+            'quantity' => 'required',
+            'pic' => 'required'
         );
 
         $v = Validator::make($data, $rules);

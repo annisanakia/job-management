@@ -18,7 +18,7 @@
             <div class="row">
                 <div class="col-md-6">
                     <div class="form-group">
-                        <label class="asterisk">Date</label>
+                        <label>Date</label>
                         <input type="date" name="date" class="form-control @error('date') is-invalid @enderror" value="{{ old('date') ?? ($data->date ?? date('Y-m-d')) }}" disabled>
                         @error('date') <span class="text-danger">{{ $message }}</span> @enderror
                     </div>
@@ -70,10 +70,10 @@
                 </div>
                 <div class="col-md-6">
                     <div class="form-group">
-                        <label class="asterisk">SLA Duration</label>
+                        <label>SLA Duration</label>
                         <input type="text" name="sla_duration" class="form-control @error('sla_duration') is-invalid @enderror" value="{{ old('sla_duration') ?? ($data->sla_duration ?? null) }}" id="sla_duration" disabled>
                         @error('sla_duration') <span class="text-danger">{{ $message }}</span> @enderror
-                        <small class="form-text text-muted d-block">SLA Duration akan terisi jika sudah memilih Category dan Job Type.</small>
+                        <small class="form-text text-muted d-block">SLA Duration akan terisi jika sudah memilih Category dan Job Type. Duration dalam menit</small>
                     </div>
                 </div>
             </div>
@@ -87,7 +87,7 @@
                 </div>
                 <div class="col-md-6">
                     <div class="form-group">
-                        <label class="asterisk">Quantity</label>
+                        <label>Quantity</label>
                         <input type="text" name="quantity" class="form-control  @error('quantity') is-invalid @enderror" value="{{ old('quantity') ?? ($data->quantity ?? null) }}" disabled>
                         @error('quantity') <span class="text-danger">{{ $message }}</span> @enderror
                     </div>
@@ -154,6 +154,34 @@
                             @error('pic') <span class="text-danger">{{ $message }}</span> @enderror
                         </div>
                     </div>
+                @endif
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>Start Date</label>
+                        <input type="text" name="quantity" class="form-control  @error('start_date') is-invalid @enderror" value="{{ old('start_date') ?? dateToIndo($data->start_date).' '.date('H:i',strtotime($data->start_date)) }}" disabled>
+                        @error('start_date') <span class="text-danger">{{ $message }}</span> @enderror
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>End Date</label>
+                        <input type="text" name="quantity" class="form-control  @error('end_date') is-invalid @enderror" value="{{ old('end_date') ?? dateToIndo($data->end_date).' '.date('H:i',strtotime($data->end_date)) }}" disabled>
+                        @error('end_date') <span class="text-danger">{{ $message }}</span> @enderror
+                    </div>
+                </div>
+                @if($data->task_status_id == 1)
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>Task Duration</label>
+                        <input type="text" name="task_duration" class="form-control {{ $data->overdue == 1? 'text-danger' : '' }} @error('task_duration') is-invalid @enderror" value="{{ $data->task_duration.' Minute' }}" disabled>
+                        @error('task_duration') <span class="text-danger">{{ $message }}</span> @enderror
+                        @if($data->overdue == 1)
+                            <small class="form-text text-muted d-block">Durasi waktu anda mengerjakan overdua. Melebihi {{ (is_numeric($data->task_duration)? $data->task_duration : 0)-(is_numeric($data->sla_duration)? $data->sla_duration : 0) }} Menit dari durasi yang ditentukan</small>
+                        @endif
+                    </div>
+                </div>
                 @endif
             </div>
             <div class="d-grid gap-2 d-md-block my-2 text-end">
