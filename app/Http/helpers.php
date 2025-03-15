@@ -318,9 +318,9 @@ function statusBg() {
 function reportBy()
 {
     $reportBy = [
-        1 => 'Based On Employee',
-        2 => 'Based On Segment',
-        3 => 'Based On Status'
+        1 => 'Report Employee',
+        2 => 'Report Duration',
+        3 => 'Report Weekly Duration'
     ];
 
     return $reportBy;

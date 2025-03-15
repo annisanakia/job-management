@@ -48,7 +48,6 @@ class Report extends RESTful {
     {
         $employee_ids = request()->employee_ids ?? [];
         $supervisor_ids = request()->supervisor_ids ?? [];
-        $task_segment_ids = request()->task_segment_ids ?? [];
         $task_status_ids = request()->task_status_ids ?? [];
         $start_date = request()->start_date ?? null;
         $end_date = request()->end_date ?? null;
@@ -58,9 +57,6 @@ class Report extends RESTful {
         }
         if(count($supervisor_ids) > 0){
             $datas->whereIn('pic',$supervisor_ids);
-        }
-        if(count($task_segment_ids) > 0){
-            $datas->whereIn('task_segment_id',$task_segment_ids);
         }
         if(count($task_status_ids) > 0){
             $datas->whereIn('task_status_id',$task_status_ids);

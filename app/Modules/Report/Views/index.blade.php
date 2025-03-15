@@ -30,7 +30,7 @@
                 $supervisors = $employee->where('code','SPV')->pluck('name','id')->all();
             ?>
             <div class="row">
-                <div class="col-md-6 d-none">
+                <div class="col-md-6">
                     <div class="form-group">
                         <label>Report By</label>
                         <select class="form-control form-select selectpicker @error('report_by') is-invalid @enderror" name="report_by" title="-- Select --">
@@ -40,6 +40,8 @@
                         </select>
                     </div>
                 </div>
+            </div>
+            <div class="row">
                 @if($position_code == 'SPV')
                     <div class="col-md-6">
                         <div class="form-group">
@@ -63,16 +65,6 @@
                         </div>
                     </div>
                 @endif
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label>Segment</label>
-                        <select class="form-control form-select selectpicker @error('task_segment_ids') is-invalid @enderror" name="task_segment_ids[]" data-live-search="true" title="-- All --" multiple="true" data-actions-box="true" data-selected-text-format="count">
-                            @foreach($task_segments as $key => $value)
-                                <option value="{{ $key }}" {{ in_array($key, (old('task_segment_ids') ?? ($task_segment_ids ?? [])))? 'selected' : '' }}>{{ $value }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                </div>
                 <div class="col-md-6">
                     <div class="form-group">
                         <label>Status</label>
