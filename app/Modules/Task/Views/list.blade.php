@@ -88,8 +88,14 @@
                     </tr>
                     </thead>
                     <tbody>
-                        <?php $i = 0; ?>
+                        <?php
+                            $i = 0;
+                            $time_now = date('H:i');
+                        ?>
                         @forelse ($datas as $data)
+                            <?php
+                                $duedate = date('H:i', strtotime($data->duedate));
+                            ?>
                             <tr>
                                 <td class="text-center">{{ (($datas->currentPage() - 1 ) * $datas->perPage() ) + ++$i }}.</td>
                                 <td nowrap>
@@ -120,7 +126,7 @@
                                 <td>{{$data->quantity}}</td>
                                 <td nowrap>{{date('H:i', strtotime($data->start_date))}}</td>
                                 <td nowrap>{{$data->end_date != ''? date('H:i', strtotime($data->end_date)) : ''}}</td>
-                                <td nowrap>{{date('H:i', strtotime($data->duedate))}}</td>
+                                <td class="{{ (strtotime($duedate)<strtotime($time_now)) && ($data->task_status_id != 1) ? 'text-danger' : null }}" nowrap>{{ $duedate }}</td>
                                 <td class="text-center" nowrap>
                                     <!-- edit -->
                                     <a href="{{ url(strtolower($controller_name).'/edit/'.$data->id) }}" class="btn btn-primary py-1 px-2 me-1"><i class="fas fa-pen"></i></a>

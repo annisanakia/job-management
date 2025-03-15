@@ -160,18 +160,25 @@
                 <div class="col-md-6">
                     <div class="form-group">
                         <label>Start Date</label>
-                        <input type="text" name="quantity" class="form-control  @error('start_date') is-invalid @enderror" value="{{ old('start_date') ?? dateToIndo($data->start_date).' '.date('H:i',strtotime($data->start_date)) }}" disabled>
+                        <input type="text" name="quantity" class="form-control  @error('start_date') is-invalid @enderror" value="{{ $data->start_date ?? dateToIndo($data->start_date).' '.date('H:i',strtotime($data->start_date)) }}" disabled>
                         @error('start_date') <span class="text-danger">{{ $message }}</span> @enderror
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="form-group">
                         <label>End Date</label>
-                        <input type="text" name="quantity" class="form-control  @error('end_date') is-invalid @enderror" value="{{ old('end_date') ?? dateToIndo($data->end_date).' '.date('H:i',strtotime($data->end_date)) }}" disabled>
+                        <input type="text" name="quantity" class="form-control  @error('end_date') is-invalid @enderror" value="{{ $data->end_date != ''? dateToIndo($data->end_date).' '.date('H:i',strtotime($data->end_date)) : '' }}" disabled>
                         @error('end_date') <span class="text-danger">{{ $message }}</span> @enderror
                     </div>
                 </div>
                 @if($data->task_status_id == 1)
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>Due Date</label>
+                        <input type="text" name="quantity" class="form-control  @error('duedate') is-invalid @enderror" value="{{ $data->duedate != ''? dateToIndo($data->duedate).' '.date('H:i',strtotime($data->duedate)) : '' }}" disabled>
+                        @error('duedate') <span class="text-danger">{{ $message }}</span> @enderror
+                    </div>
+                </div>
                 <div class="col-md-6">
                     <div class="form-group">
                         <label>Task Duration</label>
