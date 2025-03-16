@@ -19,7 +19,7 @@
                             </div>
                         </div>
                         <div class="col-md-4 d-lg-flex align-items-center justify-content-end text-center">
-                            <img src="{{ asset('assets/img/working.png') }}" class="w-100" style="max-width:300px">
+                            {{-- <img src="{{ asset('assets/img/working.png') }}" class="w-100" style="max-width:300px"> --}}
                         </div>
                     </div>
                 </div>

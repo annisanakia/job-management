@@ -38,9 +38,13 @@ class Report extends RESTful {
         if($report_by == 1){
             return $this->getListByEmployee();
         }elseif($report_by == 2){
-            return $this->getListBySegment();
+            if($this->position_code == 'SPV'){
+                return $this->getListByDurationOwner();
+            }else{
+                return $this->getListByDurationPIC();
+            }
         }else{
-            return $this->getListByStatus();
+            return $this->getListByDurationWeekly();
         }
     }
 
@@ -179,12 +183,104 @@ class Report extends RESTful {
         return ['labels'=>$labels,'datasets_complete'=>$datasets_complete,'datasets_notcomplete'=>$datasets_notcomplete];
     }
 
-    public function getListBySegment()
+    public function getListByDurationPIC()
     {
+        $datas = $this->model->select('employee_pic.id', 'employee_pic.name', DB::raw('SUM(task_duration) as total_duration, SUM(sla_duration*quantity) as total_sla_duration, COUNT(*) as total_task'))
+            ->leftJoin('employee as employee_pic', function ($join){
+                $join->on('employee_pic.id', '=', 'task.pic');
+            });
+
+        $datas = $this->processFilter($datas);
+
+        $table = $this->table_name != '' ? $this->table_name : strtolower($this->controller_name);
+        $this->orderDurationPIC($datas, request()->sort_field, request()->sort_type);
+        $this->filter($datas, request()->filters, $table);
+
+        $this->max_row = request()->input('max_row') ?? $this->max_row;
+        $this->filter_string = http_build_query(request()->all());
+        
+        $this->beforeIndex($datas);
+
+        $datas = $datas->groupBy('employee_pic.id')->groupBy('owner')->paginate($this->max_row);
+        // $datas->chunk(100);
+
+        $datas_graph = $this->getGraphByDuration($datas);
+
+        $url_pdf = strtolower($this->controller_name) . '/getListAsPdf?' . $this->filter_string;
+        $url_xls = strtolower($this->controller_name) . '/getListAsXls?' . $this->filter_string;
+        $action[] = array('name' => '', 'url' => $url_pdf, 'class' => 'btn btn-outline-danger float-end me-2', 'attr'=>'target=_blank', 'icon' => 'fas fa-file-pdf');
+        $action[] = array('name' => '', 'url' => $url_xls, 'class' => 'btn btn-outline-success float-end me-2', 'attr'=>'target=_blank', 'icon' => 'fas fa-file-excel');
+
+        $with['datas'] = $datas;
+        $with['param'] = request()->all();
+        $with['filters'] = request()->filters;
+        $with['sort_field'] = request()->sort_field;
+        $with['sort_type'] = request()->sort_type > 2? 0 : request()->sort_type;
+        $with['datas_graph'] = $datas_graph;
+        $with['max_row'] = $this->max_row;
+        $with['actions'] = $this->actions;
+        return View($this->controller_name . '::getListByDuration' , $with);
         
     }
+    public function orderDurationPIC($datas, $sort_field, $sort_type)
+    {
+        $sort_type = $sort_type > 2? 0 : $sort_type;
+        $sort_type = orders()[$sort_type] ?? null;
+        if ($sort_field != '' && $sort_type != '') {
+            $datas->orderBy($sort_field, $sort_type);
+        } else {
+            $datas->orderBy('name');
+        }
+    }
 
-    public function getListByStatus()
+    public function getListByDurationOwner()
+    {
+        $datas = $this->model->select('employee_owner.id', 'employee_owner.name', DB::raw('SUM(task_duration) as total_duration, SUM(sla_duration*quantity) as total_sla_duration, COUNT(*) as total_task'))
+            ->leftJoin('employee as employee_owner', function ($join){
+                $join->on('employee_owner.id', '=', 'task.owner');
+            });
+
+        $datas = $this->processFilter($datas);
+
+        $table = $this->table_name != '' ? $this->table_name : strtolower($this->controller_name);
+        $this->orderDurationPIC($datas, request()->sort_field, request()->sort_type);
+        $this->filter($datas, request()->filters, $table);
+
+        $this->max_row = request()->input('max_row') ?? $this->max_row;
+        $this->filter_string = http_build_query(request()->all());
+        
+        $this->beforeIndex($datas);
+
+        $datas = $datas->groupBy('employee_owner.id')->groupBy('owner')->paginate($this->max_row);
+        // $datas->chunk(100);
+
+        $datas_graph = $this->getGraphByDuration($datas);
+
+        $url_pdf = strtolower($this->controller_name) . '/getListAsPdf?' . $this->filter_string;
+        $url_xls = strtolower($this->controller_name) . '/getListAsXls?' . $this->filter_string;
+        $action[] = array('name' => '', 'url' => $url_pdf, 'class' => 'btn btn-outline-danger float-end me-2', 'attr'=>'target=_blank', 'icon' => 'fas fa-file-pdf');
+        $action[] = array('name' => '', 'url' => $url_xls, 'class' => 'btn btn-outline-success float-end me-2', 'attr'=>'target=_blank', 'icon' => 'fas fa-file-excel');
+
+        $with['datas'] = $datas;
+        $with['param'] = request()->all();
+        $with['filters'] = request()->filters;
+        $with['sort_field'] = request()->sort_field;
+        $with['sort_type'] = request()->sort_type > 2? 0 : request()->sort_type;
+        $with['datas_graph'] = $datas_graph;
+        $with['max_row'] = $this->max_row;
+        $with['actions'] = $this->actions;
+        return View($this->controller_name . '::getListByDuration' , $with);
+    }
+
+    public function getGraphByDuration($datas)
+    {
+        $labels = $datas->pluck('name')->all();
+        $datasets = $datas->pluck('total_duration')->all();
+
+        return ['labels'=>$labels,'datasets'=>$datasets];
+    }
+
+    public function getListByDurationWeekly()
     {
     }
 

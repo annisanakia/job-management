@@ -18,6 +18,7 @@ class Home extends Controller {
     protected $libWorkflow;
     protected $employee;
     protected $employee_id;
+    protected $position_code;
 
     public function __construct()
     {
@@ -25,8 +26,8 @@ class Home extends Controller {
 
         $this->controller_name = 'Home';
         $this->employee = $employee;
-        $this->position_code = $employee->job_position->code ?? null;
         $this->employee_id = $employee->id ?? null;
+        $this->position_code = $employee->job_position->code ?? null;
 
         view::share('controller_name', strtolower($this->controller_name));
         view::share('position_code', $this->position_code);
