@@ -46,6 +46,7 @@
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
         });
+        @if(Auth::user())
         var url = "{{ url('notification/notificationNewList') }}",
             target = '#notification';
 
@@ -65,6 +66,7 @@
                 );
             }
         });
+        @endif
     </script>
     <script src="{{ asset('assets/js/app.js') }}"></script>
     <script src="{{ asset('assets/js/popper.min.js') }}"></script>
