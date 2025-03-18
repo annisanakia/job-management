@@ -2,10 +2,10 @@
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Host: localhost:3306
--- Generation Time: Mar 16, 2025 at 11:12 PM
--- Server version: 8.0.30
--- PHP Version: 8.2.21
+-- Host: 127.0.0.1:3306
+-- Generation Time: Mar 18, 2025 at 03:25 AM
+-- Server version: 8.3.0
+-- PHP Version: 8.3.6
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -27,10 +27,12 @@ SET time_zone = "+00:00";
 -- Table structure for table `cache`
 --
 
-CREATE TABLE `cache` (
+DROP TABLE IF EXISTS `cache`;
+CREATE TABLE IF NOT EXISTS `cache` (
   `key` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `value` mediumtext CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `expiration` int NOT NULL
+  `expiration` int NOT NULL,
+  PRIMARY KEY (`key`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
@@ -38,10 +40,10 @@ CREATE TABLE `cache` (
 --
 
 INSERT INTO `cache` (`key`, `value`, `expiration`) VALUES
-('1c31ecdcf43a4c45335e125fdd661c66', 'i:1;', 1742156976),
-('1c31ecdcf43a4c45335e125fdd661c66:timer', 'i:1742156976;', 1742156976),
-('9f51778f663e64861523cb26f5b09399', 'i:1;', 1742156997),
-('9f51778f663e64861523cb26f5b09399:timer', 'i:1742156997;', 1742156997);
+('7fb319ab98f82063e164556c21ddc37f', 'i:1;', 1742267769),
+('7fb319ab98f82063e164556c21ddc37f:timer', 'i:1742267769;', 1742267769),
+('9f51778f663e64861523cb26f5b09399', 'i:1;', 1742267603),
+('9f51778f663e64861523cb26f5b09399:timer', 'i:1742267603;', 1742267603);
 
 -- --------------------------------------------------------
 
@@ -49,10 +51,12 @@ INSERT INTO `cache` (`key`, `value`, `expiration`) VALUES
 -- Table structure for table `cache_locks`
 --
 
-CREATE TABLE `cache_locks` (
+DROP TABLE IF EXISTS `cache_locks`;
+CREATE TABLE IF NOT EXISTS `cache_locks` (
   `key` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `owner` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `expiration` int NOT NULL
+  `expiration` int NOT NULL,
+  PRIMARY KEY (`key`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -61,8 +65,9 @@ CREATE TABLE `cache_locks` (
 -- Table structure for table `daily_logbook`
 --
 
-CREATE TABLE `daily_logbook` (
-  `id` int NOT NULL,
+DROP TABLE IF EXISTS `daily_logbook`;
+CREATE TABLE IF NOT EXISTS `daily_logbook` (
+  `id` int NOT NULL AUTO_INCREMENT,
   `users_id` int DEFAULT NULL,
   `pic_id` int DEFAULT NULL COMMENT 'relasi ke table users',
   `segment_id` int DEFAULT NULL,
@@ -72,7 +77,8 @@ CREATE TABLE `daily_logbook` (
   `job_detail` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci,
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NULL DEFAULT NULL,
-  `deleted_at` datetime DEFAULT NULL
+  `deleted_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -81,8 +87,9 @@ CREATE TABLE `daily_logbook` (
 -- Table structure for table `employee`
 --
 
-CREATE TABLE `employee` (
-  `id` bigint UNSIGNED NOT NULL,
+DROP TABLE IF EXISTS `employee`;
+CREATE TABLE IF NOT EXISTS `employee` (
+  `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT,
   `user_id` int NOT NULL,
   `job_position_id` int DEFAULT NULL,
   `nip` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
@@ -94,8 +101,9 @@ CREATE TABLE `employee` (
   `status` int DEFAULT '1' COMMENT '1 => Active. 0 => Non Active',
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `deleted_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+  `deleted_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `employee`
@@ -113,14 +121,16 @@ INSERT INTO `employee` (`id`, `user_id`, `job_position_id`, `nip`, `name`, `nick
 -- Table structure for table `group`
 --
 
-CREATE TABLE `group` (
-  `id` int NOT NULL,
+DROP TABLE IF EXISTS `group`;
+CREATE TABLE IF NOT EXISTS `group` (
+  `id` int NOT NULL AUTO_INCREMENT,
   `code` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NULL DEFAULT NULL,
-  `deleted_at` datetime DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  `deleted_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `group`
@@ -137,15 +147,17 @@ INSERT INTO `group` (`id`, `code`, `name`, `created_at`, `updated_at`, `deleted_
 -- Table structure for table `job_position`
 --
 
-CREATE TABLE `job_position` (
-  `id` int NOT NULL,
+DROP TABLE IF EXISTS `job_position`;
+CREATE TABLE IF NOT EXISTS `job_position` (
+  `id` int NOT NULL AUTO_INCREMENT,
   `group_id` int DEFAULT NULL,
   `code` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
-  `deleted_at` datetime DEFAULT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  `deleted_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `job_position`
@@ -161,14 +173,16 @@ INSERT INTO `job_position` (`id`, `group_id`, `code`, `name`, `created_at`, `upd
 -- Table structure for table `job_type`
 --
 
-CREATE TABLE `job_type` (
-  `id` int NOT NULL,
+DROP TABLE IF EXISTS `job_type`;
+CREATE TABLE IF NOT EXISTS `job_type` (
+  `id` int NOT NULL AUTO_INCREMENT,
   `code` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
-  `deleted_at` datetime DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  `deleted_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `job_type`
@@ -184,11 +198,13 @@ INSERT INTO `job_type` (`id`, `code`, `name`, `created_at`, `updated_at`, `delet
 -- Table structure for table `migrations`
 --
 
-CREATE TABLE `migrations` (
-  `id` int UNSIGNED NOT NULL,
+DROP TABLE IF EXISTS `migrations`;
+CREATE TABLE IF NOT EXISTS `migrations` (
+  `id` int UNSIGNED NOT NULL AUTO_INCREMENT,
   `migration` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `batch` int NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+  `batch` int NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `migrations`
@@ -203,17 +219,50 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `notification`
+--
+
+DROP TABLE IF EXISTS `notification`;
+CREATE TABLE IF NOT EXISTS `notification` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `user_id` int NOT NULL COMMENT 'table_id',
+  `pic_user_id` int NOT NULL COMMENT 'Orang yang mentrigger terbuatnya notifikasi',
+  `task_id` int DEFAULT NULL,
+  `title` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `message` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
+  `link` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
+  `is_read` int DEFAULT '0' COMMENT '0 => Belum Dibaca, 1 => Sudah Dibaca',
+  `datetime` datetime DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `deleted_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `notification`
+--
+
+INSERT INTO `notification` (`id`, `user_id`, `pic_user_id`, `task_id`, `title`, `message`, `link`, `is_read`, `datetime`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(1, 4, 3, 8, 'Support Audit Support Audit ISR Balmon Raza', 'Support Audit Support Audit ISR Balmon Raza memiliki kendala</b>', '/task/detail/8', 0, '2025-03-18 10:11:18', '2025-03-18 03:11:18', '2025-03-18 03:11:18', NULL),
+(2, 8, 7, 8, 'Support Audit Support Audit ISR Balmon Raza', 'Support Audit Support Audit ISR Balmon Raza memiliki kendala</b>', '/task/detail/8', 1, '2025-03-18 10:15:01', '2025-03-18 03:15:01', '2025-03-18 03:22:44', NULL);
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `periodic_type`
 --
 
-CREATE TABLE `periodic_type` (
-  `id` int NOT NULL,
+DROP TABLE IF EXISTS `periodic_type`;
+CREATE TABLE IF NOT EXISTS `periodic_type` (
+  `id` int NOT NULL AUTO_INCREMENT,
   `code` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
-  `deleted_at` datetime DEFAULT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  `deleted_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `periodic_type`
@@ -234,14 +283,16 @@ INSERT INTO `periodic_type` (`id`, `code`, `name`, `created_at`, `updated_at`, `
 -- Table structure for table `segment`
 --
 
-CREATE TABLE `segment` (
-  `id` int NOT NULL,
+DROP TABLE IF EXISTS `segment`;
+CREATE TABLE IF NOT EXISTS `segment` (
+  `id` int NOT NULL AUTO_INCREMENT,
   `code` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   `detail` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci,
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NULL DEFAULT NULL,
-  `deleted_at` datetime DEFAULT NULL
+  `deleted_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -250,13 +301,17 @@ CREATE TABLE `segment` (
 -- Table structure for table `sessions`
 --
 
-CREATE TABLE `sessions` (
+DROP TABLE IF EXISTS `sessions`;
+CREATE TABLE IF NOT EXISTS `sessions` (
   `id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `user_id` bigint UNSIGNED DEFAULT NULL,
   `ip_address` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `user_agent` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
   `payload` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `last_activity` int NOT NULL
+  `last_activity` int NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `sessions_user_id_index` (`user_id`),
+  KEY `sessions_last_activity_index` (`last_activity`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
@@ -264,6 +319,7 @@ CREATE TABLE `sessions` (
 --
 
 INSERT INTO `sessions` (`id`, `user_id`, `ip_address`, `user_agent`, `payload`, `last_activity`) VALUES
+('5cuye5Hh6PJVUZ9V4Eh63gff0UmXozEaz8hVmfAl', 8, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36 Edg/134.0.0.0', 'YTo3OntzOjY6Il90b2tlbiI7czo0MDoiSWpRRUwxbDNVRU5MNUl0eldsVmNMSmhGUlFSa2NxUUtMQ1JxZkF0UCI7czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czozOiJ1cmwiO2E6MDp7fXM6OToiX3ByZXZpb3VzIjthOjE6e3M6MzoidXJsIjtzOjM1OiJodHRwOi8vMTI3LjAuMC4xOjgwMDAvdGFzay9kZXRhaWwvOCI7fXM6NTA6ImxvZ2luX3dlYl81OWJhMzZhZGRjMmIyZjk0MDE1ODBmMDE0YzdmNThlYTRlMzA5ODlkIjtpOjg7czoxMDoiZ3JvdXBfY29kZSI7czozOiJTUFYiO3M6MTk6InRvdGFsX25vdGlmaWNhdGlvbnMiO2k6MDt9', 1742268283),
 ('KndzNhEw12nTYinnsuRR7kMI1FVEzqSDpr65vgTa', 7, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36', 'YTo2OntzOjY6Il90b2tlbiI7czo0MDoiTDUzaXowSVR3N0RIU0UyU2hid3VHUUQxQlV1MXlnT0Z1amxoTzJUOSI7czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czozOiJ1cmwiO2E6MDp7fXM6OToiX3ByZXZpb3VzIjthOjE6e3M6MzoidXJsIjtzOjEyODoiaHR0cDovLzEyNy4wLjAuMTo4MDAwL3JlcG9ydC9nZXRSZXBvcnQ/X3Rva2VuPUw1M2l6MElUdzdESFNFMlNoYnd1R1FEMUJVdTF5Z09GdWpsaE8yVDkmZW5kX2RhdGU9Jm93bmVyPTcmcmVwb3J0X2J5PTImc3RhcnRfZGF0ZT0iO31zOjUwOiJsb2dpbl93ZWJfNTliYTM2YWRkYzJiMmY5NDAxNTgwZjAxNGM3ZjU4ZWE0ZTMwOTg5ZCI7aTo3O3M6MTA6Imdyb3VwX2NvZGUiO3M6MzoiRU1QIjt9', 1742163029);
 
 -- --------------------------------------------------------
@@ -272,19 +328,21 @@ INSERT INTO `sessions` (`id`, `user_id`, `ip_address`, `user_agent`, `payload`, 
 -- Table structure for table `task`
 --
 
-CREATE TABLE `task` (
-  `id` int NOT NULL,
+DROP TABLE IF EXISTS `task`;
+CREATE TABLE IF NOT EXISTS `task` (
+  `id` int NOT NULL AUTO_INCREMENT,
   `task_segment_id` int DEFAULT NULL,
   `task_category_id` int DEFAULT NULL,
   `task_status_id` int DEFAULT '2',
   `job_type_id` int DEFAULT NULL,
   `periodic_type_id` int DEFAULT NULL,
+  `task_reference_id` int DEFAULT NULL,
   `date` date NOT NULL,
   `pic` int DEFAULT NULL COMMENT 'relation to employee (pic task)',
   `owner` int DEFAULT NULL COMMENT 'relation to employee (owner task)',
   `quantity` int DEFAULT NULL,
   `detail` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci,
-  `jobdesk` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
+  `jobdesk` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `flag` int DEFAULT '0' COMMENT '0 => No,\r\n1 => Yes',
   `sla_duration` int DEFAULT NULL COMMENT 'in minute',
   `task_duration` int DEFAULT NULL,
@@ -294,19 +352,21 @@ CREATE TABLE `task` (
   `duedate` datetime DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
-  `deleted_at` datetime DEFAULT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  `deleted_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `task`
 --
 
-INSERT INTO `task` (`id`, `task_segment_id`, `task_category_id`, `task_status_id`, `job_type_id`, `periodic_type_id`, `date`, `pic`, `owner`, `quantity`, `detail`, `jobdesk`, `flag`, `sla_duration`, `task_duration`, `overdue`, `start_date`, `end_date`, `duedate`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(2, 2, 10, 2, 2, 1, '2025-02-05', 1, 3, 2, 'blablala', '', 1, 60, NULL, 0, '2025-03-14 12:57:26', NULL, '2025-03-14 14:57:26', '2025-02-06 11:11:46', '2025-03-14 06:00:56', NULL),
-(3, 1, 1, 2, 1, 1, '2025-03-14', 1, 3, 2, 'Test', '', 1, 60, NULL, 0, '2025-03-14 12:57:28', '2025-03-14 12:39:32', '2025-03-14 14:57:28', '2025-03-14 05:32:33', '2025-03-14 05:57:28', NULL),
-(4, 2, 14, 1, 1, 1, '2025-03-14', 4, 3, 3, NULL, '', 0, 5, 34, 1, '2025-03-14 12:30:31', '2025-03-14 13:05:20', '2025-03-14 12:45:31', '2025-03-14 05:36:02', '2025-03-14 06:05:20', NULL),
-(5, 1, 1, 1, 1, 1, '2025-03-14', 4, 3, 1, 'Test', '', 1, 60, 0, 0, '2025-03-14 13:16:35', '2025-03-14 13:17:30', '2025-03-14 14:16:35', '2025-03-14 06:16:35', '2025-03-14 06:17:30', NULL),
-(7, 1, 14, 2, 1, 1, '2025-03-15', 4, 3, 2, NULL, 'Process Permitt TLP/Customer', 0, 5, NULL, 0, '2025-03-15 12:58:47', NULL, '2025-03-15 13:08:47', '2025-03-15 05:58:47', '2025-03-15 05:58:47', NULL);
+INSERT INTO `task` (`id`, `task_segment_id`, `task_category_id`, `task_status_id`, `job_type_id`, `periodic_type_id`, `task_reference_id`, `date`, `pic`, `owner`, `quantity`, `detail`, `jobdesk`, `flag`, `sla_duration`, `task_duration`, `overdue`, `start_date`, `end_date`, `duedate`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(2, 2, 10, 2, 2, 1, NULL, '2025-02-05', 1, 3, 2, 'blablala', 'Support B2B Audit (if any)', 1, 60, NULL, 0, '2025-03-14 12:57:26', NULL, '2025-03-14 14:57:26', '2025-02-06 11:11:46', '2025-03-18 02:24:50', NULL),
+(3, 1, 1, 2, 1, 1, NULL, '2025-03-14', 1, 3, 2, 'Test', '', 1, 60, NULL, 0, '2025-03-14 12:57:28', '2025-03-14 12:39:32', '2025-03-14 14:57:28', '2025-03-14 05:32:33', '2025-03-14 05:57:28', NULL),
+(4, 2, 14, 1, 1, 1, NULL, '2025-03-14', 4, 3, 3, NULL, '', 0, 5, 34, 1, '2025-03-14 12:30:31', '2025-03-14 13:05:20', '2025-03-14 12:45:31', '2025-03-14 05:36:02', '2025-03-14 06:05:20', NULL),
+(5, 1, 1, 1, 1, 1, 2, '2025-03-14', 4, 3, 1, 'Test', 'Support Audit Support Audit ISR Balmon', 1, 60, 0, 0, '2025-03-14 13:16:35', '2025-03-14 13:17:30', '2025-03-14 14:16:35', '2025-03-14 06:16:35', '2025-03-18 02:56:24', NULL),
+(7, 1, 14, 2, 1, 1, 3, '2025-03-15', 4, 3, 2, NULL, 'Process Permitt TLP/Customer', 0, 5, NULL, 0, '2025-03-15 12:58:47', NULL, '2025-03-15 13:08:47', '2025-03-15 05:58:47', '2025-03-18 02:56:14', NULL),
+(8, 3, 1, 2, 1, 1, 2, '2025-03-18', 4, 3, 1, NULL, 'Support Audit Support Audit ISR Balmon', 1, 60, NULL, 0, '2025-03-18 09:57:47', NULL, '2025-03-18 10:57:47', '2025-03-18 02:57:47', '2025-03-18 03:15:01', NULL);
 
 -- --------------------------------------------------------
 
@@ -314,14 +374,16 @@ INSERT INTO `task` (`id`, `task_segment_id`, `task_category_id`, `task_status_id
 -- Table structure for table `task_category`
 --
 
-CREATE TABLE `task_category` (
-  `id` int NOT NULL,
+DROP TABLE IF EXISTS `task_category`;
+CREATE TABLE IF NOT EXISTS `task_category` (
+  `id` int NOT NULL AUTO_INCREMENT,
   `code` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
-  `deleted_at` datetime DEFAULT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  `deleted_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=44 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `task_category`
@@ -378,8 +440,9 @@ INSERT INTO `task_category` (`id`, `code`, `name`, `created_at`, `updated_at`, `
 -- Table structure for table `task_reference`
 --
 
-CREATE TABLE `task_reference` (
-  `id` int NOT NULL,
+DROP TABLE IF EXISTS `task_reference`;
+CREATE TABLE IF NOT EXISTS `task_reference` (
+  `id` int NOT NULL AUTO_INCREMENT,
   `staff_id` int DEFAULT NULL COMMENT 'supervisor',
   `msco_id` int DEFAULT NULL COMMENT 'employee',
   `jobdesk` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
@@ -389,8 +452,9 @@ CREATE TABLE `task_reference` (
   `sla_duration` int DEFAULT NULL COMMENT 'in minute',
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
-  `deleted_at` datetime DEFAULT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  `deleted_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `task_reference`
@@ -407,14 +471,16 @@ INSERT INTO `task_reference` (`id`, `staff_id`, `msco_id`, `jobdesk`, `performan
 -- Table structure for table `task_segment`
 --
 
-CREATE TABLE `task_segment` (
-  `id` int NOT NULL,
+DROP TABLE IF EXISTS `task_segment`;
+CREATE TABLE IF NOT EXISTS `task_segment` (
+  `id` int NOT NULL AUTO_INCREMENT,
   `code` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
-  `deleted_at` datetime DEFAULT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  `deleted_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `task_segment`
@@ -439,14 +505,16 @@ INSERT INTO `task_segment` (`id`, `code`, `name`, `created_at`, `updated_at`, `d
 -- Table structure for table `task_status`
 --
 
-CREATE TABLE `task_status` (
-  `id` int NOT NULL,
+DROP TABLE IF EXISTS `task_status`;
+CREATE TABLE IF NOT EXISTS `task_status` (
+  `id` int NOT NULL AUTO_INCREMENT,
   `code` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
-  `deleted_at` datetime DEFAULT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  `deleted_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `task_status`
@@ -465,8 +533,9 @@ INSERT INTO `task_status` (`id`, `code`, `name`, `created_at`, `updated_at`, `de
 -- Table structure for table `users`
 --
 
-CREATE TABLE `users` (
-  `id` int NOT NULL,
+DROP TABLE IF EXISTS `users`;
+CREATE TABLE IF NOT EXISTS `users` (
+  `id` int NOT NULL AUTO_INCREMENT,
   `group_id` int NOT NULL,
   `username` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -477,8 +546,10 @@ CREATE TABLE `users` (
   `status` int DEFAULT NULL COMMENT '1 => Aktif,\n2 => Tidak Aktif',
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
-  `deleted_at` datetime DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+  `deleted_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `groups_id` (`group_id`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `users`
@@ -493,203 +564,6 @@ INSERT INTO `users` (`id`, `group_id`, `username`, `name`, `email`, `phone_no`, 
 (6, 2, 'tost', 'sds', NULL, NULL, '$2y$06$gXK8/.2y20HEmLkKijpc9u/V3S0KBjPlzuIHSkrPMplrAIc7tg.NG', NULL, 1, '2025-02-06 13:22:13', '2025-02-06 13:29:42', '2025-02-06 20:29:42'),
 (7, 3, 'emp02', 'Raza', NULL, NULL, '$2y$06$50v/7VoWgk1YuS5q61ERMuZ4.NNUR5yTzE4FxJKGR1IcuZHTbVCzu', NULL, 1, '2025-02-06 10:57:02', '2025-02-19 06:20:14', NULL),
 (8, 2, 'EMP03', 'Tiya Rachma Maharani', 'admin@bahana.co.id', NULL, '$2y$06$yD9y5ZX9cwla8Ql3GVPaRuRniL/nzuSmH8yRquQb.MK5I24IqUbvC', NULL, 1, '2025-03-14 04:22:57', '2025-03-14 04:23:05', NULL);
-
---
--- Indexes for dumped tables
---
-
---
--- Indexes for table `cache`
---
-ALTER TABLE `cache`
-  ADD PRIMARY KEY (`key`);
-
---
--- Indexes for table `cache_locks`
---
-ALTER TABLE `cache_locks`
-  ADD PRIMARY KEY (`key`);
-
---
--- Indexes for table `daily_logbook`
---
-ALTER TABLE `daily_logbook`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `employee`
---
-ALTER TABLE `employee`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `group`
---
-ALTER TABLE `group`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `job_position`
---
-ALTER TABLE `job_position`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `job_type`
---
-ALTER TABLE `job_type`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `migrations`
---
-ALTER TABLE `migrations`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `periodic_type`
---
-ALTER TABLE `periodic_type`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `segment`
---
-ALTER TABLE `segment`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `sessions`
---
-ALTER TABLE `sessions`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `sessions_user_id_index` (`user_id`),
-  ADD KEY `sessions_last_activity_index` (`last_activity`);
-
---
--- Indexes for table `task`
---
-ALTER TABLE `task`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `task_category`
---
-ALTER TABLE `task_category`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `task_reference`
---
-ALTER TABLE `task_reference`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `task_segment`
---
-ALTER TABLE `task_segment`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `task_status`
---
-ALTER TABLE `task_status`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `users`
---
-ALTER TABLE `users`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `groups_id` (`group_id`) USING BTREE;
-
---
--- AUTO_INCREMENT for dumped tables
---
-
---
--- AUTO_INCREMENT for table `daily_logbook`
---
-ALTER TABLE `daily_logbook`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `employee`
---
-ALTER TABLE `employee`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
-
---
--- AUTO_INCREMENT for table `group`
---
-ALTER TABLE `group`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
-
---
--- AUTO_INCREMENT for table `job_position`
---
-ALTER TABLE `job_position`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
-
---
--- AUTO_INCREMENT for table `job_type`
---
-ALTER TABLE `job_type`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
-
---
--- AUTO_INCREMENT for table `migrations`
---
-ALTER TABLE `migrations`
-  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
-
---
--- AUTO_INCREMENT for table `periodic_type`
---
-ALTER TABLE `periodic_type`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
-
---
--- AUTO_INCREMENT for table `segment`
---
-ALTER TABLE `segment`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `task`
---
-ALTER TABLE `task`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
-
---
--- AUTO_INCREMENT for table `task_category`
---
-ALTER TABLE `task_category`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=44;
-
---
--- AUTO_INCREMENT for table `task_reference`
---
-ALTER TABLE `task_reference`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
-
---
--- AUTO_INCREMENT for table `task_segment`
---
-ALTER TABLE `task_segment`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
-
---
--- AUTO_INCREMENT for table `task_status`
---
-ALTER TABLE `task_status`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
-
---
--- AUTO_INCREMENT for table `users`
---
-ALTER TABLE `users`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
