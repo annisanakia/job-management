@@ -232,8 +232,7 @@ class RESTful extends Controller
         }
 
         $action[] = array('name' => 'Cancel', 'url' => strtolower($this->controller_name), 'class' => 'btn btn-secondary px-3 ms-md-1');
-        $action[] = array('name' => 'Delete', 'url' => strtolower($this->controller_name) . '/delete/' . $id, 'class' => 'btn btn-danger px-3 ms-md-1 delete', 'attr' => 'ng-click=confirm($event) data-name='.$data->name);
-        
+         
         $content['data'] = $data;
         $content['actions'] = $action;
 

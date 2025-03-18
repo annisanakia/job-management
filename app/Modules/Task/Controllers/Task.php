@@ -166,6 +166,18 @@ class Task extends RESTful {
         $data->flag = 1;
         $data->save();
 
+        $notification = new \Models\notification();
+                
+        $input['pic_user_id'] = $data->employee_owner->user_id ?? null;
+        $input['user_id'] = $data->employee_pic->user_id ?? null;
+        $input['task_id'] = $data->id ?? null;
+        $input['title'] = $data->jobdesk.' '.($data->employee_owner->name ?? null);
+        $input['message'] = $data->jobdesk.' '.($data->employee_owner->name ?? null).' memiliki kendala</b>';
+        $input['link'] = '/task/detail/'.($data->id);
+        $input['datetime'] = date('Y-m-d H:i:s');
+
+        $notification->create($input);
+
         return Redirect::route(strtolower($this->controller_name) . '.index');
     }
 }

@@ -13,6 +13,11 @@
         <div class="card-title">New Data</div>
     </div>
     <div class="card-body">
+        @if($data->flag == 1)
+            <div class="alert alert-danger">
+                Task sedang terkendala
+            </div>
+        @endif
         <form method="POST" action="{{ route($controller_name.'.update',$data->id) }}" class="form-validation" enctype="multipart/form-data">
             @csrf
             <div class="row">

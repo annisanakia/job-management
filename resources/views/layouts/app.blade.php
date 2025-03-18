@@ -46,6 +46,25 @@
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
         });
+        var url = "{{ url('notification/notificationNewList') }}",
+            target = '#notification';
+
+        $.ajax({
+            url: url,
+            type: 'GET',
+            data: {},
+            success: function(data) { 
+                $(target).html(data);
+                $('.selectpicker').selectpicker('refresh');
+            },
+            error: function (e) {
+                swalDeleteButtons.fire(
+                    'Warning !',
+                    'Something Wrong',
+                    'error'
+                );
+            }
+        });
     </script>
     <script src="{{ asset('assets/js/app.js') }}"></script>
     <script src="{{ asset('assets/js/popper.min.js') }}"></script>

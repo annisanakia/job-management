@@ -25,11 +25,17 @@ class AccessUser
             $menu_codes = allMenuSidebar() ?? [];
 
             $prefix = request()->route()->getPrefix() != ''? request()->route()->getPrefix() : 'home';
-            if (!array_key_exists($prefix,$menu_codes) && !(in_array($prefix,['account_setting']))) {
+            if (!array_key_exists($prefix,$menu_codes) && !(in_array($prefix,['account_setting','notification']))) {
                 return response()->view('errors.unauthorized');
             }
+            
+            $total_notifications = \Models\notification::select('id')
+                    ->where('user_id', $user_id)
+                    ->where('is_read',0)
+                    ->count();
 
             $request->session()->put('group_code', $auth->group->code ?? null);
+            $request->session()->put('total_notifications', $total_notifications);
         }
 
         return $next($request);

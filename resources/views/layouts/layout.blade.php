@@ -81,6 +81,35 @@
             <nav class="navbar navbar-header navbar-header-transparent navbar-expand-lg border-bottom">
                 <div class="container-fluid">
                 <ul class="navbar-nav topbar-nav ms-md-auto align-items-center">
+                    <li class="nav-item topbar-icon dropdown hidden-caret">
+                        <a class="nav-link dropdown-toggle" href="#" id="notifDropdown" role="button"
+                            data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="fa fa-bell"></i>
+                            @if((session()->get('total_notifications') ?? 0) > 0)
+                                <span class="notification">{{ session()->get('total_notifications') }}</span>
+                            @endif
+                        </a>
+                        <ul class="dropdown-menu messages-notif-box animated fadeIn" aria-labelledby="messageDropdown">
+                            <li>
+                                <div class="dropdown-title d-flex justify-content-between align-items-center">
+                                    Notifications
+                                    @if((session()->get('total_notifications') ?? 0) > 0)
+                                        <a href="{{ url('notification/markAllRead') }}" class="text-end small fw-bold color-theme">
+                                            Mark all as read ({{ session()->get('total_notifications') }})
+                                        </a>
+                                    @endif
+                                </div>
+                            </li>
+                            <li>
+                                <div class="message-notif-scroll scrollbar-outer">
+                                    <div class="notif-center" id="notification">
+                                    </div>
+                                </div>
+                            </li>
+                                <a class="see-all" href="{{ url('notification') }}">View all notifications<i class="fa fa-angle-right"></i></a>
+                            </li>
+                        </ul>
+                    </li>
                     <li class="nav-item topbar-icon dropdown hidden-caret submenu">
                         {{-- <a class="nav-link dropdown-toggle" href="#" id="notifDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <i class="fa fa-bell"></i>
