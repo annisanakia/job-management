@@ -224,7 +224,7 @@ class Report extends RESTful {
         
         $this->beforeIndex($datas);
 
-        $datas = $datas->groupBy('employee_pic.id')->groupBy('owner')->paginate($this->max_row);
+        $datas = $datas->groupBy('employee_owner.name')->groupBy('employee_owner.id')->paginate($this->max_row);
         // $datas->chunk(100);
 
         $datas_graph = $this->getGraphByDuration($datas);
@@ -274,7 +274,7 @@ class Report extends RESTful {
         
         $this->beforeIndex($datas);
 
-        $datas = $datas->groupBy('employee_owner.id')->groupBy('owner')->paginate($this->max_row);
+        $datas = $datas->groupBy('employee_owner.name')->groupBy('employee_owner.id')->paginate($this->max_row);
         // $datas->chunk(100);
 
         $datas_graph = $this->getGraphByDuration($datas);
