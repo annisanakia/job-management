@@ -55,6 +55,9 @@ class Task extends RESTful {
             $start_date = date('Y-m-d H:i:s');
             $total_sla_duration = (is_numeric(request()->quantity) ? request()->quantity : 0) * (is_numeric(request()->sla_duration) ? request()->sla_duration : 0);
             
+            $task_reference = \Models\task_reference::find(request()->task_reference_id);
+            $input['jobdesk'] = $task_reference->jobdesk ?? null;
+
             $duedate = new DateTime($start_date);
             $duedate->modify("+".$total_sla_duration." minutes"); 
             
@@ -81,6 +84,9 @@ class Task extends RESTful {
             $data = $this->model->find($id);
             $start_date = $data->start_date;
             $total_sla_duration = (is_numeric(request()->quantity) ? request()->quantity : 0) * (is_numeric(request()->sla_duration) ? request()->sla_duration : 0);
+
+            $task_reference = \Models\task_reference::find(request()->task_reference_id);
+            $input['jobdesk'] = $task_reference->jobdesk ?? null;
             
             $duedate = new DateTime($start_date);
             $duedate->modify("+".$total_sla_duration." minutes"); 
@@ -96,22 +102,39 @@ class Task extends RESTful {
             ->withErrors($validation)
             ->with('message', 'There were validation errors.');
     }
-
-    public function getSLA(){
+    
+    public function getSLA()
+    {
         $task_category_id = request()->task_category_id;
         $job_type_id = request()->job_type_id;
+        $id = request()->id;
 
-        $task_reference = \Models\task_reference::where('task_category_id', $task_category_id)
-            ->where('job_type_id', $job_type_id)
-            ->get();
-            
-        $task_reference_own = $task_reference->where('msco_id',$this->employee_id)->first();
-        $task_reference = $task_reference->first();
+        $target = request()->target ?? 'task_reference_id';
+        $blank = request()->blank ?? false;
 
-        $task_reference = $task_reference_own ?? $task_reference;
+        $user = \Auth::user();
+        $datas = \Models\task_reference::where('task_category_id', $task_category_id)
+                ->where('job_type_id', $job_type_id)
+                ->where('msco_id',$this->user_id)
+                ->orderBy('jobdesk', 'asc')
+                ->get()->pluck('jobdesk','id')->all();
+
+        if(count($datas) <= 0){
+            $datas = \Models\task_reference::where('task_category_id', $task_category_id)
+                    ->where('job_type_id', $job_type_id)
+                    ->orderBy('jobdesk', 'asc')
+                    ->get()->pluck('jobdesk','id')->all();
+        }
+
+        return $this->coreLib->renderList($datas, $target, $id, $blank);
+    }
+
+    public function setDuration(){
+        $task_reference_id = request()->task_reference_id;
+
+        $task_reference = \Models\task_reference::find($task_reference_id);
         
         return [
-            'jobdesk'=>$task_reference->jobdesk ?? null,
             'sla_duration'=>$task_reference->sla_duration ?? null
         ];
     }

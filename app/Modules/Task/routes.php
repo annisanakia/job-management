@@ -25,4 +25,5 @@ Route::group(['prefix' => 'task', 'namespace' => 'App\Modules\Task\Controllers',
     Route::get('/updateCompleted/{id}', ['as' => 'task.updateCompleted', 'uses' => 'Task@updateCompleted']);
     Route::get('/updateFlag/{id}', ['as' => 'task.updateFlag', 'uses' => 'Task@updateFlag']);
     Route::get('/getSLA', ['as' => 'task.getSLA', 'uses' => 'Task@getSLA']);
+    Route::get('/setDuration', ['as' => 'task.setDuration', 'uses' => 'Task@setDuration']);
 });

@@ -351,7 +351,7 @@ class Report extends RESTful {
         foreach ($date_range as $dt) {
             $date = $dt->format('Y-m-d');
             $labels[] = dateToIndo($date);
-            $datasets[] = collect($datasByDate['2025-03-15'] ?? [])->sum('task_duration');
+            $datasets[] = collect($datasByDate[$date] ?? [])->sum('task_duration');
         }
 
         return ['labels'=>$labels,'datasets'=>$datasets];

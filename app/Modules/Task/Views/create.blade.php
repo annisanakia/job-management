@@ -62,10 +62,12 @@
             <div class="row">
                 <div class="col-md-6">
                     <div class="form-group">
-                        <label>Jobdesk</label>
-                        <input type="text" name="jobdesk" class="form-control @error('jobdesk') is-invalid @enderror" value="{{ old('jobdesk') ?? null }}" id="jobdesk" readonly>
-                        @error('jobdesk') <span class="text-danger">{{ $message }}</span> @enderror
-                        <small class="form-text text-muted d-block">Jobdesk akan terisi jika sudah memilih Category dan Job Type.</small>
+                        <label class="asterisk">Jobdesk</label>
+                        <select id="task_reference_id" class="form-control form-select selectpicker @error('task_reference_id') is-invalid @enderror" name="task_reference_id" title="-- Select --" data-live-search="true">
+                            <option value="">-- Select --</option>
+                        </select>
+                        @error('task_reference_id') <span class="text-danger">{{ $message }}</span> @enderror
+                        <small class="form-text text-muted d-block">Please select category and job type before selecting jobdesk.</small>
                     </div>
                 </div>
                 <div class="col-md-6">
@@ -173,12 +175,41 @@
             getSLA($("#task_category_id").val(), $(this).val());
         });
 
-        getSLA("{{ old('task_category_id') ?? ($data->task_category_id ?? null) }}", "{{ old('job_type_id') ?? ($data->job_type_id ?? null) }}")
-        function getSLA(task_category_id, job_type_id){
+        getSLA("{{ old('task_category_id') ?? ($data->task_category_id ?? null) }}", "{{ old('job_type_id') ?? ($data->job_type_id ?? null) }}", "{{ old('task_reference_id') ?? ($data->task_reference_id ?? null) }}")
+        function getSLA(task_category_id, job_type_id, id){
             var url = "{{ url($controller_name.'/getSLA') }}",
+                target = '#task_reference_id',
                 data = {
                     task_category_id: task_category_id,
-                    job_type_id: job_type_id
+                    job_type_id: job_type_id,
+                    id: id,
+                    blank: true
+                };
+
+            $.ajax({
+                url: url,
+                type: 'GET',
+                data: data,
+                success: function(data) { 
+                    $(target).html(data);
+                    $('.selectpicker').selectpicker('refresh');
+                },
+                error: function (e) {
+                    swalDeleteButtons.fire(
+                        'Warning !',
+                        'Something Wrong',
+                        'error'
+                    );
+                }
+            });
+            $('#task_reference_id').val(id);
+        }
+
+        setDuration("{{ old('task_reference_id') ?? ($data->task_reference_id ?? null) }}")
+        function setDuration(task_reference_id){
+            var url = "{{ url($controller_name.'/setDuration') }}",
+                data = {
+                    task_reference_id: task_reference_id
                 };
             
             $.ajax({
@@ -187,7 +218,6 @@
                 data: data,
                 success: function(data) { 
                     $('#sla_duration').val(data.sla_duration);
-                    $('#jobdesk').val(data.jobdesk);
                 },
                 error: function (e) {
                     swalDeleteButtons.fire(
@@ -198,6 +228,10 @@
                 }
             });
         }
+
+        $("#task_reference_id").change(function (e) {
+            setDuration($(this).val());
+        });
     });
 </script>
 

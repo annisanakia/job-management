@@ -33,8 +33,8 @@
                         <th class="order-link {{ ($sort_field == 'task_category_id'? 'sort-'.(orders()[$sort_type] ?? null) : null) }}" href="{{ url($controller_name.'/getReport?'.http_build_query($param).'&sort_field=task_category_id&sort_type='.($sort_field == 'task_category_id'? $sort_type : 0)+1) }}">
                             Category
                         </th>
-                        <th class="order-link {{ ($sort_field == 'detail'? 'sort-'.(orders()[$sort_type] ?? null) : null) }}" href="{{ url($controller_name.'/getReport?'.http_build_query($param).'&sort_field=detail&sort_type='.($sort_field == 'detail'? $sort_type : 0)+1) }}">
-                            Detail
+                        <th class="order-link {{ ($sort_field == 'jobdesk'? 'sort-'.(orders()[$sort_type] ?? null) : null) }}" href="{{ url($controller_name.'/getReport?'.http_build_query($param).'&sort_field=jobdesk&sort_type='.($sort_field == 'jobdesk'? $sort_type : 0)+1) }}">
+                            Jobdesk
                         </th>
                         <th class="order-link {{ ($sort_field == 'task_status_id'? 'sort-'.(orders()[$sort_type] ?? null) : null) }}" href="{{ url($controller_name.'/getReport?'.http_build_query($param).'&sort_field=task_status_id&sort_type='.($sort_field == 'task_status_id'? $sort_type : 0)+1) }}">
                             Last Status
@@ -48,6 +48,24 @@
                                 PIC
                             </th>
                         @endif
+                        <th class="order-link {{ ($sort_field == 'sla_duration'? 'sort-'.(orders()[$sort_type] ?? null) : null) }}" href="{{ url($controller_name.'?sort_field=sla_duration&sort_type='.($sort_field == 'sla_duration'? $sort_type : 0)+1) }}">
+                            SLA<br> Duration
+                        </th>
+                        <th class="order-link {{ ($sort_field == 'quantity'? 'sort-'.(orders()[$sort_type] ?? null) : null) }}" href="{{ url($controller_name.'?sort_field=quantity&sort_type='.($sort_field == 'quantity'? $sort_type : 0)+1) }}">
+                            QTY
+                        </th>
+                        <th class="order-link {{ ($sort_field == 'start_date'? 'sort-'.(orders()[$sort_type] ?? null) : null) }}" href="{{ url($controller_name.'?sort_field=start_date&sort_type='.($sort_field == 'start_date'? $sort_type : 0)+1) }}">
+                            Start
+                        </th>
+                        <th class="order-link {{ ($sort_field == 'end_date'? 'sort-'.(orders()[$sort_type] ?? null) : null) }}" href="{{ url($controller_name.'?sort_field=end_date&sort_type='.($sort_field == 'end_date'? $sort_type : 0)+1) }}">
+                            End
+                        </th>
+                        <th class="order-link {{ ($sort_field == 'duedate'? 'sort-'.(orders()[$sort_type] ?? null) : null) }}" href="{{ url($controller_name.'?sort_field=duedate&sort_type='.($sort_field == 'duedate'? $sort_type : 0)+1) }}">
+                            Duedate
+                        </th>
+                        <th class="order-link {{ ($sort_field == 'sla_duration'? 'sort-'.(orders()[$sort_type] ?? null) : null) }}" href="{{ url($controller_name.'?sort_field=sla_duration&sort_type='.($sort_field == 'sla_duration'? $sort_type : 0)+1) }}">
+                            Task<br> Duration
+                        </th>
                     </tr>
                     <tr>
                         <th class="text-center"><button type="submit" class="btn btn-light border"><i class="fas fa-search"></i></button></th>
@@ -60,7 +78,7 @@
                                 @endforeach
                             </select>
                         </th>
-                        <th><input type="text" name="filters[detail]" class="form-control" value="{{ $filters['detail'] ?? null }}"></th>
+                        <th><input type="text" name="filters[jobdesk]" class="form-control" value="{{ $filters['jobdesk'] ?? null }}"></th>
                         <th>
                             <select class="form-control form-select " name="filters[task_status_id]"  title="-- Select --">
                                 <option value="">-- Select --</option>
@@ -70,22 +88,39 @@
                             </select>
                         </th>
                         <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
                     </tr>
                     </thead>
                     <tbody>
-                        <?php $i = 0; ?>
+                        <?php
+                            $i = 0;
+                            $time_now = date('H:i');
+                        ?>
                         @forelse ($datas as $data)
+                            <?php
+                                $duedate = date('H:i', strtotime($data->duedate));
+                            ?>
                             <tr>
                                 <td class="text-center">{{ (($datas->currentPage() - 1 ) * $datas->perPage() ) + ++$i }}.</td>
                                 <td>{{dateToIndo($data->date ?? null)}}</td>
                                 <td>{{$data->task_category->name ?? null}}</td>
-                                <td>{{$data->detail}}</td>
-                                <td>{{$data->task_status->name ?? null}}</td>
+                                <td>{{$data->jobdesk}}</td>
+                                <td><span class="ms-2 badge text-bg-{{ statusTask()[$data->task_status_id] ?? 'primary' }}">{{$data->task_status->name ?? null}}</span></td>
                                 @if($position_code == 'SPV')
                                     <td>{{$data->employee_owner->name ?? null}}</td>
                                 @else
                                     <td>{{$data->employee_pic->name ?? null}}</td>
                                 @endif
+                                <td>{{$data->sla_duration}} Minute</td>
+                                <td>{{$data->quantity}}</td>
+                                <td nowrap>{{date('H:i', strtotime($data->start_date))}}</td>
+                                <td nowrap>{{$data->end_date != ''? date('H:i', strtotime($data->end_date)) : ''}}</td>
+                                <td class="{{ (strtotime($duedate)<strtotime($time_now)) && ($data->task_status_id != 1) ? 'text-danger' : null }}" nowrap>{{ $duedate }}</td>
+                                <td>{{$data->task_duration}} Minute</td>
                             </tr>
                         @empty
                             <tr>

@@ -16,6 +16,7 @@ class task extends Model
         $rules = array(
             // 'code' => 'required|unique:task,code,' . ($data['id'] ?? null) . ',id,deleted_at,NULL',
             'date' => 'required',
+            'task_reference_id' => 'required',
             'sla_duration' => 'required',
             'quantity' => 'required',
             'pic' => 'required'

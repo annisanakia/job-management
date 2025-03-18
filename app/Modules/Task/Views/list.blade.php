@@ -122,7 +122,7 @@
                                 @else
                                     <td>{{$data->employee_pic->name ?? null}}</td>
                                 @endif
-                                <td>{{$data->sla_duration}}</td>
+                                <td>{{$data->sla_duration}} Minute</td>
                                 <td>{{$data->quantity}}</td>
                                 <td nowrap>{{date('H:i', strtotime($data->start_date))}}</td>
                                 <td nowrap>{{$data->end_date != ''? date('H:i', strtotime($data->end_date)) : ''}}</td>
