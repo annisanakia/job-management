@@ -91,7 +91,7 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-md-12 text-end">
+                <div class="col-md-12 text-end mt-3">
                     <button type="submit" class="btn btn-primary px-3 ms-md-1" id="" data-url="#">
                         <i class="fas fa-search me-1"></i> Search
                     </button>

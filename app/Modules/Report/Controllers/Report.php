@@ -7,6 +7,9 @@ use Lib\core\RESTful;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\View;
+use DateInterval;
+use DateTime;
+use DatePeriod;
 
 class Report extends RESTful {
     protected $position_code;
@@ -44,7 +47,21 @@ class Report extends RESTful {
                 return $this->getListByDurationPIC();
             }
         }else{
-            return $this->getListByDurationWeekly();
+            request()->merge([
+                'start_date' => (request()->start_date ?? date('Y-m-d')),
+                'end_date' => (request()->end_date ?? date('Y-m-d'))
+            ]);
+            $start_date = strtotime(request()->start_date ?? null);
+            $end_date = strtotime(request()->end_date ?? null);
+
+            if (($end_date - $start_date) / (60 * 60 * 24) > 31) {
+                return '
+                    <div class="alert alert-danger">
+                        Periode tidak boleh lebih dari 31 hari.
+                    </div>
+                ';
+            }
+            return $this->getListByPeriodDuration();
         }
     }
 
@@ -55,6 +72,12 @@ class Report extends RESTful {
         $task_status_ids = request()->task_status_ids ?? [];
         $start_date = request()->start_date ?? null;
         $end_date = request()->end_date ?? null;
+
+        if($this->position_code == 'SPV'){
+            $datas->where('pic',$this->employee_id);
+        }else{
+            $datas->where('owner',$this->employee_id);
+        }
 
         if(count($employee_ids) > 0){
             $datas->whereIn('owner',$employee_ids);
@@ -280,8 +303,58 @@ class Report extends RESTful {
         return ['labels'=>$labels,'datasets'=>$datasets];
     }
 
-    public function getListByDurationWeekly()
+    public function getListByPeriodDuration()
     {
+        $datas = $this->model->select('*');
+        $datas = $this->processFilter($datas);
+
+        $table = $this->table_name != '' ? $this->table_name : strtolower($this->controller_name);
+        $this->order($datas, request()->sort_field, request()->sort_type);
+        $this->filter($datas, request()->filters, $table);
+
+        $this->max_row = request()->input('max_row') ?? $this->max_row;
+        $this->filter_string = http_build_query(request()->all());
+        
+        $this->beforeIndex($datas);
+
+        $datas = $datas->paginate($this->max_row);
+
+        $datas_graph = $this->getGraphByPeriodDuration($datas);
+
+        $url_pdf = strtolower($this->controller_name) . '/getListAsPdf?' . $this->filter_string;
+        $url_xls = strtolower($this->controller_name) . '/getListAsXls?' . $this->filter_string;
+        $action[] = array('name' => '', 'url' => $url_pdf, 'class' => 'btn btn-outline-danger float-end me-2', 'attr'=>'target=_blank', 'icon' => 'fas fa-file-pdf');
+        $action[] = array('name' => '', 'url' => $url_xls, 'class' => 'btn btn-outline-success float-end me-2', 'attr'=>'target=_blank', 'icon' => 'fas fa-file-excel');
+
+        $with['datas'] = $datas;
+        $with['param'] = request()->all();
+        $with['filters'] = request()->filters;
+        $with['sort_field'] = request()->sort_field;
+        $with['sort_type'] = request()->sort_type > 2? 0 : request()->sort_type;
+        $with['datas_graph'] = $datas_graph;
+        $with['max_row'] = $this->max_row;
+        $with['actions'] = $this->actions;
+        return View($this->controller_name . '::getListByPeriodDuration' , $with);
+    }
+
+    public function getGraphByPeriodDuration($datas)
+    {
+        $interval = DateInterval::createFromDateString('1 day');
+        $start = new DateTime(request()->start_date);
+        $end = new DateTime(date('Y-m-d', strtotime(request()->end_date . ' +1 day')));
+        $date_range = new DatePeriod($start, $interval, $end);
+
+        $datasByDate = $datas->groupBy('date');
+
+        $labels = [];
+        $datasets = [];
+        foreach ($date_range as $dt) {
+            $date = $dt->format('Y-m-d');
+            $labels[] = dateToIndo($date);
+            $datasets[] = collect($datasByDate['2025-03-15'] ?? [])->sum('task_duration');
+        }
+
+        return ['labels'=>$labels,'datasets'=>$datasets];
     }
 
 }

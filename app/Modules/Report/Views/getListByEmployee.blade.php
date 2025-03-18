@@ -30,9 +30,6 @@
                         <th class="order-link {{ ($sort_field == 'date'? 'sort-'.(orders()[$sort_type] ?? null) : null) }}" href="{{ url($controller_name.'?sort_field=date&sort_type='.($sort_field == 'date'? $sort_type : 0)+1) }}">
                             Date
                         </th>
-                        <th class="order-link {{ ($sort_field == 'task_segment_id'? 'sort-'.(orders()[$sort_type] ?? null) : null) }}" href="{{ url($controller_name.'/getReport?'.http_build_query($param).'&sort_field=task_segment_id&sort_type='.($sort_field == 'task_segment_id'? $sort_type : 0)+1) }}">
-                            Segment
-                        </th>
                         <th class="order-link {{ ($sort_field == 'task_category_id'? 'sort-'.(orders()[$sort_type] ?? null) : null) }}" href="{{ url($controller_name.'/getReport?'.http_build_query($param).'&sort_field=task_category_id&sort_type='.($sort_field == 'task_category_id'? $sort_type : 0)+1) }}">
                             Category
                         </th>
@@ -55,14 +52,6 @@
                     <tr>
                         <th class="text-center"><button type="submit" class="btn btn-light border"><i class="fas fa-search"></i></button></th>
                         <th><input type="date" name="filters[date]" class="form-control" value="{{ $filters['date'] ?? null }}"></th>
-                        <th>
-                            <select class="form-control form-select " name="filters[task_segment_id]"  title="-- Select --">
-                                <option value="">-- Select --</option>
-                                @foreach(Models\task_segment::select('name','id')->orderBy('name')->get() as $row)
-                                    <option value="{{ $row->id }}" {{ ($filters['task_segment_id'] ?? null) == $row->id? 'selected' : '' }}>{{ $row->name ?? null }}</option>
-                                @endforeach
-                            </select>
-                        </th>
                         <th>
                             <select class="form-control form-select " name="filters[task_category_id]"  title="-- Select --">
                                 <option value="">-- Select --</option>
@@ -89,7 +78,6 @@
                             <tr>
                                 <td class="text-center">{{ (($datas->currentPage() - 1 ) * $datas->perPage() ) + ++$i }}.</td>
                                 <td>{{dateToIndo($data->date ?? null)}}</td>
-                                <td>{{$data->task_segment->name ?? null}}</td>
                                 <td>{{$data->task_category->name ?? null}}</td>
                                 <td>{{$data->detail}}</td>
                                 <td>{{$data->task_status->name ?? null}}</td>

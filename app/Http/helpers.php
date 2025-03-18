@@ -320,7 +320,7 @@ function reportBy()
     $reportBy = [
         1 => 'Report Employee',
         2 => 'Report Duration',
-        3 => 'Report Weekly Duration'
+        3 => 'Report Period Duration'
     ];
 
     return $reportBy;
