@@ -151,14 +151,28 @@ class Task extends RESTful {
 
         $diff = $start->diff($end);
         $totalMinutes = ($diff->days * 24 * 60) + ($diff->h * 60) + $diff->i;
+        $overdue = $data->sla_duration*$data->quantity < $totalMinutes? 1 : 0;
+
+        if($overdue == 1){
+            return Redirect::route(strtolower($this->controller_name) . '.index')
+                ->with([
+                    'error'=> 1,
+                    'message_error'=> 'Update Last Status Failed',
+                    'submessage_error'=> $data->jobdesk.'<br> sudah overdue! silahkan kontak PIC anda'
+                ]);
+        }
 
         $data->end_date = $end_date;
         $data->task_status_id = $task_status->id ?? 1;
         $data->task_duration = $totalMinutes;
-        $data->overdue = $data->sla_duration*$data->quantity < $totalMinutes? 1 : 0;
+        $data->overdue = $overdue;
         $data->save();
-        
-        return Redirect::route(strtolower($this->controller_name) . '.index');
+
+        return Redirect::route(strtolower($this->controller_name) . '.index')
+            ->with([
+                'success'=> 1,
+                'message_success'=> 'Completed '.($data->jobdesk)
+            ]);
     }
 
     public function updateFlag($id){

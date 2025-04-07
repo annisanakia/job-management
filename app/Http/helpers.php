@@ -337,7 +337,9 @@ function statusTask()
     ];
 
     return $statusTask;
-}function get_time_ago($time)
+}
+
+function get_time_ago($time)
 {
     $time_difference = time() - $time;
 
@@ -358,5 +360,22 @@ function statusTask()
             $t = round( $d );
             return $t . ' ' . $str . ( $t > 1 ? 's' : '' ) . ' ago';
         }
+    }
+}
+
+function DateToDay($date)
+{
+    $HariIndo = array("Senin", "Selasa", "Rabu", "Kamis", "Jum'at", "Sabtu", "Minggu");
+    $hari = date('N', strtotime($date));
+    $result = $HariIndo[(int) $hari - 1];
+    return ($result);
+}
+
+function concatDayAndDate($date)
+{
+    if (!empty($date) && $date != "0000-00-00") {
+        return DateToDay($date) . ', ' . DateToIndo($date);
+    } else {
+        return '-';
     }
 }

@@ -163,7 +163,16 @@
 
 <script type="text/javascript">
     @if(Session::get('success') == 1)
-        swalSaveButtons.fire('Saved Successfully!', '', 'success')
+        swalSaveButtons.fire('{!! Session::get("message_success") ?? "Saved Successfully!" !!}', '', 'success')
+    @endif
+    @if(Session::get('error') == 1)
+        var message_error = '{!! Session::get("message_error") ?? "Warning !" !!}';
+        var submessage_error = '{!! Session::get("submessage_error") ?? "Something Wrong!" !!}';
+        swalDeleteButtons.fire(
+            message_error,
+            submessage_error,
+            'error'
+        );
     @endif
     $(".update-status").click(function (e) {
         e.preventDefault();
