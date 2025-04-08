@@ -18,6 +18,7 @@ Route::group(['prefix' => 'task', 'namespace' => 'App\Modules\Task\Controllers',
     Route::get('/edit/{id}', ['as' => 'task.edit', 'uses' => 'Task@edit']);
     Route::get('/detail/{id}', ['as' => 'task.detail', 'uses' => 'Task@detail']);
     Route::post('/update/{id}', ['as' => 'task.update', 'uses' => 'Task@update']);
+    Route::post('/updatePeriod/{id}', ['as' => 'task.updatePeriod', 'uses' => 'Task@updatePeriod']);
     Route::post('/delete/{id}', ['as' => 'task.delete', 'uses' => 'Task@delete']);
     Route::get('/getListAsPdf', ['as' => 'task.getListAsPdf', 'uses' => 'Task@getListAsPdf']);
     Route::get('/getListAsXls', ['as' => 'task.getListAsXls', 'uses' => 'Task@getListAsXls']);

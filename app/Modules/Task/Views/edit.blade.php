@@ -10,7 +10,111 @@
 
 <div class="card">
     <div class="card-header">
-        <div class="card-title">New Data</div>
+        <div class="card-title">Period Date</div>
+    </div>
+    <div class="card-body">
+        @if($data->task_status_id != 1 && $data->flag == 1)
+            <div class="alert alert-danger">
+                Task sedang terkendala
+            </div>
+        @endif
+        @if($data->task_status_id != 1 && $data->flag == 1 && session()->get('group_code') != 'EMP')
+            <form method="POST" action="{{ route($controller_name.'.updatePeriod',$data->id) }}" class="form-validation" enctype="multipart/form-data">
+                @csrf
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Start Date</label>
+                            <input type="datetime-local" name="quantity" class="form-control  @error('start_date') is-invalid @enderror" value="{{ $data->start_date != ''? $data->start_date : '' }}">
+                            @error('start_date') <span class="text-danger">{{ $message }}</span> @enderror
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>End Date</label>
+                            <input type="datetime-local" name="quantity" class="form-control  @error('end_date') is-invalid @enderror" value="{{ $data->end_date != ''? $data->end_date : '' }}">
+                            @error('end_date') <span class="text-danger">{{ $message }}</span> @enderror
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Due Date</label>
+                            <input type="datetime-local" name="quantity" class="form-control  @error('duedate') is-invalid @enderror" value="{{ $data->duedate != ''? $data->duedate : '' }}">
+                            @error('duedate') <span class="text-danger">{{ $message }}</span> @enderror
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Last Status</label>
+                            <select class="form-control form-select selectpicker @error('group_id') is-invalid @enderror" name="task_status_id" data-live-search="true" title="-- Select --">
+                                @foreach(Models\task_status::select('name','id')->get() as $row)
+                                    <option value="{{ $row->id }}" {{ (old('task_status_id') ?? ($data->task_status_id ?? null)) == $row->id? 'selected' : '' }}>{{ $row->name }}</option>
+                                @endforeach
+                            </select>
+                            @error('task_status_id') <span class="text-danger">{{ $message }}</span> @enderror
+                        </div>
+                    </div>
+                </div>
+                <div class="d-grid gap-2 d-md-block my-2 text-end">
+                    <button type="submit" class="btn btn-success px-3 ms-md-1 btn-loading" id="" data-url="#">
+                        Update
+                    </button>
+                </div>
+            </form>
+        @else
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>Start Date</label>
+                        <input type="text" name="quantity" class="form-control  @error('start_date') is-invalid @enderror" value="{{ $data->start_date != ''? dateToIndo($data->start_date).' '.date('H:i',strtotime($data->start_date)) : '' }}" disabled>
+                        @error('start_date') <span class="text-danger">{{ $message }}</span> @enderror
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>End Date</label>
+                        <input type="text" name="quantity" class="form-control  @error('end_date') is-invalid @enderror" value="{{ $data->end_date != ''? dateToIndo($data->end_date).' '.date('H:i',strtotime($data->end_date)) : '-' }}" disabled>
+                        @error('end_date') <span class="text-danger">{{ $message }}</span> @enderror
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>Due Date</label>
+                        <input type="text" name="quantity" class="form-control  @error('duedate') is-invalid @enderror" value="{{ $data->duedate != ''? dateToIndo($data->duedate).' '.date('H:i',strtotime($data->duedate)) : '' }}" disabled>
+                        @error('duedate') <span class="text-danger">{{ $message }}</span> @enderror
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>Task Duration</label>
+                        <input type="text" name="task_duration" class="form-control {{ $data->overdue == 1? 'text-danger' : '' }} @error('task_duration') is-invalid @enderror" value="{{ $data->task_duration != ''? $data->task_duration.' Minute' : '-' }}" disabled>
+                        @error('task_duration') <span class="text-danger">{{ $message }}</span> @enderror
+                        @if($data->overdue == 1)
+                            <small class="form-text text-muted d-block">Durasi waktu anda mengerjakan overdua. Melebihi {{ (is_numeric($data->task_duration)? $data->task_duration : 0)-(is_numeric($data->sla_duration)? $data->sla_duration : 0) }} Menit dari durasi yang ditentukan</small>
+                        @endif
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>Last Status</label>
+                        <select class="form-control form-select selectpicker @error('group_id') is-invalid @enderror" name="task_status_id" data-live-search="true" title="-- Select --" disabled>
+                            @foreach(Models\task_status::select('name','id')->get() as $row)
+                                <option value="{{ $row->id }}" {{ (old('task_status_id') ?? ($data->task_status_id ?? null)) == $row->id? 'selected' : '' }}>{{ $row->name }}</option>
+                            @endforeach
+                        </select>
+                        @error('task_status_id') <span class="text-danger">{{ $message }}</span> @enderror
+                    </div>
+                </div>
+            </div>
+        @endif
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-header">
+        <div class="card-title">Edit Data</div>
     </div>
     <div class="card-body">
         <form method="POST" action="{{ route($controller_name.'.update',$data->id) }}" class="form-validation" enctype="multipart/form-data">
@@ -92,19 +196,6 @@
                         <label class="asterisk">Quantity</label>
                         <input type="text" name="quantity" class="form-control  @error('quantity') is-invalid @enderror" value="{{ old('quantity') ?? ($data->quantity ?? null) }}">
                         @error('quantity') <span class="text-danger">{{ $message }}</span> @enderror
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label>Last Status</label>
-                        <select class="form-control form-select selectpicker @error('group_id') is-invalid @enderror" name="task_status_id" data-live-search="true" title="-- Select --">
-                            @foreach(Models\task_status::select('name','id')->get() as $row)
-                                <option value="{{ $row->id }}" {{ (old('task_status_id') ?? ($data->task_status_id ?? null)) == $row->id? 'selected' : '' }}>{{ $row->name }}</option>
-                            @endforeach
-                        </select>
-                        @error('task_status_id') <span class="text-danger">{{ $message }}</span> @enderror
                     </div>
                 </div>
             </div>

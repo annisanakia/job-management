@@ -101,15 +101,21 @@
                                 <td nowrap>
                                     {{dateToIndo($data->date ?? null)}}
                                     @if(($data->task_status->code ?? null) == 'ONPRO')
-                                        <a href="{{ url($controller_name.'/updateFlag/'.$data->id) }}" class="ms-2 {{ $data->flag == 1? 'bg-danger text-white' : 'bg-white' }} update-flag border py-1 px-2">
-                                            <i class="far fa-flag"></i>
-                                        </a>
+                                        @if(session()->get('group_code') == 'EMP')
+                                            <a href="{{ url($controller_name.'/updateFlag/'.$data->id) }}" class="ms-2 {{ $data->flag == 1? 'bg-danger text-white' : 'bg-white' }} {{ session()->get('group_code') == 'EMP'? 'update-flag' : '' }} border py-1 px-2">
+                                                <i class="far fa-flag"></i>
+                                            </a>
+                                        @else
+                                            <span class="ms-2 {{ $data->flag == 1? 'bg-danger text-white' : 'bg-white' }} border py-1 px-2">
+                                                <i class="far fa-flag"></i>
+                                            </span>
+                                        @endif
                                     @endif
                                 </td>
                                 <td>{{$data->task_category->name ?? null}}</td>
                                 <td>{{$data->jobdesk}}</td>
                                 <td>
-                                    @if($data->task_status_id != 1)
+                                    @if($data->task_status_id != 1 && session()->get('group_code') == 'EMP')
                                         <a href="{{ url($controller_name.'/updateCompleted/'.$data->id) }}" class="update-status">
                                             <span class="ms-2 badge text-bg-{{ statusTask()[$data->task_status_id] ?? 'primary' }}">{{$data->task_status->name ?? null}}</span>
                                         </a>
