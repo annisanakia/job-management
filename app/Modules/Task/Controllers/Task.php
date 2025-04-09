@@ -196,22 +196,34 @@ class Task extends RESTful {
     }
 
     public function updatePeriod($id){
-        // $data = \Models\task::find($id);
-        // $data->flag = 1;
-        // $data->save();
+        $task_status = \Models\task_status::where('code','COMP')->first();
 
-        // $notification = new \Models\notification();
-                
-        // $input['pic_user_id'] = $data->employee_owner->user_id ?? null;
-        // $input['user_id'] = $data->employee_pic->user_id ?? null;
-        // $input['task_id'] = $data->id ?? null;
-        // $input['title'] = $data->jobdesk.' '.($data->employee_owner->name ?? null);
-        // $input['message'] = $data->jobdesk.' '.($data->employee_owner->name ?? null).' memiliki kendala</b>';
-        // $input['link'] = '/task/detail/'.($data->id);
-        // $input['datetime'] = date('Y-m-d H:i:s');
+        $data = \Models\task::find($id);
+        $start_date = request()->start_date;
+        $end_date = request()->end_date;
+        $task_status_id = request()->task_status_id ?? 1;
+        
+        $data->task_duration = null;
+        $data->overdue = null;
+        if($start_date != '' && $end_date != '' && $task_status_id == 1){
+            $start = new DateTime($start_date);
+            $end = new DateTime($end_date);
+    
+            $diff = $start->diff($end);
+            $totalMinutes = ($diff->days * 24 * 60) + ($diff->h * 60) + $diff->i;
+            $overdue = $data->sla_duration*$data->quantity < $totalMinutes? 1 : 0;
+    
+            $data->task_duration = $totalMinutes;
+            $data->overdue = $overdue;
+        }
+        $data->start_date = $start_date;
+        $data->end_date = $end_date;
+        $data->task_status_id = $task_status_id;
+        $data->save();
 
-        // $notification->create($input);
-
-        return Redirect::route(strtolower($this->controller_name) . '.detail', $id)->with();
+        return Redirect::route(strtolower($this->controller_name) . '.detail', $id)
+            ->with([
+                'success'=> 1
+            ]);
     }
 }

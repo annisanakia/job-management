@@ -47,6 +47,18 @@
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
+                            <label>Task Duration</label>
+                            <input type="text" name="task_duration" class="form-control {{ $data->overdue == 1? 'text-danger' : '' }} @error('task_duration') is-invalid @enderror" value="{{ $data->task_duration != ''? $data->task_duration.' Minute' : '-' }}" disabled>
+                            @error('task_duration') <span class="text-danger">{{ $message }}</span> @enderror
+                            @if($data->overdue == 1)
+                                <small class="form-text text-muted d-block">Durasi waktu anda mengerjakan overdua. Melebihi {{ (is_numeric($data->task_duration)? $data->task_duration : 0)-(is_numeric($data->sla_duration)? $data->sla_duration : 0) }} Menit dari durasi yang ditentukan</small>
+                            @endif
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
                             <label>Last Status</label>
                             <select class="form-control form-select selectpicker @error('group_id') is-invalid @enderror" name="task_status_id" data-live-search="true" title="-- Select --">
                                 @foreach(Models\task_status::select('name','id')->get() as $row)
@@ -79,6 +91,8 @@
                         @error('end_date') <span class="text-danger">{{ $message }}</span> @enderror
                     </div>
                 </div>
+            </div>
+            <div class="row">
                 <div class="col-md-6">
                     <div class="form-group">
                         <label>Due Date</label>
@@ -96,11 +110,13 @@
                         @endif
                     </div>
                 </div>
+            </div>
+            <div class="row">
                 <div class="col-md-6">
                     <div class="form-group">
                         <label>Last Status</label>
                         <select class="form-control form-select selectpicker @error('group_id') is-invalid @enderror" name="task_status_id" data-live-search="true" title="-- Select --" disabled>
-                            @foreach(Models\task_status::select('name','id')->get() as $row)
+                            @foreach(Models\task_status::select('name','id')->where('task_status_id', !=, 1)->get() as $row)
                                 <option value="{{ $row->id }}" {{ (old('task_status_id') ?? ($data->task_status_id ?? null)) == $row->id? 'selected' : '' }}>{{ $row->name }}</option>
                             @endforeach
                         </select>
