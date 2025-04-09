@@ -13,26 +13,26 @@
         <div class="card-title">Period Date</div>
     </div>
     <div class="card-body">
-        @if($data->task_status_id != 1 && $data->flag == 1)
+        @if($data->flag == 1)
             <div class="alert alert-danger">
                 Task sedang terkendala
             </div>
         @endif
-        @if($data->task_status_id != 1 && $data->flag == 1 && session()->get('group_code') != 'EMP')
+        @if(session()->get('group_code') != 'EMP')
             <form method="POST" action="{{ route($controller_name.'.updatePeriod',$data->id) }}" class="form-validation" enctype="multipart/form-data">
                 @csrf
                 <div class="row">
                     <div class="col-md-6">
                         <div class="form-group">
                             <label>Start Date</label>
-                            <input type="datetime-local" name="quantity" class="form-control  @error('start_date') is-invalid @enderror" value="{{ $data->start_date != ''? $data->start_date : '' }}">
+                            <input type="datetime-local" name="start_date" class="form-control @error('start_date') is-invalid @enderror" value="{{ $data->start_date != ''? \Carbon\Carbon::parse($data->start_date)->toDateString().' '.date('H:i', strtotime($data->start_date)) : '' }}">
                             @error('start_date') <span class="text-danger">{{ $message }}</span> @enderror
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
                             <label>End Date</label>
-                            <input type="datetime-local" name="quantity" class="form-control  @error('end_date') is-invalid @enderror" value="{{ $data->end_date != ''? $data->end_date : '' }}">
+                            <input type="datetime-local" name="end_date" class="form-control @error('end_date') is-invalid @enderror" value="{{ $data->end_date != ''? \Carbon\Carbon::parse($data->end_date)->toDateString().' '.date('H:i', strtotime($data->end_date)) : '' }}">
                             @error('end_date') <span class="text-danger">{{ $message }}</span> @enderror
                         </div>
                     </div>
@@ -41,7 +41,7 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <label>Due Date</label>
-                            <input type="datetime-local" name="quantity" class="form-control  @error('duedate') is-invalid @enderror" value="{{ $data->duedate != ''? $data->duedate : '' }}">
+                            <input type="datetime-local" name="duedate" class="form-control  @error('duedate') is-invalid @enderror" value="{{ $data->duedate != ''? \Carbon\Carbon::parse($data->duedate)->toDateString().' '.date('H:i', strtotime($data->duedate)) : '' }}" disabled>
                             @error('duedate') <span class="text-danger">{{ $message }}</span> @enderror
                         </div>
                     </div>
@@ -51,7 +51,7 @@
                             <input type="text" name="task_duration" class="form-control {{ $data->overdue == 1? 'text-danger' : '' }} @error('task_duration') is-invalid @enderror" value="{{ $data->task_duration != ''? $data->task_duration.' Minute' : '-' }}" disabled>
                             @error('task_duration') <span class="text-danger">{{ $message }}</span> @enderror
                             @if($data->overdue == 1)
-                                <small class="form-text text-muted d-block">Durasi waktu anda mengerjakan overdua. Melebihi {{ (is_numeric($data->task_duration)? $data->task_duration : 0)-(is_numeric($data->sla_duration)? $data->sla_duration : 0) }} Menit dari durasi yang ditentukan</small>
+                                <small class="form-text text-muted d-block">Durasi waktu anda mengerjakan overdua. Melebihi {{ (is_numeric($data->task_duration)? $data->task_duration : 0)-((is_numeric($data->sla_duration)? $data->sla_duration : 0)*(is_numeric($data->quantity)? $data->quantity : 0)) }} Menit dari durasi yang ditentukan</small>
                             @endif
                         </div>
                     </div>
@@ -91,8 +91,6 @@
                         @error('end_date') <span class="text-danger">{{ $message }}</span> @enderror
                     </div>
                 </div>
-            </div>
-            <div class="row">
                 <div class="col-md-6">
                     <div class="form-group">
                         <label>Due Date</label>
@@ -116,7 +114,7 @@
                     <div class="form-group">
                         <label>Last Status</label>
                         <select class="form-control form-select selectpicker @error('group_id') is-invalid @enderror" name="task_status_id" data-live-search="true" title="-- Select --" disabled>
-                            @foreach(Models\task_status::select('name','id')->where('task_status_id', !=, 1)->get() as $row)
+                            @foreach(Models\task_status::select('name','id')->get() as $row)
                                 <option value="{{ $row->id }}" {{ (old('task_status_id') ?? ($data->task_status_id ?? null)) == $row->id? 'selected' : '' }}>{{ $row->name }}</option>
                             @endforeach
                         </select>

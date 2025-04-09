@@ -13,7 +13,7 @@
         <div class="card-title">Period Date</div>
     </div>
     <div class="card-body">
-        @if($data->task_status_id != 1 && $data->flag == 1)
+        @if($data->flag == 1)
             <div class="alert alert-danger">
                 Task sedang terkendala
             </div>
@@ -125,6 +125,7 @@
         @endif
     </div>
 </div>
+
 <div class="card">
     <div class="card-header">
         <div class="card-title">Data Detail</div>
