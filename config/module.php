@@ -10,6 +10,7 @@ return [
         'Employee',
         'Task',
         'Notification',
-        'Report'
+        'Report',
+        'Task_reference'
     ]
 ];

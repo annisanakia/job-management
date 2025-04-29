@@ -21,6 +21,10 @@ function menuSidebar()
             'employee' => [
                 'name' => 'Employee',
                 'icon' => 'fas fa-users'
+            ],
+            'task_reference' => [
+                'name' => 'Task Reference',
+                'icon' => 'fas fa-list'
             ]
         ],
         'SPV' => [
@@ -75,6 +79,10 @@ function allMenuSidebar()
             'users' => [
                 'name' => 'Users',
                 'icon' => 'fas fa-users'
+            ],
+            'task_reference' => [
+                'name' => 'Task Reference',
+                'icon' => 'fas fa-list'
             ]
         ],
         'SPV' => [

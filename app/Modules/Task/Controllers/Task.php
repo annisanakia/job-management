@@ -107,24 +107,39 @@ class Task extends RESTful {
     {
         $task_category_id = request()->task_category_id;
         $job_type_id = request()->job_type_id;
+        $employee_id = request()->employee_id;
         $id = request()->id;
 
         $target = request()->target ?? 'task_reference_id';
         $blank = request()->blank ?? false;
 
         $user = \Auth::user();
+
+        $staff_id = $this->employee_id;
+        $msco_id = $employee_id;
+        if(session()->get('group_code') != 'EMP'){
+            $staff_id = $employee_id;
+            $msco_id = $this->employee_id;
+        }
+
         $datas = \Models\task_reference::where('task_category_id', $task_category_id)
                 ->where('job_type_id', $job_type_id)
-                ->where('msco_id',$this->user_id)
+                // ->where('msco_id',$this->user_id)
+                ->whereHas('task_reference_mscos', function($builder) use($msco_id){
+                    $builder->where('employee_id',$msco_id);
+                })
+                ->whereHas('task_reference_staffs', function($builder) use($staff_id){
+                    $builder->where('employee_id',$staff_id);
+                })
                 ->orderBy('jobdesk', 'asc')
                 ->get()->pluck('jobdesk','id')->all();
 
-        if(count($datas) <= 0){
-            $datas = \Models\task_reference::where('task_category_id', $task_category_id)
-                    ->where('job_type_id', $job_type_id)
-                    ->orderBy('jobdesk', 'asc')
-                    ->get()->pluck('jobdesk','id')->all();
-        }
+        // if(count($datas) <= 0){
+        //     $datas = \Models\task_reference::where('task_category_id', $task_category_id)
+        //             ->where('job_type_id', $job_type_id)
+        //             ->orderBy('jobdesk', 'asc')
+        //             ->get()->pluck('jobdesk','id')->all();
+        // }
 
         return $this->coreLib->renderList($datas, $target, $id, $blank);
     }

@@ -60,6 +60,47 @@
                 </div>
             </div>
             <div class="row">
+                <?php
+                    /* karyawan bisa liat total task berdasarkan supervisornya
+                    supervisor bisa liat total task berdasarkan karayawannya */
+                    $employee = \Models\employee::select('employee.id','employee.name','job_position.code')
+                            ->leftJoin('job_position', function ($join){
+                                $join->on('job_position.id', '=', 'employee.job_position_id')->whereNull('job_position.deleted_at');
+                            })->get();
+                    $employees = $employee->where('code','EMP');
+                    $supervisors = $employee->where('code','SPV');
+
+                    $employee_select_id = session()->get('group_code') != 'EMP'? (old('owner') ?? ($data->owner ?? null)) : (old('pic') ?? ($data->pic ?? null));
+                ?>
+                @if(session()->get('group_code') != 'EMP')
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Owner</label>
+                            <select class="form-control form-select selectpicker @error('owner') is-invalid @enderror" name="owner" data-live-search="true" title="-- Select --" id="employee_id">
+                                @foreach($employees as $row)
+                                    <option value="{{ $row->id }}" {{ (old('owner') ?? ($data->owner ?? $employee_id)) == $row->id? 'selected' : '' }}>{{ $row->name }}</option>
+                                @endforeach
+                            </select>
+                            <input type="hidden" name="pic" value="{{ $employee_id }}">
+                            @error('owner') <span class="text-danger">{{ $message }}</span> @enderror
+                        </div>
+                    </div>
+                @else
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="asterisk">PIC</label>
+                            <select class="form-control form-select selectpicker @error('pic') is-invalid @enderror" name="pic" data-live-search="true" title="-- Select --" id="employee_id">
+                                @foreach($supervisors as $row)
+                                    <option value="{{ $row->id }}" {{ (old('pic') ?? ($data->pic ?? $employee_id)) == $row->id? 'selected' : '' }}>{{ $row->name }}</option>
+                                @endforeach
+                            </select>
+                            <input type="hidden" name="owner" value="{{ $employee_id }}">
+                            @error('pic') <span class="text-danger">{{ $message }}</span> @enderror
+                        </div>
+                    </div>
+                @endif
+            </div>
+            <div class="row">
                 <div class="col-md-6">
                     <div class="form-group">
                         <label class="asterisk">Jobdesk</label>
@@ -67,7 +108,7 @@
                             <option value="">-- Select --</option>
                         </select>
                         @error('task_reference_id') <span class="text-danger">{{ $message }}</span> @enderror
-                        <small class="form-text text-muted d-block">Please select category and job type before selecting jobdesk.</small>
+                        <small class="form-text text-muted d-block">Please select category, job type, and {{ session()->get('group_code') != 'EMP'? 'Owner' : 'PIC' }} before selecting jobdesk.</small>
                     </div>
                 </div>
                 <div class="col-md-6">
@@ -75,7 +116,7 @@
                         <label class="asterisk">SLA Duration</label>
                         <input type="text" name="sla_duration" class="form-control @error('sla_duration') is-invalid @enderror" value="{{ old('sla_duration') ?? null }}" id="sla_duration" readonly>
                         @error('sla_duration') <span class="text-danger">{{ $message }}</span> @enderror
-                        <small class="form-text text-muted d-block">SLA Duration akan terisi jika sudah memilih Category dan Job Type.</small>
+                        <small class="form-text text-muted d-block">SLA Duration akan terisi jika sudah memilih Category, Job Type, dan {{ session()->get('group_code') != 'EMP'? 'Owner' : 'PIC' }}. Duration dalam menit</small>
                     </div>
                 </div>
             </div>
@@ -120,43 +161,6 @@
                         @error('periodic_type_id') <span class="text-danger">{{ $message }}</span> @enderror
                     </div>
                 </div>
-                <?php
-                    /* karyawan bisa liat total task berdasarkan supervisornya
-                    supervisor bisa liat total task berdasarkan karayawannya */
-                    $employee = \Models\employee::select('employee.id','employee.name','job_position.code')
-                            ->leftJoin('job_position', function ($join){
-                                $join->on('job_position.id', '=', 'employee.job_position_id')->whereNull('job_position.deleted_at');
-                            })->get();
-                    $employees = $employee->where('code','EMP');
-                    $supervisors = $employee->where('code','SPV');
-                ?>
-                @if(session()->get('group_code') != 'EMP')
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label>Owner</label>
-                            <select class="form-control form-select selectpicker @error('owner') is-invalid @enderror" name="owner" data-live-search="true" title="-- Select --">
-                                @foreach($employees as $row)
-                                    <option value="{{ $row->id }}" {{ (old('owner') ?? ($data->owner ?? $employee_id)) == $row->id? 'selected' : '' }}>{{ $row->name }}</option>
-                                @endforeach
-                            </select>
-                            <input type="hidden" name="pic" value="{{ $employee_id }}">
-                            @error('owner') <span class="text-danger">{{ $message }}</span> @enderror
-                        </div>
-                    </div>
-                @else
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label class="asterisk">PIC</label>
-                            <select class="form-control form-select selectpicker @error('pic') is-invalid @enderror" name="pic" data-live-search="true" title="-- Select --">
-                                @foreach($supervisors as $row)
-                                    <option value="{{ $row->id }}" {{ (old('pic') ?? ($data->pic ?? $employee_id)) == $row->id? 'selected' : '' }}>{{ $row->name }}</option>
-                                @endforeach
-                            </select>
-                            <input type="hidden" name="owner" value="{{ $employee_id }}">
-                            @error('pic') <span class="text-danger">{{ $message }}</span> @enderror
-                        </div>
-                    </div>
-                @endif
             </div>
             <div class="d-grid gap-2 d-md-block my-2 text-end">
                 @include('component.actions')
@@ -168,20 +172,25 @@
 <script>
     $(document).ready(function(){
         $("#task_category_id").change(function (e) {
-            getSLA($(this).val(), $("#job_type_id").val());
+            getSLA($(this).val(), $("#job_type_id").val(), $("#employee_id").val());
         });
 
         $("#job_type_id").change(function (e) {
-            getSLA($("#task_category_id").val(), $(this).val());
+            getSLA($("#task_category_id").val(), $(this).val(), $("#employee_id").val());
         });
 
-        getSLA("{{ old('task_category_id') ?? ($data->task_category_id ?? null) }}", "{{ old('job_type_id') ?? ($data->job_type_id ?? null) }}", "{{ old('task_reference_id') ?? ($data->task_reference_id ?? null) }}")
-        function getSLA(task_category_id, job_type_id, id){
+        $("#employee_id").change(function (e) {
+            getSLA($("#task_category_id").val(), $("#job_type_id").val(), $(this).val());
+        });
+
+        getSLA("{{ old('task_category_id') ?? ($data->task_category_id ?? null) }}", "{{ old('job_type_id') ?? ($data->job_type_id ?? null) }}", "{{ $employee_select_id }}", "{{ old('task_reference_id') ?? ($data->task_reference_id ?? null) }}")
+        function getSLA(task_category_id, job_type_id, employee_id, id){
             var url = "{{ url($controller_name.'/getSLA') }}",
                 target = '#task_reference_id',
                 data = {
                     task_category_id: task_category_id,
                     job_type_id: job_type_id,
+                    employee_id: employee_id,
                     id: id,
                     blank: true
                 };

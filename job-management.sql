@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Mar 18, 2025 at 03:25 AM
+-- Generation Time: Apr 29, 2025 at 12:42 PM
 -- Server version: 8.3.0
 -- PHP Version: 8.3.6
 
@@ -40,10 +40,8 @@ CREATE TABLE IF NOT EXISTS `cache` (
 --
 
 INSERT INTO `cache` (`key`, `value`, `expiration`) VALUES
-('7fb319ab98f82063e164556c21ddc37f', 'i:1;', 1742267769),
-('7fb319ab98f82063e164556c21ddc37f:timer', 'i:1742267769;', 1742267769),
-('9f51778f663e64861523cb26f5b09399', 'i:1;', 1742267603),
-('9f51778f663e64861523cb26f5b09399:timer', 'i:1742267603;', 1742267603);
+('9f51778f663e64861523cb26f5b09399', 'i:1;', 1745930426),
+('9f51778f663e64861523cb26f5b09399:timer', 'i:1745930426;', 1745930426);
 
 -- --------------------------------------------------------
 
@@ -103,7 +101,7 @@ CREATE TABLE IF NOT EXISTS `employee` (
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `deleted_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `employee`
@@ -113,7 +111,14 @@ INSERT INTO `employee` (`id`, `user_id`, `job_position_id`, `nip`, `name`, `nick
 (1, 3, 2, 'EMP01', 'Wira', 'Wira', NULL, NULL, NULL, 1, '2025-02-06 12:53:52', '2025-02-19 06:20:02', NULL),
 (2, 6, 1, 'tost', 'sds', NULL, NULL, NULL, NULL, 1, '2025-02-06 13:22:13', '2025-02-06 13:29:42', '2025-02-06 13:29:42'),
 (3, 7, 1, 'EMP02', 'Raza', NULL, NULL, NULL, NULL, 1, '2025-02-06 10:57:02', '2025-02-19 06:20:14', NULL),
-(4, 8, 2, 'EMP03', 'Tiya Rachma Maharani', 'Tiya', 'admin@bahana.co.id', NULL, NULL, 1, '2025-03-14 04:22:57', '2025-03-14 04:23:05', NULL);
+(4, 8, 2, 'EMP03', 'Tiya Rachma Maharani', 'Tiya', 'admin@bahana.co.id', NULL, NULL, 1, '2025-03-14 04:22:57', '2025-03-14 04:23:05', NULL),
+(5, 9, 2, 'EMP04', 'Agung Prasetyo', 'Agung', NULL, NULL, NULL, 1, '2025-04-29 11:52:14', '2025-04-29 11:52:14', NULL),
+(6, 10, 2, 'EMP05', 'Dody Nugroho', 'Dody', NULL, NULL, NULL, 1, '2025-04-29 11:55:02', '2025-04-29 11:55:02', NULL),
+(7, 11, 2, 'EMP06', 'Feizal', 'Feizal', NULL, NULL, NULL, 1, '2025-04-29 11:55:18', '2025-04-29 11:55:18', NULL),
+(8, 12, 2, 'EMP07', 'Antony Christovel Sitorus', 'Antony', NULL, NULL, NULL, 1, '2025-04-29 11:56:14', '2025-04-29 11:56:14', NULL),
+(9, 13, 1, 'EMP08', 'Fitrah Wara Saputri', 'Fitrah', NULL, NULL, NULL, 1, '2025-04-29 11:59:45', '2025-04-29 12:00:15', NULL),
+(10, 14, 1, 'EMP09', 'Ferdi Ernawan', 'Ferdi', NULL, NULL, NULL, 1, '2025-04-29 12:28:53', '2025-04-29 12:28:53', NULL),
+(11, 15, 1, 'EMP10', 'Helmi', 'Satrio', NULL, NULL, NULL, 1, '2025-04-29 12:29:29', '2025-04-29 12:29:29', NULL);
 
 -- --------------------------------------------------------
 
@@ -319,8 +324,7 @@ CREATE TABLE IF NOT EXISTS `sessions` (
 --
 
 INSERT INTO `sessions` (`id`, `user_id`, `ip_address`, `user_agent`, `payload`, `last_activity`) VALUES
-('5cuye5Hh6PJVUZ9V4Eh63gff0UmXozEaz8hVmfAl', 8, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36 Edg/134.0.0.0', 'YTo3OntzOjY6Il90b2tlbiI7czo0MDoiSWpRRUwxbDNVRU5MNUl0eldsVmNMSmhGUlFSa2NxUUtMQ1JxZkF0UCI7czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czozOiJ1cmwiO2E6MDp7fXM6OToiX3ByZXZpb3VzIjthOjE6e3M6MzoidXJsIjtzOjM1OiJodHRwOi8vMTI3LjAuMC4xOjgwMDAvdGFzay9kZXRhaWwvOCI7fXM6NTA6ImxvZ2luX3dlYl81OWJhMzZhZGRjMmIyZjk0MDE1ODBmMDE0YzdmNThlYTRlMzA5ODlkIjtpOjg7czoxMDoiZ3JvdXBfY29kZSI7czozOiJTUFYiO3M6MTk6InRvdGFsX25vdGlmaWNhdGlvbnMiO2k6MDt9', 1742268283),
-('KndzNhEw12nTYinnsuRR7kMI1FVEzqSDpr65vgTa', 7, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36', 'YTo2OntzOjY6Il90b2tlbiI7czo0MDoiTDUzaXowSVR3N0RIU0UyU2hid3VHUUQxQlV1MXlnT0Z1amxoTzJUOSI7czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czozOiJ1cmwiO2E6MDp7fXM6OToiX3ByZXZpb3VzIjthOjE6e3M6MzoidXJsIjtzOjEyODoiaHR0cDovLzEyNy4wLjAuMTo4MDAwL3JlcG9ydC9nZXRSZXBvcnQ/X3Rva2VuPUw1M2l6MElUdzdESFNFMlNoYnd1R1FEMUJVdTF5Z09GdWpsaE8yVDkmZW5kX2RhdGU9Jm93bmVyPTcmcmVwb3J0X2J5PTImc3RhcnRfZGF0ZT0iO31zOjUwOiJsb2dpbl93ZWJfNTliYTM2YWRkYzJiMmY5NDAxNTgwZjAxNGM3ZjU4ZWE0ZTMwOTg5ZCI7aTo3O3M6MTA6Imdyb3VwX2NvZGUiO3M6MzoiRU1QIjt9', 1742163029);
+('cWRHijGM2axqSDnT4U5OXCNk0N718c6FgOuULh16', 7, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36', 'YTo3OntzOjY6Il90b2tlbiI7czo0MDoiYkNtYTZKckozWWlJcVFya1pjVkZiaU9aMVhLSjdMejRaeEFFWU83VyI7czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czozOiJ1cmwiO2E6MDp7fXM6OToiX3ByZXZpb3VzIjthOjE6e3M6MzoidXJsIjtzOjkxOiJodHRwOi8vMTI3LjAuMC4xOjgwMDAvdGFzay9nZXRTTEE/Ymxhbms9dHJ1ZSZlbXBsb3llZV9pZD00JmpvYl90eXBlX2lkPTEmdGFza19jYXRlZ29yeV9pZD0xIjt9czo1MDoibG9naW5fd2ViXzU5YmEzNmFkZGMyYjJmOTQwMTU4MGYwMTRjN2Y1OGVhNGUzMDk4OWQiO2k6NztzOjEwOiJncm91cF9jb2RlIjtzOjM6IkVNUCI7czoxOToidG90YWxfbm90aWZpY2F0aW9ucyI7aTowO30=', 1745930510);
 
 -- --------------------------------------------------------
 
@@ -362,8 +366,8 @@ CREATE TABLE IF NOT EXISTS `task` (
 
 INSERT INTO `task` (`id`, `task_segment_id`, `task_category_id`, `task_status_id`, `job_type_id`, `periodic_type_id`, `task_reference_id`, `date`, `pic`, `owner`, `quantity`, `detail`, `jobdesk`, `flag`, `sla_duration`, `task_duration`, `overdue`, `start_date`, `end_date`, `duedate`, `created_at`, `updated_at`, `deleted_at`) VALUES
 (2, 2, 10, 2, 2, 1, NULL, '2025-02-05', 1, 3, 2, 'blablala', 'Support B2B Audit (if any)', 1, 60, NULL, 0, '2025-03-14 12:57:26', NULL, '2025-03-14 14:57:26', '2025-02-06 11:11:46', '2025-03-18 02:24:50', NULL),
-(3, 1, 1, 2, 1, 1, NULL, '2025-03-14', 1, 3, 2, 'Test', '', 1, 60, NULL, 0, '2025-03-14 12:57:28', '2025-03-14 12:39:32', '2025-03-14 14:57:28', '2025-03-14 05:32:33', '2025-03-14 05:57:28', NULL),
-(4, 2, 14, 1, 1, 1, NULL, '2025-03-14', 4, 3, 3, NULL, '', 0, 5, 34, 1, '2025-03-14 12:30:31', '2025-03-14 13:05:20', '2025-03-14 12:45:31', '2025-03-14 05:36:02', '2025-03-14 06:05:20', NULL),
+(3, 1, 1, 2, 1, 1, 2, '2025-03-14', 1, 3, 2, 'Test', 'Support Audit Support Audit ISR Balmon', 1, 60, NULL, 0, '2025-03-14 12:57:28', '2025-03-14 12:39:32', '2025-03-14 14:57:28', '2025-03-14 05:32:33', '2025-04-29 12:30:27', NULL),
+(4, 2, 14, 1, 1, 1, 3, '2025-03-14', 4, 3, 3, NULL, 'Process Permitt TLP/Customer', 0, 5, 34, 1, '2025-03-14 12:30:31', '2025-03-14 13:05:20', '2025-03-14 12:45:31', '2025-03-14 05:36:02', '2025-04-29 12:30:21', NULL),
 (5, 1, 1, 1, 1, 1, 2, '2025-03-14', 4, 3, 1, 'Test', 'Support Audit Support Audit ISR Balmon', 1, 60, 0, 0, '2025-03-14 13:16:35', '2025-03-14 13:17:30', '2025-03-14 14:16:35', '2025-03-14 06:16:35', '2025-03-18 02:56:24', NULL),
 (7, 1, 14, 2, 1, 1, 3, '2025-03-15', 4, 3, 2, NULL, 'Process Permit TLP/Customer', 0, 5, NULL, 0, '2025-03-15 12:58:47', NULL, '2025-03-15 13:08:47', '2025-03-15 05:58:47', '2025-03-18 02:56:14', NULL),
 (8, 3, 1, 2, 1, 1, 2, '2025-03-18', 4, 3, 1, NULL, 'Support Audit Support Audit ISR Balmon', 1, 60, NULL, 0, '2025-03-18 09:57:47', NULL, '2025-03-18 10:57:47', '2025-03-18 02:57:47', '2025-03-18 03:15:01', NULL);
@@ -443,8 +447,6 @@ INSERT INTO `task_category` (`id`, `code`, `name`, `created_at`, `updated_at`, `
 DROP TABLE IF EXISTS `task_reference`;
 CREATE TABLE IF NOT EXISTS `task_reference` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `staff_id` int DEFAULT NULL COMMENT 'supervisor',
-  `msco_id` int DEFAULT NULL COMMENT 'employee',
   `jobdesk` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   `performance` int DEFAULT NULL,
   `task_category_id` int DEFAULT NULL,
@@ -454,16 +456,79 @@ CREATE TABLE IF NOT EXISTS `task_reference` (
   `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `deleted_at` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `task_reference`
 --
 
-INSERT INTO `task_reference` (`id`, `staff_id`, `msco_id`, `jobdesk`, `performance`, `task_category_id`, `job_type_id`, `sla_duration`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(1, 8, 7, 'Support B2B Audit (if any)', 100, 10, 2, 60, '2025-03-14 04:24:45', '2025-03-14 04:24:45', NULL),
-(2, 8, 7, 'Support Audit Support Audit ISR Balmon', 100, 1, 1, 60, '2025-03-14 04:27:14', '2025-03-14 04:27:14', NULL),
-(3, 8, 7, 'Process Permitt TLP/Customer', 100, 14, 1, 5, '2025-03-14 04:27:14', '2025-03-14 04:27:14', NULL);
+INSERT INTO `task_reference` (`id`, `jobdesk`, `performance`, `task_category_id`, `job_type_id`, `sla_duration`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(1, 'Support B2B Audit (if any)', 100, 10, 2, 60, '2025-03-14 04:24:45', '2025-03-14 04:24:45', NULL),
+(2, 'Support Audit Support Audit ISR Balmon', 100, 1, 1, 60, '2025-03-14 04:27:14', '2025-03-14 04:27:14', NULL),
+(3, 'Process Permitt TLP/Customer', 100, 14, 1, 5, '2025-03-14 04:27:14', '2025-03-14 04:27:14', NULL),
+(4, 'ISR Reguler dan Improvement', NULL, 19, 1, 7, '2025-04-29 12:02:41', '2025-04-29 12:02:41', NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `task_reference_msco`
+--
+
+DROP TABLE IF EXISTS `task_reference_msco`;
+CREATE TABLE IF NOT EXISTS `task_reference_msco` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `task_reference_id` int DEFAULT NULL,
+  `employee_id` int DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `deleted_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `task_reference_msco_unique` (`task_reference_id`,`employee_id`)
+) ENGINE=MyISAM AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `task_reference_msco`
+--
+
+INSERT INTO `task_reference_msco` (`id`, `task_reference_id`, `employee_id`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(1, 3, 1, '2025-04-29 11:21:35', '2025-04-29 11:22:01', NULL),
+(2, 3, 4, '2025-04-29 11:21:35', '2025-04-29 12:26:25', NULL),
+(3, 4, 6, '2025-04-29 12:02:41', '2025-04-29 12:02:41', NULL),
+(4, 5, 5, '2025-04-29 12:03:38', '2025-04-29 12:03:40', '2025-04-29 19:03:40'),
+(5, 3, 6, '2025-04-29 12:26:25', '2025-04-29 12:26:25', NULL),
+(6, 2, 4, '2025-04-29 12:27:21', '2025-04-29 12:27:21', NULL),
+(7, 1, 4, '2025-04-29 12:27:51', '2025-04-29 12:29:45', NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `task_reference_staff`
+--
+
+DROP TABLE IF EXISTS `task_reference_staff`;
+CREATE TABLE IF NOT EXISTS `task_reference_staff` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `task_reference_id` int DEFAULT NULL,
+  `employee_id` int DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `deleted_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `task_reference_staff_unique` (`employee_id`,`task_reference_id`)
+) ENGINE=MyISAM AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `task_reference_staff`
+--
+
+INSERT INTO `task_reference_staff` (`id`, `task_reference_id`, `employee_id`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(1, 3, 3, '2025-04-29 11:16:53', '2025-04-29 12:26:25', NULL),
+(2, 4, 9, '2025-04-29 12:02:41', '2025-04-29 12:02:41', NULL),
+(3, 5, 9, '2025-04-29 12:03:38', '2025-04-29 12:03:40', '2025-04-29 19:03:40'),
+(4, 2, 3, '2025-04-29 12:27:21', '2025-04-29 12:27:21', NULL),
+(5, 1, 3, '2025-04-29 12:27:51', '2025-04-29 12:29:45', NULL),
+(6, 1, 10, '2025-04-29 12:29:45', '2025-04-29 12:29:45', NULL),
+(7, 1, 11, '2025-04-29 12:29:45', '2025-04-29 12:29:45', NULL);
 
 -- --------------------------------------------------------
 
@@ -549,7 +614,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   `deleted_at` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `groups_id` (`group_id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `users`
@@ -563,7 +628,14 @@ INSERT INTO `users` (`id`, `group_id`, `username`, `name`, `email`, `phone_no`, 
 (5, 1, 'admindfd', 'dfdf', NULL, NULL, '$2y$12$CpH1Ps0TTQnL4Jz8pf4ql.5OG71jHCPfXJJAqvgqTyq62T73E4zjy', NULL, 1, '2024-06-09 05:54:30', '2024-06-09 05:54:34', '2024-06-09 12:54:34'),
 (6, 2, 'tost', 'sds', NULL, NULL, '$2y$06$gXK8/.2y20HEmLkKijpc9u/V3S0KBjPlzuIHSkrPMplrAIc7tg.NG', NULL, 1, '2025-02-06 13:22:13', '2025-02-06 13:29:42', '2025-02-06 20:29:42'),
 (7, 3, 'emp02', 'Raza', NULL, NULL, '$2y$06$50v/7VoWgk1YuS5q61ERMuZ4.NNUR5yTzE4FxJKGR1IcuZHTbVCzu', NULL, 1, '2025-02-06 10:57:02', '2025-02-19 06:20:14', NULL),
-(8, 2, 'EMP03', 'Tiya Rachma Maharani', 'admin@bahana.co.id', NULL, '$2y$06$yD9y5ZX9cwla8Ql3GVPaRuRniL/nzuSmH8yRquQb.MK5I24IqUbvC', NULL, 1, '2025-03-14 04:22:57', '2025-03-14 04:23:05', NULL);
+(8, 2, 'EMP03', 'Tiya Rachma Maharani', 'admin@bahana.co.id', NULL, '$2y$06$yD9y5ZX9cwla8Ql3GVPaRuRniL/nzuSmH8yRquQb.MK5I24IqUbvC', NULL, 1, '2025-03-14 04:22:57', '2025-03-14 04:23:05', NULL),
+(9, 2, 'EMP04', 'Agung Prasetyo', NULL, NULL, '$2y$06$zWrYLUUDUjnL6NLPiJMUP.T3IkAgafws8cHtQJgo2PmDjD7Lucy1O', NULL, 1, '2025-04-29 11:52:14', '2025-04-29 11:52:14', NULL),
+(10, 2, 'EMP05', 'Dody Nugroho', NULL, NULL, '$2y$06$RcrsoKN5f5tmKeFfy6HzEuiVdmMVeqmoaFtpZ4fxvlXRaHgR80MCa', NULL, 1, '2025-04-29 11:55:02', '2025-04-29 11:55:02', NULL),
+(11, 2, 'EMP06', 'Feizal', NULL, NULL, '$2y$06$9TdxZGIUogd1dPBQ3QF4iehwxGiXhA7gHTdkAQZWw2RWh9thFSKdG', NULL, 1, '2025-04-29 11:55:18', '2025-04-29 11:55:18', NULL),
+(12, 2, 'EMP07', 'Antony Christovel Sitorus', NULL, NULL, '$2y$06$MI./xXDOm2IVEz1i373ZzO.3m5R6oyuG.h/dP0U1IGEQjxQtLji6q', NULL, 1, '2025-04-29 11:56:14', '2025-04-29 11:56:14', NULL),
+(13, 3, 'EMP08', 'Fitrah Wara Saputri', NULL, NULL, '$2y$06$ubTeBO0xoJza2bn.RzSAC.GN3AQFx3fGZhoDhmQTcCVoQ/YEqmeRi', NULL, 1, '2025-04-29 11:59:45', '2025-04-29 12:00:25', NULL),
+(14, 3, 'EMP09', 'Ferdi Ernawan', NULL, NULL, '$2y$06$2SSMfOW3dvyW3uAfMo0CEerFpNLur5wjc4LvXlHJnvmDhei1w2N.K', NULL, 1, '2025-04-29 12:28:53', '2025-04-29 12:28:53', NULL),
+(15, 3, 'EMP10', 'Helmi', NULL, NULL, '$2y$06$7e0ejLFPIb0NmEWJy1hiouWpMGGH1WkzEwXLx0iR4IYA/frGxWbcC', NULL, 1, '2025-04-29 12:29:29', '2025-04-29 12:29:29', NULL);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
