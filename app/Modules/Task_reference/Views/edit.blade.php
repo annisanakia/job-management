@@ -27,7 +27,7 @@
                 <div class="col-md-6">
                     <div class="form-group">
                         <label>Performance</label>
-                        <input type="text" name="performance" class="form-control  @error('performance') is-invalid @enderror" value="{{ old('performance') ?? ($data->performance ?? null) }}">
+                        <input type="number" name="performance" class="form-control  @error('performance') is-invalid @enderror" value="{{ old('performance') ?? ($data->performance ?? null) }}">
                         @error('performance') <span class="text-danger">{{ $message }}</span> @enderror
                     </div>
                 </div>

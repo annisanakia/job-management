@@ -5,6 +5,7 @@ use \App\Models\User as userModel;
 use Lib\core\RESTful;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rules\File;
 
 class Account_setting extends RESTful {
 
@@ -31,15 +32,27 @@ class Account_setting extends RESTful {
     {
         $input = Request()->all();
         $input['id'] = $id;
-
-        $rules = array(
-            'phone' => 'numeric|nullable|min_digits:10|max_digits:15'
+    
+        $customMessages = array(
+            'url_photo.max' => 'Size photo must not be greater than 2mb.',
+            'url_photo.image' => 'File photo must be an image.',
         );
 
-        $validation = Validator::make($input, $rules);
+        $rules = array(
+            'phone' => 'numeric|nullable|min_digits:10|max_digits:15',
+            'url_photo' => [
+                File::image()
+                    ->max(10240)
+            ],
+        );
+
+        $validation = Validator::make($input, $rules, $customMessages);
         
-        if ($validation->passes()) {
-            $data = $this->model->find($id);
+        $data = $this->model->find($id);
+        if ($validation->passes() && $data) {
+            if(request()->file('url_photo')){
+                $data->url_photo = $this->uploadImage(request()->file('url_photo'), 'file/users');
+            }
             $data->employee->nickname = request()->nickname;
             $data->employee->phone = request()->phone;
             $data->employee->save();
@@ -58,7 +71,6 @@ class Account_setting extends RESTful {
 
     public function update_password($id)
     {
-
         $input = request()->all();
         $data = $this->model->find($id);
 
@@ -89,5 +101,19 @@ class Account_setting extends RESTful {
             ->withInput()
             ->withErrors($validation)
             ->with('type', '2');
+    }
+    
+    public function delete_img($id)
+    {
+        $user = $this->model->find($id);
+        if(isset($user->url_photo)){
+            $this->deleteImage($user->url_photo, 'file/users');
+            $user->url_photo = null;
+            $user->save();
+        }
+
+        return Redirect::route(strtolower($this->controller_name) . '.index')
+            ->withInput()
+            ->with('message', 'There were validation errors.');
     }
 }

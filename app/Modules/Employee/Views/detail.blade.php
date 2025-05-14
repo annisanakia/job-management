@@ -110,8 +110,8 @@
                 <div class="card-body pb-4">
                     <div class="form-group">
                         <label>Profile Photo</label>
-                        @if($data->url_photo ?? null)
-                            <img src="{{ $data->url_photo }}" class="d-block object-fit-cover border rounded mb-3" width="120px" height="140px">
+                        @if($data->user->url_photo ?? null)
+                            <img src="{{ $data->user->url_photo }}" class="d-block object-fit-cover border rounded mb-3" width="120px" height="140px">
                         @else
                             
                             <div class="border rounded d-flex align-items-center justify-content-center bg-white text-body-tertiary" style="width:120px;height:140px;font-size:60px">

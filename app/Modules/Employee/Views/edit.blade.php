@@ -116,13 +116,13 @@
                 <div class="card-body pb-4">
                     <div class="form-group">
                         <label>Profile Photo</label>
-                        @if($data->url_photo ?? null)
+                        @if($data->user->url_photo ?? null)
                             <div class="py-2">
                                 <a href="{{ route($controller_name.'.delete_img',($data->id ?? null)) }}" class="btn btn-outline-danger btn-sm delete" style="width:120px;">
                                     Delete Image <i class="ms-1 fas fa-trash"></i>
                                 </a>
                             </div>
-                            <img src="{{ $data->url_photo }}" class="d-block object-fit-cover border rounded mb-3" width="120px" height="140px">
+                            <img src="{{ $data->user->url_photo }}" class="d-block object-fit-cover border rounded mb-3" width="120px" height="140px">
                         @endif
                         <input name="url_photo" class="form-control @error('url_photo') is-invalid @enderror" type="file">
                         <small class="form-text text-muted d-block">Upload file with format image.<br>Size maximal file 2Mb.</small>

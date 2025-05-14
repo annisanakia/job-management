@@ -64,8 +64,8 @@
                                 <td>
                                     <div class="d-flex align-items-center">
                                         <div>
-                                            @if($data->url_photo != '')
-                                                <img src="{{ $data->url_photo }}" class="d-block object-fit-cover border rounded" width="60px" height="60px">
+                                            @if($data->user->url_photo != '')
+                                                <img src="{{ $data->user->url_photo }}" class="d-block object-fit-cover border rounded" width="60px" height="60px">
                                             @else
                                                 <div class="border rounded d-flex align-items-center justify-content-center bg-theme text-white fs-5" style="width:60px;height:60px">
                                                     {{ getInitials($data->name) }}

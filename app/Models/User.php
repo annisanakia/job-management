@@ -26,7 +26,8 @@ class User extends Authenticatable
         'email',
         'password',
         'group_id',
-        'status'
+        'status',
+        'url_photo'
     ];
 
     /**
@@ -51,6 +52,16 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+    
+    public static $customMessages = array(
+        'required' => 'This field required.',
+        'numeric' => 'This field must be a number.',
+        'min_digits' => 'This field must have at least 10 digits.',
+        'max_digits' => 'This field must not have more than 15 digits.',
+        'url_photo.max' => 'Size photo must not be greater than 2mb.',
+        'url_photo.image' => 'File photo must be an image.',
+        'email.*.unique' => 'Email already exists.'
+    );
 
     public function validate($data)
     {
@@ -69,7 +80,7 @@ class User extends Authenticatable
         if(!array_key_exists('id',$data)){
             $rules['password'] = 'required|min:6';
         }
-        $v = Validator::make($data, $rules);
+        $v = Validator::make($data, $rules, User::$customMessages);
         return $v;
     }
 

@@ -11,8 +11,8 @@
         <div class="col-xl-4">
             <div class="card py-4">
                 <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
-                    @if(($data->employee->url_photo ?? null) != '')
-                        <img src="{{ asset($data->employee->url_photo) }}" alt="Profile" class="rounded-circle border object-fit-cover" style="width: 130px;height: 130px">
+                    @if(($data->url_photo ?? null) != '' && $data->employee)
+                        <img src="{{ asset($data->url_photo) }}" alt="Profile" class="rounded-circle border object-fit-cover" style="width: 130px;height: 130px">
                     @else
                         <div class="rounded-circle border d-flex align-items-center justify-content-center fs-1" style="width: 130px;height: 130px;">
                             {{ getInitials($data->name) }}
@@ -98,6 +98,24 @@
                                             <label class="col-form-label">Phone</label>
                                             <input name="phone" type="number" class="form-control {{ $errors->has('phone')? 'is-invalid' : '' }}" value="{{ old('phone') ?? $data->employee->phone }}">
                                             {!!$errors->first('phone', ' <span class="invalid-feedback">:message</span>')!!}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label class="col-form-label">Profile Photo</label>
+                                            @if($data->url_photo ?? null)
+                                                <div class="py-2">
+                                                    <a href="{{ route($controller_name.'.delete_img',($data->id ?? null)) }}" class="btn btn-outline-danger btn-sm delete" style="width:120px;">
+                                                        Delete Image <i class="ms-1 fas fa-trash"></i>
+                                                    </a>
+                                                </div>
+                                                <img src="{{ $data->url_photo }}" class="d-block object-fit-cover border rounded mb-3" width="120px" height="140px">
+                                            @endif
+                                            <input name="url_photo" class="form-control @error('url_photo') is-invalid @enderror" type="file">
+                                            <small class="form-text text-muted d-block">Upload file with format image.<br>Size maximal file 2Mb.</small>
+                                            {!!$errors->first('url_photo', ' <span class="invalid-feedback">:message</span>')!!}
                                         </div>
                                     </div>
                                 </div>

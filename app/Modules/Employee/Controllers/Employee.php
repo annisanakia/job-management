@@ -47,7 +47,7 @@ class Employee extends RESTful {
 
         if ($validation->passes()) {
             if(request()->file('url_photo')){
-                $input['url_photo'] = $this->uploadImage(request()->file('url_photo'), 'file/users');
+                $input_user['url_photo'] = $this->uploadImage(request()->file('url_photo'), 'file/users');
             }
             $default_password = 'password';
 
@@ -89,11 +89,14 @@ class Employee extends RESTful {
         $validation = $this->model->validate($input);
 
         if ($validation->passes()) {
-            if(request()->file('url_photo') && $data){
-                $this->deleteImage($data->url_photo, 'file/users');
+            // save user
+            $user = $data->user ?? null;
+
+            if(request()->file('url_photo') && $user){
+                $this->deleteImage($user->url_photo, 'file/users');
             }
             if(request()->file('url_photo')){
-                $input['url_photo'] = $this->uploadImage(request()->file('url_photo'), 'file/users');
+                $input_user['url_photo'] = $this->uploadImage(request()->file('url_photo'), 'file/users');
             }
             $default_password = 'tcw'.date('ymd');
 
@@ -101,8 +104,6 @@ class Employee extends RESTful {
             $input_user['email'] = request()->email;
             $input_user['name'] = request()->name;
 
-            // save user
-            $user = $data->user ?? null;
             $input_user['password'] = \Hash::make(request()->password);
             $user->update($input_user);
 
@@ -122,10 +123,11 @@ class Employee extends RESTful {
     public function delete_img($id)
     {
         $data = $this->model->find($id);
-        if(isset($data->url_photo)){
-            $this->deleteImage($data->url_photo, 'file/users');
-            $data->url_photo = null;
-            $data->save();
+        $user = $data->user ?? null;
+        if(isset($user->url_photo)){
+            $this->deleteImage($user->url_photo, 'file/users');
+            $user->url_photo = null;
+            $user->save();
         }
 
         return Redirect::route(strtolower($this->controller_name) . '.edit', $id)

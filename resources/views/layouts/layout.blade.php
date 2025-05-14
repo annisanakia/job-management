@@ -29,10 +29,10 @@
         <div class="sidebar-wrapper scrollbar scrollbar-inner">
             <div class="sidebar-content">
                 <?php
-                    $photo_profile = Auth::user()->employee->url_photo ?? null;
+                    $photo_profile = Auth::user()->url_photo ?? null;
                 ?>
                 <div class="side-profile text-center m-4">
-                    @if($photo_profile)
+                    @if($photo_profile && (Auth::user()->employee ?? null))
                         <div class="avatar d-block mx-auto mb-3">
                             <img src="{{ $photo_profile }}" class="avatar-title rounded-circle object-fit-cover">
                         </div>
@@ -138,7 +138,7 @@
                     </li>
                     <li class="nav-item topbar-user dropdown hidden-caret">
                         <a class="dropdown-toggle profile-pic" data-bs-toggle="dropdown" href="#" aria-expanded="false">
-                            @if($photo_profile)
+                            @if($photo_profile && (Auth::user()->employee ?? null))
                                 <div class="avatar d-block">
                                     <img src="{{ $photo_profile }}" class="avatar-title rounded-circle border object-fit-cover">
                                 </div>
@@ -156,7 +156,7 @@
                             <li>
                                 <div class="user-box">
                                     <div>
-                                        @if($photo_profile)
+                                        @if($photo_profile && (Auth::user()->employee ?? null))
                                         <div class="avatar-lg d-block">
                                                 <img src="{{ $photo_profile }}" class="avatar-title rounded border object-fit-cover">
                                             </div>

@@ -59,21 +59,34 @@ class Task_reference extends RESTful {
         if ($validation->passes()) {
             $staff_ids = request()->staff_ids ?? [];
             $msco_ids = request()->msco_ids ?? [];
-            $input_reference_emp['task_reference_id'] = $id;
-
-            $input_reference_staffs = [];
+            
+            $task_reference_staffs = \Models\task_reference_staff::where('task_reference_id',$id)->get()->keyBy('employee_id');
+            $task_reference_staff_ids = [];
             foreach($staff_ids as $staff_id){
-                $input_reference_emp['employee_id'] = $staff_id;
-                $input_reference_staffs[] = $input_reference_emp;
+                $task_reference_staff = $task_reference_staffs[$staff_id] ?? null;
+                if(!$task_reference_staff){
+                    $task_reference_staff = new \Models\task_reference_staff();
+                }
+                $task_reference_staff->task_reference_id = $id;
+                $task_reference_staff->employee_id = $staff_id;
+                $task_reference_staff->save();
+                $task_reference_staff_ids[] = $task_reference_staff->id ?? null;
             }
-            \Models\task_reference_staff::upsert($input_reference_staffs, ['task_reference_id', 'employee_id'], ['employee_id']);
+            \Models\task_reference_staff::where('task_reference_id',$id)->whereNotIn('id',$task_reference_staff_ids)->delete();
 
-            $input_reference_mscos = [];
+            $task_reference_mscos = \Models\task_reference_msco::where('task_reference_id',$id)->get()->keyBy('employee_id');
+            $task_reference_msco_ids = [];
             foreach($msco_ids as $msco_id){
-                $input_reference_emp['employee_id'] = $msco_id;
-                $input_reference_mscos[] = $input_reference_emp;
+                $task_reference_msco = $task_reference_mscos[$staff_id] ?? null;
+                if(!$task_reference_msco){
+                    $task_reference_msco = new \Models\task_reference_msco();
+                }
+                $task_reference_msco->task_reference_id = $id;
+                $task_reference_msco->employee_id = $msco_id;
+                $task_reference_msco->save();
+                $task_reference_msco_ids[] = $task_reference_msco->id ?? null;
             }
-            \Models\task_reference_msco::upsert($input_reference_mscos, ['task_reference_id', 'employee_id'], ['employee_id']);
+            \Models\task_reference_msco::where('task_reference_id',$id)->whereNotIn('id',$task_reference_msco_ids)->delete();
 
             $data = $this->model->find($id);
             $data->update($input);

@@ -7,8 +7,8 @@
     </div>
     <div class="card-body">
         <div class="d-md-flex align-items-center mx-4">
-            @if($employee->url_photo ?? null)
-                <img src="{{ $employee->url_photo }}" class="d-block object-fit-cover border rounded" width="120px" height="120px">
+            @if($employee->user->url_photo ?? null)
+                <img src="{{ $employee->user->url_photo }}" class="d-block object-fit-cover border rounded" width="120px" height="120px">
             @else
                 <div class="border rounded d-flex align-items-center justify-content-center bg-white text-body-tertiary" style="width:120px;height:120px;font-size:60px">
                     <i class="fas fa-image"></i>
