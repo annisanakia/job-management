@@ -53,6 +53,8 @@ class Account_setting extends RESTful {
             if(request()->file('url_photo')){
                 $data->url_photo = $this->uploadImage(request()->file('url_photo'), 'file/users');
             }
+            unset($input['url_photo']);
+
             $data->employee->nickname = request()->nickname;
             $data->employee->phone = request()->phone;
             $data->employee->save();
