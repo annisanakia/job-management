@@ -50,10 +50,10 @@ class Account_setting extends RESTful {
         
         $data = $this->model->find($id);
         if ($validation->passes() && $data) {
-            if(request()->file('url_photo')){
-                $data->url_photo = $this->uploadImage(request()->file('url_photo'), 'file/users');
-            }
             unset($input['url_photo']);
+            if(request()->file('url_photo')){
+                $input["url_photo"] = $this->uploadImage(request()->file('url_photo'), 'file/users');
+            }
 
             $data->employee->nickname = request()->nickname;
             $data->employee->phone = request()->phone;
